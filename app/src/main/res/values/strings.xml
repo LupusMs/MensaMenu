@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HAW Menu</string>
+    <string name="haw_mensa">HAW Mensa</string>
+    <string name="haw_cafe">HAW Cafe</string>
 </resources>
