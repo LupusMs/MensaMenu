@@ -9,5 +9,9 @@
                 android:id="@+id/cafe"
                 android:title="@string/haw_cafe"
                 />
+             <item
+                  android:id="@+id/uploadPhoto"
+                  android:title="@string/add_photo"
+                />
 
 </menu>

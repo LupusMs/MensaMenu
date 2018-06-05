@@ -23,7 +23,7 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public TextView textView1;
     public TextView textView2;
@@ -55,9 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String language;
     String day;
     String cafeMensa;
-    int[] increment = {0,0,0,0};
+    int[] increment = {0, 0, 0, 0};
     SharedPreferences sharedPref;
-
 
 
     @Override
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cafeMensa = Consts.MENSA_URL;
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
                 Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("myurl",myurl);
+                intent.putExtra("myurl", myurl);
                 startActivity(intent);
                 return true;
             case R.id.cafe:
@@ -104,37 +103,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cafeMensa = Consts.CAFE_URL;
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
                 intent = new Intent(this, MainActivity.class);
-                intent.putExtra("myurl",myurl);
+                intent.putExtra("myurl", myurl);
                 startActivity(intent);
                 return true;
+            case R.id.uploadPhoto:
+                Intent photoIntent = new Intent(this, PhotoActivity.class);
+                startActivity(photoIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
 
-      }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView1 =  findViewById(R.id.textView1);
-        textView2 =  findViewById(R.id.textView2);
-        textView3 =  findViewById(R.id.textView3);
-        textView4 =  findViewById(R.id.textView4);
-        textView5 =  findViewById(R.id.textView5);
-        textView6 =  findViewById(R.id.textView6);
-        textView7 =  findViewById(R.id.textView7);
-        textView8 =  findViewById(R.id.textView8);
-        textViewDate =  findViewById(R.id.textViewDate);
+        textView1 = findViewById(R.id.textView1);
+        textView2 = findViewById(R.id.textView2);
+        textView3 = findViewById(R.id.textView3);
+        textView4 = findViewById(R.id.textView4);
+        textView5 = findViewById(R.id.textView5);
+        textView6 = findViewById(R.id.textView6);
+        textView7 = findViewById(R.id.textView7);
+        textView8 = findViewById(R.id.textView8);
+        textViewDate = findViewById(R.id.textViewDate);
         textPrice1 = findViewById(R.id.textPrice1);
         textPrice2 = findViewById(R.id.textPrice2);
         textPrice3 = findViewById(R.id.textPrice3);
         textPrice4 = findViewById(R.id.textPrice4);
-        imageView5 =  findViewById(R.id.imageView5);
-        imageView6 =  findViewById(R.id.imageView6);
-        imageView7 =  findViewById(R.id.imageView7);
-        imageView8 =  findViewById(R.id.imageView8);
+        imageView5 = findViewById(R.id.imageView5);
+        imageView6 = findViewById(R.id.imageView6);
+        imageView7 = findViewById(R.id.imageView7);
+        imageView8 = findViewById(R.id.imageView8);
         buttonDe = findViewById(R.id.buttonDe);
         buttonEn = findViewById(R.id.buttonEn);
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
@@ -148,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEn.setOnClickListener(this);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
-
 
 
         //Default url for Mensa menu
@@ -167,9 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //Getting url from onOptionsItemSelected
-        try {Intent intent = getIntent();
-        myurl = intent.getExtras().getString("myurl", Consts.MENU_URL + language + cafeMensa + day);}
-        catch (Exception e) {e.printStackTrace();}
+        try {
+            Intent intent = getIntent();
+            myurl = intent.getExtras().getString("myurl", Consts.MENU_URL + language + cafeMensa + day);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         MyParser mp = new MyParser();
         mp.execute(increment);
@@ -180,26 +184,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         SharedPreferences.Editor editor;
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imageView5:
                 MyParser mp = new MyParser();
-                increment[0] = increment[0]+1;
+                increment[0] = increment[0] + 1;
                 mp.execute(increment);
                 break;
 
             case R.id.imageView6:
                 mp = new MyParser();
-                increment[1] = increment[1]+1;
+                increment[1] = increment[1] + 1;
                 mp.execute(increment);
                 break;
             case R.id.imageView7:
                 mp = new MyParser();
-                increment[2] = increment[2]+1;
+                increment[2] = increment[2] + 1;
                 mp.execute(increment);
                 break;
             case R.id.imageView8:
                 mp = new MyParser();
-                increment[3] = increment[3]+1;
+                increment[3] = increment[3] + 1;
                 mp.execute(increment);
                 break;
             case R.id.buttonDe:
@@ -271,19 +275,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Document doc = null;
             Document pic = null;
 
-            try {Intent intent = getIntent();
+            try {
+                Intent intent = getIntent();
                 myurl = intent.getExtras().getString("myurl", myurl);
 
                 //Adjusting myurl
-                myurl = myurl.replaceAll( "/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
-                myurl = myurl.replaceAll( "/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
-                myurl = myurl.replaceAll( Consts.DAY_TODAY, day);
-                myurl = myurl.replaceAll( Consts.DAY_TOMORROW, day);
+                myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
+                myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
+                myurl = myurl.replaceAll(Consts.DAY_TODAY, day);
+                myurl = myurl.replaceAll(Consts.DAY_TOMORROW, day);
                 Log.wtf("mytag", "my new url" + myurl);
 
 
-                }
-            catch (Exception e) {e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             try {
 
@@ -291,58 +297,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (doc!=null) {
+            if (doc != null) {
 
-                try{text1 = doc.select("th").get(4);}
-                catch (Exception e) {e.printStackTrace();}
-                try {text2 = doc.select("th").get(5);}
-                catch (Exception e) {e.printStackTrace();}
-                try{text3 = doc.select("th").get(6);}
-                catch (Exception e) {e.printStackTrace();}
-                try{text4 = doc.select("th").get(7);}
-                catch (Exception e) {e.printStackTrace();}
-                try {text5 = doc.select(".dish-description").get(0);}
-                catch (Exception e) {e.printStackTrace();}
-                try{textDate = doc.select(".category").get(0);}
-                catch (Exception e) {e.printStackTrace();}
-                try{price1 = doc.select("td.price").get(0);}
-                catch (Exception e) {e.printStackTrace();}
-                try{price2 = doc.select("td.price").get(3);}
-                catch (Exception e) {e.printStackTrace();}
-                try{price3 = doc.select("td.price").get(6);}
-                catch (Exception e) {e.printStackTrace();}
-                try{price4 = doc.select("td.price").get(9);}
-                catch (Exception e) {e.printStackTrace();}
+                try {
+                    text1 = doc.select("th").get(4);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    text2 = doc.select("th").get(5);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    text3 = doc.select("th").get(6);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    text4 = doc.select("th").get(7);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    text5 = doc.select(".dish-description").get(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    textDate = doc.select(".category").get(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    price1 = doc.select("td.price").get(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    price2 = doc.select("td.price").get(3);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    price3 = doc.select("td.price").get(6);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    price4 = doc.select("td.price").get(9);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 changeDisplayText mychangeDisplayText = new changeDisplayText();
 
-                try{
+                try {
 
                     text5 = doc.select(".dish-description").get(0);
 
 
-                //Editing Strings for displaying and for search requests
-                displaytext5 = mychangeDisplayText.displayText(text5.text());
-                searchtext5 = mychangeDisplayText.searchText(text5.text());
+                    //Editing Strings for displaying and for search requests
+                    displaytext5 = mychangeDisplayText.displayText(text5.text());
+                    searchtext5 = mychangeDisplayText.searchText(text5.text());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e) {e.printStackTrace();}
 
-                try{
-                text6 = doc.select(".dish-description").get(1);
+                try {
+                    text6 = doc.select(".dish-description").get(1);
                     displaytext6 = mychangeDisplayText.displayText(text6.text());
-                    searchtext6 = mychangeDisplayText.searchText(text6.text());}
-                catch (Exception e) {e.printStackTrace();}
+                    searchtext6 = mychangeDisplayText.searchText(text6.text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                try{
-                text7 = doc.select(".dish-description").get(2);
+                try {
+                    text7 = doc.select(".dish-description").get(2);
                     displaytext7 = mychangeDisplayText.displayText(text7.text());
-                    searchtext7 = mychangeDisplayText.searchText(text7.text());}
-                catch (Exception e) {e.printStackTrace();}
-                try{
-                text8 = doc.select(".dish-description").get(3);
+                    searchtext7 = mychangeDisplayText.searchText(text7.text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    text8 = doc.select(".dish-description").get(3);
                     displaytext8 = mychangeDisplayText.displayText(text8.text());
-                    searchtext8 = mychangeDisplayText.searchText(text8.text());}
-                catch (Exception e) {e.printStackTrace();}
+                    searchtext8 = mychangeDisplayText.searchText(text8.text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
 
@@ -350,10 +393,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 pic = Jsoup.connect(Consts.SEARCH_ENGINE_URL + searchtext5).get();
 
             } catch (IOException e) {
-                e.printStackTrace();}
+                e.printStackTrace();
+            }
 
             if (pic != null) {
-                img = pic.select("img").get(1+increment[0]);
+                img = pic.select("img").get(1 + increment[0]);
                 link5 = img.attr("abs:src");
             }
 
@@ -365,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             if (pic != null) {
-                img = pic.select("img").get(1+increment[1]);
+                img = pic.select("img").get(1 + increment[1]);
                 link6 = img.attr("abs:src");
             }
 
@@ -375,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             if (pic != null) {
-                img = pic.select("img").get(1+increment[2]);
+                img = pic.select("img").get(1 + increment[2]);
                 link7 = img.attr("abs:src");
             }
 
@@ -385,48 +429,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             if (pic != null) {
-                img = pic.select("img").get(1+increment[3]);
+                img = pic.select("img").get(1 + increment[3]);
                 link8 = img.attr("abs:src");
             }
 
-            return null;}
-
-
+            return null;
+        }
 
 
         @Override
         protected void onPostExecute(Void result) {
 
-            if (text1!=null) {textView1.setText(text1.text());}
-            if (text2!=null) {textView2.setText(text2.text());}
-            if (text3!=null) {textView3.setText(text3.text());}
-            if (text4!=null) {textView4.setText(text4.text());}
-            if (price1!=null) {textPrice1.setText(price1.text());}
-            if (price2!=null) {textPrice2.setText(price2.text());}
-            if (price3!=null) {textPrice3.setText(price3.text());}
-            if (price4!=null) {textPrice4.setText(price4.text());}
-            if (displaytext5!=null) {textView5.setText(displaytext5);}
-            if (displaytext6!=null) {textView6.setText(displaytext6);}
-            if (displaytext7!=null) {textView7.setText(displaytext7);}
-            if (displaytext8!=null) {textView8.setText(displaytext8);}
+            if (text1 != null) {
+                textView1.setText(text1.text());
+            }
+            if (text2 != null) {
+                textView2.setText(text2.text());
+            }
+            if (text3 != null) {
+                textView3.setText(text3.text());
+            }
+            if (text4 != null) {
+                textView4.setText(text4.text());
+            }
+            if (price1 != null) {
+                textPrice1.setText(price1.text());
+            }
+            if (price2 != null) {
+                textPrice2.setText(price2.text());
+            }
+            if (price3 != null) {
+                textPrice3.setText(price3.text());
+            }
+            if (price4 != null) {
+                textPrice4.setText(price4.text());
+            }
+            if (displaytext5 != null) {
+                textView5.setText(displaytext5);
+            }
+            if (displaytext6 != null) {
+                textView6.setText(displaytext6);
+            }
+            if (displaytext7 != null) {
+                textView7.setText(displaytext7);
+            }
+            if (displaytext8 != null) {
+                textView8.setText(displaytext8);
+            }
             textViewDate.setText(textDate.text());
-            if (link5.equals(link6)){} else{
+            if (link5.equals(link6)) {
+            } else {
 
                 //Setting images using Picasso library
-                if (displaytext5!=null && !link5.equals("")) {Picasso.with(MainActivity.this).load(link5).into(imageView5);}
-                if (displaytext6!=null && !link6.equals("")) {Picasso.with(MainActivity.this).load(link6).into(imageView6);}
-                if (displaytext7!=null && !link7.equals("")){Picasso.with(MainActivity.this).load(link7).into(imageView7);}
+                if (displaytext5 != null && !link5.equals("")) {
+                    Picasso.with(MainActivity.this).load(link5).into(imageView5);
+                }
+                if (displaytext6 != null && !link6.equals("")) {
+                    Picasso.with(MainActivity.this).load(link6).into(imageView6);
+                }
+                if (displaytext7 != null && !link7.equals("")) {
+                    Picasso.with(MainActivity.this).load(link7).into(imageView7);
+                }
 
-                if (displaytext8!=null && !link8.equals("")){Picasso.with(MainActivity.this).load(link8).into(imageView8);}
+                if (displaytext8 != null && !link8.equals("")) {
+                    Picasso.with(MainActivity.this).load(link8).into(imageView8);
+                }
 
 
             }
 
 
-          }
+        }
 
-}
-
+    }
 
 
 }
