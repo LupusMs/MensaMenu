@@ -1,6 +1,7 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,8 +13,6 @@ import android.widget.Button;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 
@@ -56,15 +55,15 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "capturedImage";
+        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+        String imageFileName = sharedPref.getString("dish1","default");
+
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File image = new File( storageDir,
+                imageFileName +  /* prefix */
+                ".jpg" );
         Log.wtf("mytag", "FILE: " + image.toString());
 
         // Save a file: path for use with ACTION_VIEW intents

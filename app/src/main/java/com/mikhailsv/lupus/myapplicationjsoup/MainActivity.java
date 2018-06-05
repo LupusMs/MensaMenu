@@ -433,6 +433,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 link8 = img.attr("abs:src");
             }
 
+            SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("dish1", searchtext5);
+            editor.commit();
+
+
+
             return null;
         }
 
