@@ -4,13 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PhotoActivity">
+    tools:context=".PhotoActivity"
+    tools:layout_editor_absoluteY="81dp">
 
     <Button
-        android:id="@+id/photoBtn"
+        android:id="@+id/photoBtn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="36dp"
         android:text="Take photo"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/photoBtn2" />
+
+    <Button
+        android:id="@+id/photoBtn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="28dp"
+        android:text="Take photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/photoBtn3" />
+
+    <Button
+        android:id="@+id/photoBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="32dp"
+        android:text="Take photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/photoBtn1" />
+
+    <Button
+        android:id="@+id/photoBtn1"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="32dp"
+        android:text="Take photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/photoBtn1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photoBtn3"
+        app:layout_constraintEnd_toStartOf="@+id/photoBtn2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/photoBtn1" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="76dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@+id/photoBtn3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginStart="29dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photoBtn4"
+        app:layout_constraintEnd_toStartOf="@+id/photoBtn4"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -10,17 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private Button photoBtn;
+    private Button photoBtn1;
+    private Button photoBtn2;
+    private Button photoBtn3;
+    private Button photoBtn4;
     File photoFile;
 
+    private TextView textView1;
+    private TextView textView2;
+    private TextView textView3;
+    private TextView textView4;
+    private String params[];
 
 
     @Override
@@ -28,18 +38,41 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
 
-        photoBtn = findViewById(R.id.photoBtn);
-        photoBtn.setOnClickListener(this);
+        photoBtn1 = findViewById(R.id.photoBtn1);
+        photoBtn2 = findViewById(R.id.photoBtn2);
+        photoBtn3 = findViewById(R.id.photoBtn3);
+        photoBtn4 = findViewById(R.id.photoBtn4);
+        textView1 = findViewById(R.id.textView1);
+        textView2 = findViewById(R.id.textView2);
+        textView3 = findViewById(R.id.textView3);
+        textView4 = findViewById(R.id.textView4);
+
+        photoBtn1.setOnClickListener(this);
+        photoBtn2.setOnClickListener(this);
+        photoBtn3.setOnClickListener(this);
+        photoBtn4.setOnClickListener(this);
+
+
+        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+        textView1.setText(sharedPref.getString("dish11",""));
+        textView2.setText(sharedPref.getString("dish22",""));
+        textView3.setText(sharedPref.getString("dish33",""));
+        textView4.setText(sharedPref.getString("dish44",""));
+
+
     }
 
     @Override
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.photoBtn1:
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             photoFile = null;
             try {
                 photoFile = createImageFile();
+                Log.wtf("mytag", "image created");
             } catch (IOException ex) {
                 // Error occurred while creating the File
             }
@@ -50,20 +83,40 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
-    }
+        break;
+    }}
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.wtf("mytag", "onActivityResult");
+
+
+                //File to upload to cloudinary
+     MyUploader uploader = new MyUploader(getApplicationContext());
+     Log.wtf("mytag", "path" + photoFile.getAbsolutePath().toString());
+     params = new String[2];
+     params[0] = photoFile.getAbsolutePath().toString();
+     params[1] = textView1.getText().toString();
+     uploader.execute(params);
+
+      }
+
+
 
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
         SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
         String imageFileName = sharedPref.getString("dish1","default");
 
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File image = new File( storageDir,
-                imageFileName +  /* prefix */
-                ".jpg" );
+                imageFileName +  /* prefix */".jpg"
+                );
         Log.wtf("mytag", "FILE: " + image.toString());
 
         // Save a file: path for use with ACTION_VIEW intents

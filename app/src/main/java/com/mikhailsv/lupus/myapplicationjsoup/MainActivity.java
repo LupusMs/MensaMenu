@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -284,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
                 myurl = myurl.replaceAll(Consts.DAY_TODAY, day);
                 myurl = myurl.replaceAll(Consts.DAY_TOMORROW, day);
-                Log.wtf("mytag", "my new url" + myurl);
+
 
 
             } catch (Exception e) {
@@ -436,6 +435,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("dish1", searchtext5);
+            editor.putString("dish2", searchtext6);
+            editor.putString("dish3", searchtext7);
+            editor.putString("dish4", searchtext8);
+            editor.putString("dish11", displaytext5);
+            editor.putString("dish22", displaytext6);
+            editor.putString("dish33", displaytext7);
+            editor.putString("dish44", displaytext8);
+
             editor.commit();
 
 

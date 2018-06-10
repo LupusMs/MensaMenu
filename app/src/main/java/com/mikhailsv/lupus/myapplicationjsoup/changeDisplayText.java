@@ -19,6 +19,7 @@ class changeDisplayText {
         myString2 = myString2.replaceAll("\\s","+");
         myString2 = myString2.replaceAll("\\d","");
         myString2 = myString2.replaceAll("\\(","");
+        //myString2 = myString2.replaceAll("f\\)","");
         myString2 = myString2.replaceAll("-","");
 
         return myString2;
