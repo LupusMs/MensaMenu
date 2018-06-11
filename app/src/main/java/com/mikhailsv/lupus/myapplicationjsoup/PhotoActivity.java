@@ -2,6 +2,7 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,8 +15,6 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -31,6 +30,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private TextView textView3;
     private TextView textView4;
     private String params[];
+    private String imageFileName;
+
 
 
     @Override
@@ -51,6 +52,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         photoBtn2.setOnClickListener(this);
         photoBtn3.setOnClickListener(this);
         photoBtn4.setOnClickListener(this);
+        params = new String[2];
 
 
         SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
@@ -64,15 +66,44 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+
         switch (view.getId()) {
             case R.id.photoBtn1:
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                params[1] = textView1.getText().toString();
+                imageFileName = sharedPref.getString("dish1","default");
+                textView1.setTextColor(Color.GREEN);
+                textView1.setText("Image uploaded");
+             break;
+            case R.id.photoBtn2:
+                params[1] = textView2.getText().toString();
+                imageFileName = sharedPref.getString("dish2","default");
+                textView2.setTextColor(Color.GREEN);
+                textView2.setText("Image uploaded");
+            break;
+
+            case R.id.photoBtn3:
+                params[1] = textView3.getText().toString();
+                imageFileName = sharedPref.getString("dish3","default");
+                textView3.setTextColor(Color.GREEN);
+                textView3.setText("Image uploaded");
+            break;
+            case R.id.photoBtn4:
+                params[1] = textView4.getText().toString();
+                imageFileName = sharedPref.getString("dish4","default");
+                textView4.setTextColor(Color.GREEN);
+                textView4.setText("Image uploaded");
+             break;
+
+
+
+        }
         if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             photoFile = null;
             try {
-                photoFile = createImageFile();
-                Log.wtf("mytag", "image created");
+                 photoFile = createImageFile(imageFileName);
             } catch (IOException ex) {
                 // Error occurred while creating the File
             }
@@ -83,8 +114,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
-        break;
-    }}
+
+    }
 
 
     @Override
@@ -96,26 +127,21 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 //File to upload to cloudinary
      MyUploader uploader = new MyUploader(getApplicationContext());
      Log.wtf("mytag", "path" + photoFile.getAbsolutePath().toString());
-     params = new String[2];
      params[0] = photoFile.getAbsolutePath().toString();
-     params[1] = textView1.getText().toString();
-     uploader.execute(params);
 
+     uploader.execute(params);
       }
 
 
 
 
-    private File createImageFile() throws IOException {
+    private File createImageFile(String imageStoreName) throws IOException {
         // Create an image file name
-
-        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
-        String imageFileName = sharedPref.getString("dish1","default");
 
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
         File image = new File( storageDir,
-                imageFileName +  /* prefix */".jpg"
+                imageStoreName +  /* prefix */".jpg"
                 );
         Log.wtf("mytag", "FILE: " + image.toString());
 

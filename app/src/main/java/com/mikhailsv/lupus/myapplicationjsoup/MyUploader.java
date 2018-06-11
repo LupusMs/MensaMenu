@@ -43,9 +43,5 @@ public class MyUploader extends AsyncTask <String, Void, Void> {
         return null;
     }
 
-  /* @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        Toast.makeText(mContext, "Image uploaded. Thank you for your contribution.", Toast.LENGTH_LONG).show();
-    }*/
+
 }
