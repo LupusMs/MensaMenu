@@ -3,6 +3,7 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.cloudinary.android.MediaManager;
 
@@ -12,11 +13,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyUploader extends AsyncTask <String, Void, Void> {
+    ImageView imageView;
 
     private final Context mContext;
+    private String cloudinaryImgName;
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        Log.wtf("mytag", "EXECUTED");
+        Log.wtf("mytag",MediaManager.get().url().generate(cloudinaryImgName));
+
+
+           // Toast.makeText(mContext, "Image uploaded!", Toast.LENGTH_LONG).show();
+
+          //  mContext.startActivity(new Intent(mContext, MainActivity.class));
+
+
+    }
 
     public MyUploader(final Context context) {
         mContext = context;
+
+
     }
     @Override
     protected Void doInBackground(String... strings) {
@@ -34,6 +53,7 @@ public class MyUploader extends AsyncTask <String, Void, Void> {
         String timeStamp = new SimpleDateFormat("ss").format(new Date());
         Log.wtf("mytag", "stamp "+ timeStamp);
         String newFileName = new changeDisplayText().searchText(strings[1]);
+        cloudinaryImgName = newFileName + timeStamp;
         String requestId = MediaManager.get().upload(strings[0])
                 .unsigned("oafdysu0").option("public_id", newFileName + timeStamp)
                 .dispatch();
@@ -42,6 +62,7 @@ public class MyUploader extends AsyncTask <String, Void, Void> {
 
         return null;
     }
+
 
 
 }

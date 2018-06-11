@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private TextView textView2;
     private TextView textView3;
     private TextView textView4;
+    private ImageView imageView;
     private String params[];
     private String imageFileName;
 
@@ -74,26 +76,26 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 params[1] = textView1.getText().toString();
                 imageFileName = sharedPref.getString("dish1","default");
                 textView1.setTextColor(Color.GREEN);
-                textView1.setText("Image uploaded");
+
              break;
             case R.id.photoBtn2:
                 params[1] = textView2.getText().toString();
                 imageFileName = sharedPref.getString("dish2","default");
                 textView2.setTextColor(Color.GREEN);
-                textView2.setText("Image uploaded");
+
             break;
 
             case R.id.photoBtn3:
                 params[1] = textView3.getText().toString();
                 imageFileName = sharedPref.getString("dish3","default");
                 textView3.setTextColor(Color.GREEN);
-                textView3.setText("Image uploaded");
+
             break;
             case R.id.photoBtn4:
                 params[1] = textView4.getText().toString();
                 imageFileName = sharedPref.getString("dish4","default");
                 textView4.setTextColor(Color.GREEN);
-                textView4.setText("Image uploaded");
+
              break;
 
 
@@ -126,9 +128,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
                 //File to upload to cloudinary
      MyUploader uploader = new MyUploader(getApplicationContext());
-     Log.wtf("mytag", "path" + photoFile.getAbsolutePath().toString());
      params[0] = photoFile.getAbsolutePath().toString();
-
      uploader.execute(params);
       }
 
