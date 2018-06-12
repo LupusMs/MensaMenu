@@ -1,9 +1,11 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -12,10 +14,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -33,6 +43,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private ImageView imageView;
     private String params[];
     private String imageFileName;
+    private ProgressBar progressBar;
+    private TextView textViewWait;
 
 
 
@@ -49,6 +61,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
+        progressBar = findViewById(R.id.progressBar);
+        textViewWait = findViewById(R.id.textViewWait);
 
         photoBtn1.setOnClickListener(this);
         photoBtn2.setOnClickListener(this);
@@ -148,4 +162,89 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         // Save a file: path for use with ACTION_VIEW intents
         return image;
     }
+
+    class MyUploader extends AsyncTask<String, Void, Void> {
+        ImageView imageView;
+
+        private final Context mContext;
+        private String cloudinaryImgName;
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.wtf("mytag", "EXECUTED");
+            Log.wtf("mytag",MediaManager.get().url().generate(cloudinaryImgName));
+
+
+             Toast.makeText(getApplicationContext(), "Image will be uploaded...", Toast.LENGTH_LONG).show();
+
+            //  mContext.startActivity(new Intent(mContext, MainActivity.class));
+
+
+        }
+
+        public MyUploader(final Context context) {
+            mContext = context;
+
+
+        }
+        @Override
+        protected Void doInBackground(String... strings) {
+            Map config = new HashMap();
+            config.put("cloud_name", "hawmenu");
+
+            Log.wtf("mytag", "cloud accessed");
+            Log.wtf("mytag", "strings0 " + strings[0]);
+            Log.wtf("mytag", "strings1 "+ strings[1]);
+
+
+
+            Log.wtf("mytag", "FILE ddd" + strings[0]);
+            MediaManager.init(mContext, config);
+            //String timeStamp = new SimpleDateFormat("ss").format(new Date());
+            //Log.wtf("mytag", "stamp "+ timeStamp);
+            String newFileName = new changeDisplayText().searchText(strings[1]);
+            cloudinaryImgName = newFileName;
+            String requestId = MediaManager.get().upload(strings[0])
+                    .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+                            // your code here
+                            Log.wtf("mytag", "callback started");
+                        }
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {
+                            // example code starts here
+                            Double progress = (double) bytes/totalBytes;
+                            // post progress to app UI (e.g. progress bar, notification)
+                            Log.wtf("mytag", "callback progress" + progress);
+                            textViewWait.setVisibility(View.VISIBLE);
+                            progressBar.setProgress(progress.intValue()*100);
+                            progressBar.setSecondaryProgress(progress.intValue()*100 + 10);
+                            // example code ends here
+                        }
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            // your code here
+                            Log.wtf("mytag", "callback success");
+                        }
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+                            // your code here
+                        }
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {
+                            // your code here
+                        }})
+                    .dispatch();
+            Log.wtf("mytag", "try success" + requestId);
+
+
+            return null;
+        }
+
+
+
+    }
+
 }
