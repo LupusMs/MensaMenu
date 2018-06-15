@@ -24,7 +24,6 @@ import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public final static String CLOUDINARY_URL = "https://res.cloudinary.com/hawmenu/image/upload/";
     public TextView textView1;
     public TextView textView2;
     public TextView textView3;
@@ -46,10 +45,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView today_btn;
     public Button buttonEn;
     public Button buttonDe;
-    public String link5;
-    String link6;
-    String link7;
-    String link8;
     int i;
     String myurl;
     String language;
@@ -186,45 +181,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         SharedPreferences.Editor editor;
         switch (view.getId()) {
-            case R.id.imageView5:
-                MyParser mp = new MyParser();
-                increment[0] = increment[0] + 1;
-                mp.execute(increment);
-                break;
-
-            case R.id.imageView6:
-                mp = new MyParser();
-                increment[1] = increment[1] + 1;
-                mp.execute(increment);
-                break;
-            case R.id.imageView7:
-                mp = new MyParser();
-                increment[2] = increment[2] + 1;
-                mp.execute(increment);
-                break;
-            case R.id.imageView8:
-                mp = new MyParser();
-                increment[3] = increment[3] + 1;
-                mp.execute(increment);
-                break;
             case R.id.buttonDe:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
                 editor.putString("language", Consts.LANGUAGE_DE);
                 editor.commit();
-
                 recreate();
                 break;
-
             case R.id.buttonEn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
                 editor.putString("language", Consts.LANGUAGE_EN);
                 editor.commit();
-
                 recreate();
                 break;
-
             case R.id.tomorrow_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
@@ -232,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.commit();
                 recreate();
                 break;
-
             case R.id.today_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
@@ -240,15 +209,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.commit();
                 recreate();
                 break;
-
-
         }
     }
 
 
     class MyParser extends AsyncTask<int[], Void, Void> {
-
-
         Element text1;
         Element text2;
         Element text3;
@@ -258,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Element text7;
         Element text8;
         Element textDate;
-        Element img;
         Element price1;
         Element price2;
         Element price3;
@@ -271,29 +235,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected Void doInBackground(int[]... param) {
-
             int[] increment = param[0];
             Document doc = null;
             Document pic = null;
-
             try {
                 Intent intent = getIntent();
                 myurl = intent.getExtras().getString("myurl", myurl);
-
                 //Adjusting myurl
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
                 myurl = myurl.replaceAll(Consts.DAY_TODAY, day);
                 myurl = myurl.replaceAll(Consts.DAY_TOMORROW, day);
 
-
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
-
                 doc = Jsoup.connect(myurl).get();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -389,51 +347,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-
-            try {
-                pic = Jsoup.connect(Consts.SEARCH_ENGINE_URL + searchtext5).get();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (pic != null) {
-                img = pic.select("img").get(1 + increment[0]);
-                link5 = img.attr("abs:src");
-            }
-
-            try {
-                pic = Jsoup.connect(Consts.SEARCH_ENGINE_URL + searchtext6).get();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (pic != null) {
-                img = pic.select("img").get(1 + increment[1]);
-                link6 = img.attr("abs:src");
-            }
-
-            try {
-                pic = Jsoup.connect(Consts.SEARCH_ENGINE_URL + searchtext7).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (pic != null) {
-                img = pic.select("img").get(1 + increment[2]);
-                link7 = img.attr("abs:src");
-            }
-
-            try {
-                pic = Jsoup.connect(Consts.SEARCH_ENGINE_URL + searchtext8).get();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (pic != null) {
-                img = pic.select("img").get(1 + increment[3]);
-                link8 = img.attr("abs:src");
-            }
-
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("dish1", searchtext5);
@@ -446,9 +359,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.putString("dish44", displaytext8);
 
             editor.commit();
-
-
-
             return null;
         }
 
@@ -497,37 +407,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
                 //Setting images using Picasso library
                 //Loading a picture for the first dish
-                if (increment[0] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg.jpg").into(imageView5);
-                    Log.wtf("mytag", CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg.jpg")  ;    }
-                /*else{
-                if (displaytext5 != null && !link5.equals("")) {
-                    Picasso.with(MainActivity.this).load(link5).into(imageView5);
-                }}*/
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg").into(imageView5);
+                    Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg")  ;
+
                 //Loading a picture for the second dish
-                if (increment[1] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish2", "") + ".jpg.jpg").into(imageView6);
-                    }
-                /*else{
-                if (displaytext6 != null && !link6.equals("")) {
-                    Picasso.with(MainActivity.this).load(link6).into(imageView6);
-                }}*/
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + ".jpg").into(imageView6);
+
                 //Loading a picture for the third dish
-                if (increment[2] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish3", "") + ".jpg.jpg").into(imageView7);
-                }
-                /*else{
-                if (displaytext7 != null && !link7.equals("")) {
-                    Picasso.with(MainActivity.this).load(link7).into(imageView7);
-                }}*/
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + ".jpg").into(imageView7);
                 //Loading a picture for the fourth dish
-                if (increment[3] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish4", "") + ".jpg.jpg").into(imageView8);
-                    }
-                /*else{
-                if (displaytext8 != null && !link8.equals("")) {
-                    Picasso.with(MainActivity.this).load(link8).into(imageView8);
-                }}*/
-
-
-
-
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + ".jpg").into(imageView8);
 
         }
 

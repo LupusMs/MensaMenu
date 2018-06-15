@@ -43,11 +43,11 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private TextView textView2;
     private TextView textView3;
     private TextView textView4;
-    private ImageView imageView;
     private String params[];
     private String imageFileName;
     private ProgressBar progressBar;
     private TextView textViewWait;
+    private com.wang.avi.AVLoadingIndicatorView indicator2;
 
 
 
@@ -66,6 +66,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView4 = findViewById(R.id.textView4);
         progressBar = findViewById(R.id.progressBar);
         textViewWait = findViewById(R.id.textViewWait);
+        indicator2 = findViewById(R.id.indicator2);
 
         photoBtn1.setOnClickListener(this);
         photoBtn2.setOnClickListener(this);
@@ -146,7 +147,12 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 //File to upload to cloudinary
      MyUploader uploader = new MyUploader(getApplicationContext());
      params[0] = photoFile.getAbsolutePath().toString();
-     uploader.execute(params);
+     //TO-DO Scaling the photo
+        textViewWait.setVisibility(View.VISIBLE);
+        indicator2.setVisibility(View.VISIBLE);
+        indicator2.setIndicatorColor(Color.RED);
+
+        uploader.execute(params);
       }
 
 
@@ -209,8 +215,9 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             //Log.wtf("mytag", "stamp "+ timeStamp);
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             File file = new File(strings[0]);
-            String newFileName = file.getName();
+            String newFileName = file.getName().replaceAll(".jpg", "");;
             cloudinaryImgName = newFileName;
+
             String requestId = MediaManager.get().upload(strings[0])
                     .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {
                         @Override
@@ -224,7 +231,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                             Double progress = (double) bytes/totalBytes;
                             // post progress to app UI (e.g. progress bar, notification)
                             Log.wtf("mytag", "callback progress" + progress);
-                            textViewWait.setVisibility(View.VISIBLE);
+
                             progressBar.setProgress(progress.intValue()*100);
                             progressBar.setSecondaryProgress(progress.intValue()*100 + 10);
                             // example code ends here
