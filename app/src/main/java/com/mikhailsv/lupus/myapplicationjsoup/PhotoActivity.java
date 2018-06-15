@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
+
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -190,6 +193,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         }
         @Override
         protected Void doInBackground(String... strings) {
+            android.os.Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND + THREAD_PRIORITY_MORE_FAVORABLE);
             Map config = new HashMap();
             config.put("cloud_name", "hawmenu");
 
@@ -203,7 +207,9 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             MediaManager.init(mContext, config);
             //String timeStamp = new SimpleDateFormat("ss").format(new Date());
             //Log.wtf("mytag", "stamp "+ timeStamp);
-            String newFileName = new changeDisplayText().searchText(strings[1]);
+            SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+            File file = new File(strings[0]);
+            String newFileName = file.getName();
             cloudinaryImgName = newFileName;
             String requestId = MediaManager.get().upload(strings[0])
                     .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {

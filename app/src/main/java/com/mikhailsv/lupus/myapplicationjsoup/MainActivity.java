@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +24,7 @@ import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    public final static String CLOUDINARY_URL = "https://res.cloudinary.com/hawmenu/image/upload/";
     public TextView textView1;
     public TextView textView2;
     public TextView textView3;
@@ -492,26 +493,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textView8.setText(displaytext8);
             }
             textViewDate.setText(textDate.text());
-            if (link5.equals(link6)) {
-            } else {
 
+                SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
                 //Setting images using Picasso library
+                //Loading a picture for the first dish
+                if (increment[0] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg.jpg").into(imageView5);
+                    Log.wtf("mytag", CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg.jpg")  ;    }
+                /*else{
                 if (displaytext5 != null && !link5.equals("")) {
                     Picasso.with(MainActivity.this).load(link5).into(imageView5);
-                }
+                }}*/
+                //Loading a picture for the second dish
+                if (increment[1] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish2", "") + ".jpg.jpg").into(imageView6);
+                    }
+                /*else{
                 if (displaytext6 != null && !link6.equals("")) {
                     Picasso.with(MainActivity.this).load(link6).into(imageView6);
+                }}*/
+                //Loading a picture for the third dish
+                if (increment[2] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish3", "") + ".jpg.jpg").into(imageView7);
                 }
+                /*else{
                 if (displaytext7 != null && !link7.equals("")) {
                     Picasso.with(MainActivity.this).load(link7).into(imageView7);
-                }
-
+                }}*/
+                //Loading a picture for the fourth dish
+                if (increment[3] == 0){Picasso.with(MainActivity.this).load(CLOUDINARY_URL + sharedPref.getString("dish4", "") + ".jpg.jpg").into(imageView8);
+                    }
+                /*else{
                 if (displaytext8 != null && !link8.equals("")) {
                     Picasso.with(MainActivity.this).load(link8).into(imageView8);
-                }
+                }}*/
 
 
-            }
+
 
 
         }
