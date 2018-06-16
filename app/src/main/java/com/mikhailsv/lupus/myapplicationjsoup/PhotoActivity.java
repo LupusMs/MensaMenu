@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,7 +151,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         indicator2.setVisibility(View.VISIBLE);
         indicator2.setIndicatorColor(Color.RED);
 
-        uploader.execute(params);
+        uploader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,params);
       }
 
 
@@ -173,16 +172,13 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     class MyUploader extends AsyncTask<String, Void, Void> {
-        ImageView imageView;
+
 
         private final Context mContext;
-        private String cloudinaryImgName;
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.wtf("mytag", "EXECUTED");
-            Log.wtf("mytag",MediaManager.get().url().generate(cloudinaryImgName));
 
 
              Toast.makeText(getApplicationContext(), "Image will be uploaded...", Toast.LENGTH_LONG).show();
@@ -202,21 +198,12 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             android.os.Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND + THREAD_PRIORITY_MORE_FAVORABLE);
             Map config = new HashMap();
             config.put("cloud_name", "hawmenu");
-
-            Log.wtf("mytag", "cloud accessed");
-            Log.wtf("mytag", "strings0 " + strings[0]);
-            Log.wtf("mytag", "strings1 "+ strings[1]);
-
-
-
-            Log.wtf("mytag", "FILE ddd" + strings[0]);
             MediaManager.init(mContext, config);
             //String timeStamp = new SimpleDateFormat("ss").format(new Date());
             //Log.wtf("mytag", "stamp "+ timeStamp);
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             File file = new File(strings[0]);
-            String newFileName = file.getName().replaceAll(".jpg", "");;
-            cloudinaryImgName = newFileName;
+            String newFileName = file.getName().replaceAll(".jpg", "");
 
             String requestId = MediaManager.get().upload(strings[0])
                     .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {
@@ -240,6 +227,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                         public void onSuccess(String requestId, Map resultData) {
                             // your code here
                             Log.wtf("mytag", "callback success");
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
                         }
                         @Override
                         public void onError(String requestId, ErrorInfo error) {

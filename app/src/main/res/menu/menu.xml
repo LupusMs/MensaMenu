@@ -1,4 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="saveourcar.soc.MainActivity">
             <item
@@ -9,9 +10,10 @@
                 android:id="@+id/cafe"
                 android:title="@string/haw_cafe"
                 />
-             <item
-                  android:id="@+id/uploadPhoto"
-                  android:title="@string/add_photo"
-                />
+    <item
+        android:id="@+id/uploadPhoto"
+        android:icon="@drawable/ic_camera_enhance_black_18dp"
+        android:title="@string/add_photo"
+        app:showAsAction="ifRoom" />
 
 </menu>
