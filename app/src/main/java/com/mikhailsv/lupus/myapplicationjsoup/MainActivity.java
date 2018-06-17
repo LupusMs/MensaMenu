@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
@@ -407,16 +409,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
                 //Setting images using Picasso library
                 //Loading a picture for the first dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg").into(imageView5);
-                    Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + ".jpg")  ;
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView5);
+                    Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg")  ;
 
                 //Loading a picture for the second dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + ".jpg").into(imageView6);
+            Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg");
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView6);
 
                 //Loading a picture for the third dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + ".jpg").into(imageView7);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView7);
                 //Loading a picture for the fourth dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + ".jpg").into(imageView8);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView8);
 
         }
 

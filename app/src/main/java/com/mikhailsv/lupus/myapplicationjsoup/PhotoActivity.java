@@ -122,7 +122,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             // Create the File where the photo should go
             photoFile = null;
             try {
-                 photoFile = createImageFile(imageFileName);
+                 photoFile = createImageFile(imageFileName + "al");
             } catch (IOException ex) {
                 // Error occurred while creating the File
             }
