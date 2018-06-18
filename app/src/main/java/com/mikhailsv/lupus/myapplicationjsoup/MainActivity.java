@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Button buttonEn;
     public Button buttonDe;
     private RatingBar ratingBar1;
+    private RatingBar ratingBar2;
+    private RatingBar ratingBar3;
+    private RatingBar ratingBar4;
     private DatabaseReference mDatabase;
     int i;
     String myurl;
@@ -147,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         ratingBar1 = findViewById(R.id.ratingBar1);
+        ratingBar2 = findViewById(R.id.ratingBar2);
+        ratingBar3 = findViewById(R.id.ratingBar3);
+        ratingBar4 = findViewById(R.id.ratingBar4);
 
         imageView5.setOnClickListener(this);
         imageView6.setOnClickListener(this);
@@ -438,32 +444,103 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String key3 = sharedPref.getString("dish3", "");
             final String key4 = sharedPref.getString("dish4", "");
 
-                mDatabase = FirebaseDatabase.getInstance().getReference();
+            //Accessing firebase database for rating
+            mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
-Log.wtf("mytag", "key1" + key1);
             ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) mDatabase.child(key1).child("totalRating").setValue(rating);
-                    if (fromUser) mDatabase.child(key1).child("totalUsers").setValue(1);
+                    if (fromUser) mDatabase.child(key1).child("Rating").push().setValue(rating);
                 }
             });
-
-
-            mDatabase.child(key1).child("totalRating").addValueEventListener(new ValueEventListener() {
+            mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                        float rating = Float.parseFloat(dataSnapshot.getValue().toString());
-                        ratingBar1.setRating(rating);
+                        int total = 0, count = 0;
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            int rating = child.getValue(Integer.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+                        ratingBar1.setRating(total/count);
                     }
                 }
-
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+            ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (fromUser) mDatabase.child(key2).child("Rating").push().setValue(rating);
+                }
+            });
+            mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        int total = 0, count = 0;
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            int rating = child.getValue(Integer.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+                        ratingBar2.setRating(total/count);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+            try{text7.text();} catch (Exception e){
+            ratingBar3.setVisibility(View.INVISIBLE);}
+            ratingBar3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (fromUser) mDatabase.child(key3).child("Rating").push().setValue(rating);
+                }
+            });
+            mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        int total = 0, count = 0;
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            int rating = child.getValue(Integer.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+                        ratingBar3.setRating(total/count);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+            try{text8.text();} catch (Exception e){
+                ratingBar4.setVisibility(View.INVISIBLE);}
+            ratingBar4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (fromUser) mDatabase.child(key4).child("Rating").push().setValue(rating);
+                }
+            });
+            mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        int total = 0, count = 0;
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            int rating = child.getValue(Integer.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+                        ratingBar4.setRating(total/count);
+                    }
+                }
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
         }
+
 
     }
 

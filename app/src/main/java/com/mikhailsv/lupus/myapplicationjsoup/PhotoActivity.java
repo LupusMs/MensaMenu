@@ -140,7 +140,6 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.wtf("mytag", "onActivityResult");
 
 
                 //File to upload to cloudinary
@@ -210,15 +209,13 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onStart(String requestId) {
                             // your code here
-                            Log.wtf("mytag", "callback started");
+
                         }
                         @Override
                         public void onProgress(String requestId, long bytes, long totalBytes) {
                             // example code starts here
                             Double progress = (double) bytes/totalBytes;
                             // post progress to app UI (e.g. progress bar, notification)
-                            Log.wtf("mytag", "callback progress" + progress);
-
                             progressBar.setProgress(progress.intValue()*100);
                             progressBar.setSecondaryProgress(progress.intValue()*100 + 10);
                             // example code ends here
@@ -239,7 +236,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                             // your code here
                         }})
                     .dispatch();
-            Log.wtf("mytag", "try success" + requestId);
+
 
 
             return null;
