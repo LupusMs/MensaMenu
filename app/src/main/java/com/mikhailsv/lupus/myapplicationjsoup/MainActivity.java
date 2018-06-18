@@ -12,8 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -47,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView today_btn;
     public Button buttonEn;
     public Button buttonDe;
+    private RatingBar ratingBar1;
+    private DatabaseReference mDatabase;
     int i;
     String myurl;
     String language;
@@ -138,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEn = findViewById(R.id.buttonEn);
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
+        ratingBar1 = findViewById(R.id.ratingBar1);
 
         imageView5.setOnClickListener(this);
         imageView6.setOnClickListener(this);
@@ -147,6 +156,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonEn.setOnClickListener(this);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
+
+
 
 
         //Default url for Mensa menu
@@ -177,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+
 
 
     @Override
@@ -420,7 +433,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView7);
                 //Loading a picture for the fourth dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView8);
+            final String key1 = sharedPref.getString("dish1", "");
+            final String key2 = sharedPref.getString("dish2", "");
+            final String key3 = sharedPref.getString("dish3", "");
+            final String key4 = sharedPref.getString("dish4", "");
 
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+Log.wtf("mytag", "key1" + key1);
+            ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (fromUser) mDatabase.child(key1).child("totalRating").setValue(rating);
+                    if (fromUser) mDatabase.child(key1).child("totalUsers").setValue(1);
+                }
+            });
+
+
+            mDatabase.child(key1).child("totalRating").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        float rating = Float.parseFloat(dataSnapshot.getValue().toString());
+                        ratingBar1.setRating(rating);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
         }
 
     }
