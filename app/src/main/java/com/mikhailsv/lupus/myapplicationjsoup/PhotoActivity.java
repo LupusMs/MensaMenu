@@ -64,6 +64,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
         progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
         textViewWait = findViewById(R.id.textViewWait);
         indicator2 = findViewById(R.id.indicator2);
 
@@ -74,11 +75,17 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         params = new String[2];
 
 
+
+
         SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
         textView1.setText(sharedPref.getString("dish11",""));
         textView2.setText(sharedPref.getString("dish22",""));
         textView3.setText(sharedPref.getString("dish33",""));
         textView4.setText(sharedPref.getString("dish44",""));
+
+        //Hiding photo buttons if there is no text in dish name
+        if (textView3.getText().equals("")) photoBtn3.setVisibility(View.INVISIBLE);
+        if (textView4.getText().equals("")) photoBtn4.setVisibility(View.INVISIBLE);
 
 
     }
@@ -178,12 +185,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-
              Toast.makeText(getApplicationContext(), "Image will be uploaded...", Toast.LENGTH_LONG).show();
-
-            //  mContext.startActivity(new Intent(mContext, MainActivity.class));
-
+            progressBar.setVisibility(View.VISIBLE);
 
         }
 
@@ -209,6 +212,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onStart(String requestId) {
                             // your code here
+
 
                         }
                         @Override
