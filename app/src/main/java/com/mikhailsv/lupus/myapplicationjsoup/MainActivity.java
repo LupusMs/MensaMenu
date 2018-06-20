@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int[] increment = {0, 0, 0, 0};
     SharedPreferences sharedPref;
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -154,9 +153,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         ratingBar1 = findViewById(R.id.ratingBar1);
+        //TODO fix ratingbars are not updated when press tomorrow btn
+        ratingBar1.setRating(0);
         ratingBar2 = findViewById(R.id.ratingBar2);
+        ratingBar2.setRating(0);
         ratingBar3 = findViewById(R.id.ratingBar3);
+        ratingBar3.setRating(0);
         ratingBar4 = findViewById(R.id.ratingBar4);
+        ratingBar4.setRating(0);
 
         imageView5.setOnClickListener(this);
         imageView6.setOnClickListener(this);
@@ -249,14 +253,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor = sharedPref.edit();
                 editor.putString("day", Consts.DAY_TOMORROW);
                 editor.commit();
-                recreate();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
                 break;
             case R.id.today_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
                 editor.putString("day", Consts.DAY_TODAY);
                 editor.commit();
-                recreate();
+                intent = getIntent();
+                finish();
+                startActivity(intent);
                 break;
         }
     }
@@ -467,13 +475,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView7);
                 //Loading a picture for the fourth dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView8);
+
+            //Accessing firebase database for rating
+            mDatabase = FirebaseDatabase.getInstance().getReference();
             final String key1 = sharedPref.getString("dish1", "");
             final String key2 = sharedPref.getString("dish2", "");
             final String key3 = sharedPref.getString("dish3", "");
             final String key4 = sharedPref.getString("dish4", "");
 
-            //Accessing firebase database for rating
-            mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
             ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -483,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key1).child("Rating").push().setValue(rating);}
                 }
             });
-            mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child(key1).child("Rating").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -499,6 +509,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+
+
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -507,7 +519,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key2).child("Rating").push().setValue(rating);}
                 }
             });
-            mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child(key2).child("Rating").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -533,7 +545,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key3).child("Rating").push().setValue(rating);}
                 }
             });
-            mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child(key3).child("Rating").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -559,7 +571,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key4).child("Rating").push().setValue(rating);}
                 }
             });
-            mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+            Log.wtf("mytag","LISTENER " + searchtext8);
+            mDatabase.child(key4).child("Rating").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
