@@ -1,11 +1,9 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -190,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             tomorrow_btn.setVisibility(View.GONE);
 
-        updateAlert = sharedPref.getString("update", "");
+        /*updateAlert = sharedPref.getString("update", "");
 
         if (updateAlert.equals("")){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
@@ -216,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("update", "done");
             editor.commit();
-        }
+        }*/
 
 
         //Getting url from onOptionsItemSelected
@@ -522,8 +520,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
-
-
+            try{text6.text();} catch (Exception e){
+                ratingBar2.setVisibility(View.INVISIBLE);}
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
