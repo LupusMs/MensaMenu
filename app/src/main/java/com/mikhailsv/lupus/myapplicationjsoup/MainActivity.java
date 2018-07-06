@@ -37,18 +37,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public TextView textView3;
     public TextView textView4;
     public TextView textView5;
-    public TextView textView6;
-    public TextView textView7;
-    public TextView textView8;
+    public TextView dishDescription1;
+    public TextView dishDescription2;
+    public TextView dishDescription3;
+    public TextView dishDescription4;
+    public TextView dishDescription5;
     public TextView textViewDate;
     private TextView textPrice1;
     private TextView textPrice2;
     private TextView textPrice3;
     private TextView textPrice4;
+    private TextView textPrice5;
+    public ImageView imageView1;
+    public ImageView imageView2;
+    public ImageView imageView3;
+    public ImageView imageView4;
     public ImageView imageView5;
-    public ImageView imageView6;
-    public ImageView imageView7;
-    public ImageView imageView8;
     private ImageView tomorrow_btn;
     private ImageView today_btn;
     public Button buttonEn;
@@ -57,11 +61,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RatingBar ratingBar2;
     private RatingBar ratingBar3;
     private RatingBar ratingBar4;
+    private RatingBar ratingBar5;
     private DatabaseReference mDatabase;
     private TextView textVotes1;
     private TextView textVotes2;
     private TextView textVotes3;
     private TextView textVotes4;
+    private TextView textVotes5;
     int i;
     String myurl;
     String language;
@@ -137,18 +143,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
         textView5 = findViewById(R.id.textView5);
-        textView6 = findViewById(R.id.textView6);
-        textView7 = findViewById(R.id.textView7);
-        textView8 = findViewById(R.id.textView8);
+        dishDescription1 = findViewById(R.id.dishDescription1);
+        dishDescription2 = findViewById(R.id.dishDescription2);
+        dishDescription3 = findViewById(R.id.dishDescription3);
+        dishDescription4 = findViewById(R.id.dishDescription4);
+        dishDescription5 = findViewById(R.id.dishDescription5);
         textViewDate = findViewById(R.id.textViewDate);
         textPrice1 = findViewById(R.id.textPrice1);
         textPrice2 = findViewById(R.id.textPrice2);
         textPrice3 = findViewById(R.id.textPrice3);
         textPrice4 = findViewById(R.id.textPrice4);
+        textPrice5 = findViewById(R.id.textPrice5);
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+        imageView3 = findViewById(R.id.imageView3);
+        imageView4 = findViewById(R.id.imageView4);
         imageView5 = findViewById(R.id.imageView5);
-        imageView6 = findViewById(R.id.imageView6);
-        imageView7 = findViewById(R.id.imageView7);
-        imageView8 = findViewById(R.id.imageView8);
         buttonDe = findViewById(R.id.buttonDe);
         buttonEn = findViewById(R.id.buttonEn);
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
@@ -161,21 +171,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ratingBar3.setRating(0);
         ratingBar4 = findViewById(R.id.ratingBar4);
         ratingBar4.setRating(0);
+        ratingBar5 = findViewById(R.id.ratingBar5);
+        ratingBar5.setRating(0);
         textVotes1 = findViewById(R.id.textVotes1);
         textVotes2 = findViewById(R.id.textVotes2);
         textVotes3 = findViewById(R.id.textVotes3);
         textVotes4 = findViewById(R.id.textVotes4);
+        textVotes5 = findViewById(R.id.textVotes5);
 
-        imageView5.setOnClickListener(this);
-        imageView6.setOnClickListener(this);
-        imageView7.setOnClickListener(this);
-        imageView8.setOnClickListener(this);
         buttonDe.setOnClickListener(this);
         buttonEn.setOnClickListener(this);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
-        //Default url for Mensa menu
 
+        //Default url for Mensa menu
         sharedPref = getPreferences(MODE_PRIVATE);
         language = sharedPref.getString("language", Consts.LANGUAGE_DE);
         day = sharedPref.getString("day", Consts.DAY_TODAY);
@@ -280,18 +289,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Element text3;
         Element text4;
         Element text5;
-        Element text6;
-        Element text7;
-        Element text8;
+        Element textDish1;
+        Element textDish2;
+        Element textDish3;
+        Element textDish4;
+        Element textDish5;
         Element textDate;
         Element price1;
         Element price2;
         Element price3;
         Element price4;
-        String searchtext5, displaytext5;
-        String searchtext6, displaytext6;
-        String searchtext7, displaytext7;
-        String searchtext8, displaytext8;
+        Element price5;
+        String searchtextDish1, displaytextDish1;
+        String searchtextDish2, displaytextDish2;
+        String searchtextDish3, displaytextDish3;
+        String searchtextDish4, displaytextDish4;
+        String searchtextDish5, displaytextDish5;
+
 
 
         @Override
@@ -339,8 +353,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 try {
-                    text5 = doc.select(".dish-description").get(0);
+                    text5 = doc.select("th").get(8);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    textDish1 = doc.select(".dish-description").get(0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -370,39 +391,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
 
+                try {
+                    price5 = doc.select("td.price").get(10);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 changeDisplayText mychangeDisplayText = new changeDisplayText();
 
                 try {
 
-                    text5 = doc.select(".dish-description").get(0);
+                    textDish1 = doc.select(".dish-description").get(0);
 
 
                     //Editing Strings for displaying and for search requests
-                    displaytext5 = mychangeDisplayText.displayText(text5.text());
-                    searchtext5 = mychangeDisplayText.searchText(text5.text());
+                    displaytextDish1 = mychangeDisplayText.displayText(textDish1.text());
+                    searchtextDish1 = mychangeDisplayText.searchText(textDish1.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    text6 = doc.select(".dish-description").get(1);
-                    displaytext6 = mychangeDisplayText.displayText(text6.text());
-                    searchtext6 = mychangeDisplayText.searchText(text6.text());
+                    textDish2 = doc.select(".dish-description").get(1);
+                    displaytextDish2 = mychangeDisplayText.displayText(textDish2.text());
+                    searchtextDish2 = mychangeDisplayText.searchText(textDish2.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 try {
-                    text7 = doc.select(".dish-description").get(2);
-                    displaytext7 = mychangeDisplayText.displayText(text7.text());
-                    searchtext7 = mychangeDisplayText.searchText(text7.text());
+                    textDish3 = doc.select(".dish-description").get(2);
+                    displaytextDish3 = mychangeDisplayText.displayText(textDish3.text());
+                    searchtextDish3 = mychangeDisplayText.searchText(textDish3.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
-                    text8 = doc.select(".dish-description").get(3);
-                    displaytext8 = mychangeDisplayText.displayText(text8.text());
-                    searchtext8 = mychangeDisplayText.searchText(text8.text());
+                    textDish4 = doc.select(".dish-description").get(3);
+                    displaytextDish4 = mychangeDisplayText.displayText(textDish4.text());
+                    searchtextDish4 = mychangeDisplayText.searchText(textDish4.text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    textDish5 = doc.select(".dish-description").get(4);
+                    displaytextDish5 = mychangeDisplayText.displayText(textDish5.text());
+                    searchtextDish5 = mychangeDisplayText.searchText(textDish5.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -410,14 +444,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("dish1", searchtext5);
-            editor.putString("dish2", searchtext6);
-            editor.putString("dish3", searchtext7);
-            editor.putString("dish4", searchtext8);
-            editor.putString("dish11", displaytext5);
-            editor.putString("dish22", displaytext6);
-            editor.putString("dish33", displaytext7);
-            editor.putString("dish44", displaytext8);
+            editor.putString("dish1", searchtextDish1);
+            editor.putString("dish2", searchtextDish2);
+            editor.putString("dish3", searchtextDish3);
+            editor.putString("dish4", searchtextDish4);
+            editor.putString("dish5", searchtextDish5);
+            editor.putString("dish11", displaytextDish1);
+            editor.putString("dish22", displaytextDish2);
+            editor.putString("dish33", displaytextDish3);
+            editor.putString("dish44", displaytextDish4);
+            editor.putString("dish55", displaytextDish5);
 
             editor.commit();
             return null;
@@ -439,6 +475,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (text4 != null) {
                 textView4.setText(text4.text());
             }
+            if (text5 != null) {
+                textView5.setText(text5.text());
+            }
             if (price1 != null) {
                 textPrice1.setText(price1.text());
             }
@@ -451,33 +490,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (price4 != null) {
                 textPrice4.setText(price4.text());
             }
-            if (displaytext5 != null) {
-                textView5.setText(displaytext5);
+            if (price5 != null) {
+                textPrice5.setText(price5.text());
             }
-            if (displaytext6 != null) {
-                textView6.setText(displaytext6);
+            if (displaytextDish1 != null) {
+                dishDescription1.setText(displaytextDish1);
             }
-            if (displaytext7 != null) {
-                textView7.setText(displaytext7);
+            if (displaytextDish2 != null) {
+                dishDescription2.setText(displaytextDish2);
             }
-            if (displaytext8 != null) {
-                textView8.setText(displaytext8);
+            if (displaytextDish3 != null) {
+                dishDescription3.setText(displaytextDish3);
+            }
+            if (displaytextDish4 != null) {
+                dishDescription4.setText(displaytextDish4);
+            }
+            if (displaytextDish5 != null) {
+                dishDescription5.setText(displaytextDish5);
             }
             textViewDate.setText(textDate.text());
 
                 SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
                 //Setting images using Picasso library
                 //Loading a picture for the first dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView5);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1);
 
 
                 //Loading a picture for the second dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView6);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2);
 
                 //Loading a picture for the third dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView7);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3);
                 //Loading a picture for the fourth dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView8);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4);
+                //Loading a picture for the fifth dish
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5);
 
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -485,6 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String key2 = sharedPref.getString("dish2", "");
             final String key3 = sharedPref.getString("dish3", "");
             final String key4 = sharedPref.getString("dish4", "");
+            final String key5 = sharedPref.getString("dish5", "");
 
 
 
@@ -520,7 +568,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
-            try{text6.text();} catch (Exception e){
+            try{
+                textDish2.text();} catch (Exception e){
                 ratingBar2.setVisibility(View.INVISIBLE);}
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -553,7 +602,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
-            try{text7.text();} catch (Exception e){
+            try{
+                textDish3.text();} catch (Exception e){
             ratingBar3.setVisibility(View.INVISIBLE);}
             ratingBar3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -586,7 +636,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
-            try{text8.text();} catch (Exception e){
+            try{
+                textDish4.text();} catch (Exception e){
                 ratingBar4.setVisibility(View.INVISIBLE);}
             ratingBar4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -619,6 +670,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+            try{
+                textDish5.text();} catch (Exception e){
+                ratingBar5.setVisibility(View.INVISIBLE);}
+            ratingBar5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (fromUser) {
+                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
+                        mDatabase.child(key5).child("Rating").push().setValue(rating);
+                        ratingBar5.setIsIndicator(true);
+                        if (textVotes5.getText().equals("")) textVotes5.setText("1 vote");
+                        else votesUpdate(textVotes5);
+                    }
+                }
+            });
+            mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                        int total = 0, count = 0;
+                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                            int rating = child.getValue(Integer.class);
+                            total = total + rating;
+                            count = count + 1;
+                        }
+                        ratingBar5.setRating(total/count);
+                        String votes;
+                        if (count == 1) votes = " vote"; else votes = " votes";
+                        textVotes5.setText(String.valueOf(count) + votes);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) { }
+            });
+
         }
 
 
