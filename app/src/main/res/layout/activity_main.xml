@@ -109,7 +109,6 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:text="Sample text here"
         android:layout_width="200dp"
         android:layout_height="33dp"
         android:layout_marginStart="8dp"
@@ -162,7 +161,6 @@
     <TextView
         android:id="@+id/dishDescription5"
         android:layout_width="200dp"
-        android:text="Sample dish description here"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/puritan_italic"
