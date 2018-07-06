@@ -499,6 +499,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key1).child("Rating").push().setValue(rating);
                         ratingBar1.setIsIndicator(true);
                         if (textVotes1.getText().equals("")) textVotes1.setText("1 vote");
+                          else votesUpdate(textVotes1);
                     }
                 }
             });
@@ -531,6 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key2).child("Rating").push().setValue(rating);
                         ratingBar2.setIsIndicator(true);
                         if (textVotes2.getText().equals("")) textVotes2.setText("1 vote");
+                         else votesUpdate(textVotes2);
                     }
                 }
             });
@@ -563,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key3).child("Rating").push().setValue(rating);
                         ratingBar3.setIsIndicator(true);
                         if (textVotes3.getText().equals("")) textVotes3.setText("1 vote");
+                         else votesUpdate(textVotes3);
                     }
                 }
             });
@@ -595,6 +598,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key4).child("Rating").push().setValue(rating);
                         ratingBar4.setIsIndicator(true);
                         if (textVotes4.getText().equals("")) textVotes4.setText("1 vote");
+                        else votesUpdate(textVotes4);
                     }
                 }
             });
@@ -620,6 +624,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+    }
+
+    /**
+     * Method increasing the votes number when user taps on the rating bar
+     * @param textView
+     * */
+    public void votesUpdate(TextView textView)
+    {
+       String[] votes = textView.getText().toString().split(" ");
+       int votesInt = Integer.valueOf(votes[0]);
+       votesInt++;
+       textView.setText("" + votesInt + " votes");
     }
 
 
