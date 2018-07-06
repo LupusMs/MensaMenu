@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -61,6 +60,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RatingBar ratingBar3;
     private RatingBar ratingBar4;
     private DatabaseReference mDatabase;
+    private TextView textVotes1;
+    private TextView textVotes2;
+    private TextView textVotes3;
+    private TextView textVotes4;
     int i;
     String myurl;
     String language;
@@ -153,7 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         ratingBar1 = findViewById(R.id.ratingBar1);
-        //TODO fix ratingbars are not updated when press tomorrow btn
         ratingBar1.setRating(0);
         ratingBar2 = findViewById(R.id.ratingBar2);
         ratingBar2.setRating(0);
@@ -161,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ratingBar3.setRating(0);
         ratingBar4 = findViewById(R.id.ratingBar4);
         ratingBar4.setRating(0);
+        textVotes1 = findViewById(R.id.textVotes1);
+        textVotes2 = findViewById(R.id.textVotes2);
+        textVotes3 = findViewById(R.id.textVotes3);
+        textVotes4 = findViewById(R.id.textVotes4);
 
         imageView5.setOnClickListener(this);
         imageView6.setOnClickListener(this);
@@ -465,10 +471,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Setting images using Picasso library
                 //Loading a picture for the first dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView5);
-                    Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg")  ;
+
 
                 //Loading a picture for the second dish
-            Log.wtf("mytag", Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg");
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView6);
 
                 //Loading a picture for the third dish
@@ -485,15 +490,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
             ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
                         Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key1).child("Rating").push().setValue(rating);}
+                        mDatabase.child(key1).child("Rating").push().setValue(rating);
+                        ratingBar1.setIsIndicator(true);
+                        if (textVotes1.getText().equals("")) textVotes1.setText("1 vote");
+                    }
                 }
             });
-            mDatabase.child(key1).child("Rating").addValueEventListener(new ValueEventListener() {
+            mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -504,6 +513,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             count = count + 1;
                         }
                         ratingBar1.setRating(total/count);
+                        String votes;
+                        if (count == 1) votes = " vote"; else votes = " votes";
+                        textVotes1.setText(String.valueOf(count) + votes);
                     }
                 }
                 @Override
@@ -516,10 +528,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
                         Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key2).child("Rating").push().setValue(rating);}
+                        mDatabase.child(key2).child("Rating").push().setValue(rating);
+                        ratingBar2.setIsIndicator(true);
+                        if (textVotes2.getText().equals("")) textVotes2.setText("1 vote");
+                    }
                 }
             });
-            mDatabase.child(key2).child("Rating").addValueEventListener(new ValueEventListener() {
+            mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -530,6 +545,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             count = count + 1;
                         }
                         ratingBar2.setRating(total/count);
+                        String votes;
+                        if (count == 1) votes = " vote"; else votes = " votes";
+                        textVotes2.setText(String.valueOf(count) + votes);
                     }
                 }
                 @Override
@@ -542,10 +560,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
                         Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key3).child("Rating").push().setValue(rating);}
+                        mDatabase.child(key3).child("Rating").push().setValue(rating);
+                        ratingBar3.setIsIndicator(true);
+                        if (textVotes3.getText().equals("")) textVotes3.setText("1 vote");
+                    }
                 }
             });
-            mDatabase.child(key3).child("Rating").addValueEventListener(new ValueEventListener() {
+            mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -556,6 +577,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             count = count + 1;
                         }
                         ratingBar3.setRating(total/count);
+                        String votes;
+                        if (count == 1) votes = " vote"; else votes = " votes";
+                        textVotes3.setText(String.valueOf(count) + votes);
                     }
                 }
                 @Override
@@ -568,11 +592,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
                         Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key4).child("Rating").push().setValue(rating);}
+                        mDatabase.child(key4).child("Rating").push().setValue(rating);
+                        ratingBar4.setIsIndicator(true);
+                        if (textVotes4.getText().equals("")) textVotes4.setText("1 vote");
+                    }
                 }
             });
-            Log.wtf("mytag","LISTENER " + searchtext8);
-            mDatabase.child(key4).child("Rating").addValueEventListener(new ValueEventListener() {
+            mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -583,6 +609,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             count = count + 1;
                         }
                         ratingBar4.setRating(total/count);
+                        String votes;
+                        if (count == 1) votes = " vote"; else votes = " votes";
+                        textVotes4.setText(String.valueOf(count) + votes);
                     }
                 }
                 @Override
