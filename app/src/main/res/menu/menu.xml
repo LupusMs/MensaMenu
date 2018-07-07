@@ -12,7 +12,7 @@
                 />
     <item
         android:id="@+id/uploadPhoto"
-        android:icon="@drawable/ic_camera_enhance_black_18dp"
+        android:icon="@drawable/cam"
         android:title="@string/add_photo"
         app:showAsAction="ifRoom" />
 

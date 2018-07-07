@@ -227,7 +227,9 @@
         android:fontFamily="@font/puritan_italic"
         android:text="Loading..."
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="#FFC100"
+        android:textStyle="bold"/>
 
     <RatingBar
         android:id="@+id/ratingBar1"
@@ -266,16 +268,14 @@
 
     <ImageView
         android:id="@+id/today_btn"
-        android:layout_width="42dp"
-        android:layout_height="19dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/leftarrow"
         android:clickable="true"
         android:orientation="horizontal"
         app:layout_constraintEnd_toStartOf="@+id/textViewDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/ratingBar3"
@@ -321,20 +321,14 @@
 
     <ImageView
         android:id="@+id/tomorrow_btn"
-        android:layout_width="42dp"
-        android:layout_height="19dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rightarrow"
         android:clickable="true"
         android:orientation="horizontal"
-        android:rotation="180"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/ratingBar2"
