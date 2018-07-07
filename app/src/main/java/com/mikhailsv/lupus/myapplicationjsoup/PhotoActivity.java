@@ -36,12 +36,14 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private Button photoBtn2;
     private Button photoBtn3;
     private Button photoBtn4;
+    private Button photoBtn5;
     File photoFile;
 
     private TextView textView1;
     private TextView textView2;
     private TextView textView3;
     private TextView textView4;
+    private TextView textView5;
     private String params[];
     private String imageFileName;
     private ProgressBar progressBar;
@@ -49,20 +51,22 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private com.wang.avi.AVLoadingIndicatorView indicator2;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+        getSupportActionBar().setTitle("Photo Upload");
 
         photoBtn1 = findViewById(R.id.photoBtn1);
         photoBtn2 = findViewById(R.id.photoBtn2);
         photoBtn3 = findViewById(R.id.photoBtn3);
         photoBtn4 = findViewById(R.id.photoBtn4);
+        photoBtn5 = findViewById(R.id.photoBtn5);
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
+        textView5 = findViewById(R.id.textView5);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         textViewWait = findViewById(R.id.textViewWait);
@@ -72,6 +76,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         photoBtn2.setOnClickListener(this);
         photoBtn3.setOnClickListener(this);
         photoBtn4.setOnClickListener(this);
+        photoBtn5.setOnClickListener(this);
         params = new String[2];
 
 
@@ -82,10 +87,13 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView2.setText(sharedPref.getString("dish22",""));
         textView3.setText(sharedPref.getString("dish33",""));
         textView4.setText(sharedPref.getString("dish44",""));
+        textView5.setText(sharedPref.getString("dish55",""));
 
         //Hiding photo buttons if there is no text in dish name
+        if (textView2.getText().equals("")) photoBtn2.setVisibility(View.INVISIBLE);
         if (textView3.getText().equals("")) photoBtn3.setVisibility(View.INVISIBLE);
         if (textView4.getText().equals("")) photoBtn4.setVisibility(View.INVISIBLE);
+        if (textView5.getText().equals("")) photoBtn5.setVisibility(View.INVISIBLE);
 
 
     }
@@ -100,30 +108,28 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 params[1] = textView1.getText().toString();
                 imageFileName = sharedPref.getString("dish1","default");
                 textView1.setTextColor(Color.GREEN);
-
              break;
             case R.id.photoBtn2:
                 params[1] = textView2.getText().toString();
                 imageFileName = sharedPref.getString("dish2","default");
                 textView2.setTextColor(Color.GREEN);
-
             break;
 
             case R.id.photoBtn3:
                 params[1] = textView3.getText().toString();
                 imageFileName = sharedPref.getString("dish3","default");
                 textView3.setTextColor(Color.GREEN);
-
             break;
             case R.id.photoBtn4:
                 params[1] = textView4.getText().toString();
                 imageFileName = sharedPref.getString("dish4","default");
                 textView4.setTextColor(Color.GREEN);
-
              break;
-
-
-
+            case R.id.photoBtn5:
+                params[1] = textView5.getText().toString();
+                imageFileName = sharedPref.getString("dish5","default");
+                textView5.setTextColor(Color.GREEN);
+            break;
         }
         if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -227,7 +233,6 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
                             // your code here
-                            Log.wtf("mytag", "callback success");
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
@@ -241,13 +246,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                         }})
                     .dispatch();
 
-
-
             return null;
         }
-
-
-
     }
 
 }
