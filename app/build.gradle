@@ -6,9 +6,9 @@ android {
         applicationId "com.mikhailsv.lupus.myapplicationjsoup"
         minSdkVersion 22
         targetSdkVersion 26
-        versionName '1.6'
+        versionName '1.7'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 6
+        versionCode 7
     }
     buildTypes {
         release {
