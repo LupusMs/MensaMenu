@@ -2,18 +2,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="saveourcar.soc.MainActivity">
-            <item
+    <group app:showAsAction="always" >
+        <item
+            android:id="@+id/enBtn"
+            android:icon="@drawable/us"
+            android:title="English"
+            app:showAsAction="always"
+            />
+        <item
+            android:id="@+id/deBtn"
+            android:icon="@drawable/de"
+            android:title="Item"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/uploadPhoto"
+            android:icon="@drawable/cam"
+            android:title="@string/add_photo"
+            app:showAsAction="always" />
+    </group>
+    <item
                 android:id="@+id/mensa"
                 android:title="@string/haw_mensa"
                 />
-            <item
+    <item
                 android:id="@+id/cafe"
                 android:title="@string/haw_cafe"
                 />
-    <item
-        android:id="@+id/uploadPhoto"
-        android:icon="@drawable/cam"
-        android:title="@string/add_photo"
-        app:showAsAction="ifRoom" />
 
 </menu>

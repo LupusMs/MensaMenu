@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -55,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageView imageView5;
     private ImageView tomorrow_btn;
     private ImageView today_btn;
-    public Button buttonEn;
-    public Button buttonDe;
     private RatingBar ratingBar1;
     private RatingBar ratingBar2;
     private RatingBar ratingBar3;
@@ -127,6 +124,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.uploadPhoto:
                 Intent photoIntent = new Intent(this, PhotoActivity.class);
                 startActivity(photoIntent);
+                return true;
+            case R.id.deBtn:
+                sharedPref = getPreferences(MODE_PRIVATE);
+                editor = sharedPref.edit();
+                editor.putString("language", Consts.LANGUAGE_DE);
+                editor.commit();
+                recreate();
+                return true;
+            case R.id.enBtn:
+                sharedPref = getPreferences(MODE_PRIVATE);
+                editor = sharedPref.edit();
+                editor.putString("language", Consts.LANGUAGE_EN);
+                editor.commit();
+                recreate();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -159,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView3 = findViewById(R.id.imageView3);
         imageView4 = findViewById(R.id.imageView4);
         imageView5 = findViewById(R.id.imageView5);
-        buttonDe = findViewById(R.id.buttonDe);
-        buttonEn = findViewById(R.id.buttonEn);
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         ratingBar1 = findViewById(R.id.ratingBar1);
@@ -179,8 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textVotes4 = findViewById(R.id.textVotes4);
         textVotes5 = findViewById(R.id.textVotes5);
 
-        buttonDe.setOnClickListener(this);
-        buttonEn.setOnClickListener(this);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
 
@@ -247,20 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         SharedPreferences.Editor editor;
         switch (view.getId()) {
-            case R.id.buttonDe:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("language", Consts.LANGUAGE_DE);
-                editor.commit();
-                recreate();
-                break;
-            case R.id.buttonEn:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("language", Consts.LANGUAGE_EN);
-                editor.commit();
-                recreate();
-                break;
+
             case R.id.tomorrow_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();

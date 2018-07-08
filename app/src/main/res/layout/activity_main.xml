@@ -222,14 +222,15 @@
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/puritan_italic"
         android:text="Loading..."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:textColor="#FFC100"
-        android:textStyle="bold"/>
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
         android:id="@+id/ratingBar1"
@@ -245,36 +246,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dishDescription1" />
 
-    <Button
-        android:id="@+id/buttonEn"
-        android:layout_width="52dp"
-        android:layout_height="30dp"
-        android:background="@drawable/us"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonDe"
-        android:layout_width="52dp"
-        android:layout_height="30dp"
-        android:background="@drawable/de"
-        android:textColor="@android:color/background_light"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/buttonEn"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/today_btn"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/leftarrow"
         android:clickable="true"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toStartOf="@+id/textViewDate"
+        app:layout_constraintStart_toEndOf="@+id/textViewDate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
@@ -321,9 +302,9 @@
 
     <ImageView
         android:id="@+id/tomorrow_btn"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/rightarrow"
         android:clickable="true"
         android:orientation="horizontal"
