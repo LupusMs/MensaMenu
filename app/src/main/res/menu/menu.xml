@@ -28,5 +28,8 @@
                 android:id="@+id/cafe"
                 android:title="@string/haw_cafe"
                 />
+    <item
+        android:id="@+id/feedback"
+        android:title="App Feedback" />
 
 </menu>

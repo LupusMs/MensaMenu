@@ -139,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.commit();
                 recreate();
                 return true;
+            case R.id.feedback:
+                startActivity(new Intent(this, Feedback.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -197,6 +200,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language = sharedPref.getString("language", Consts.LANGUAGE_DE);
         day = sharedPref.getString("day", Consts.DAY_TODAY);
         cafeMensa = sharedPref.getString("cafeMensa", Consts.MENSA_URL);
+        if (cafeMensa.equals(Consts.MENSA_URL))
+            getSupportActionBar().setTitle("HAW Mensa");
+        else
+            getSupportActionBar().setTitle("HAW Cafe");
         myurl = Consts.MENU_URL + language + cafeMensa + day;
 
         //Hiding navigation arrow
