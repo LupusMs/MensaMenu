@@ -17,9 +17,11 @@
         android:id="@+id/textPrice1"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView1"
         app:layout_constraintStart_toEndOf="@+id/dishDescription1"
         app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
 
@@ -27,9 +29,11 @@
         android:id="@+id/textPrice2"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/dishDescription2"
         app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
@@ -37,9 +41,11 @@
         android:id="@+id/textPrice3"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
         app:layout_constraintStart_toEndOf="@+id/dishDescription3"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
@@ -47,9 +53,11 @@
         android:id="@+id/textPrice4"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintStart_toEndOf="@+id/dishDescription4"
         app:layout_constraintTop_toTopOf="@+id/imageView4" />
 
@@ -57,9 +65,11 @@
         android:id="@+id/textPrice5"
         android:layout_width="30dp"
         android:layout_height="28dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:textSize="10sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
         app:layout_constraintStart_toEndOf="@+id/dishDescription5"
         app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
