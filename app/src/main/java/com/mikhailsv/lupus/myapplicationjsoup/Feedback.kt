@@ -1,5 +1,6 @@
 package com.mikhailsv.lupus.myapplicationjsoup
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -17,6 +18,8 @@ class Feedback : AppCompatActivity() {
     fun btnSendClick(view: View) {
         val mDatabase = FirebaseDatabase.getInstance().reference
         mDatabase.child("feedback").child("feedback").push().setValue(feedbackText.text.toString())
+        intent = Intent(applicationContext, MainActivity::class.java)
+        startActivity(intent)
     }
-    //TODO Add intent to the main activity after feedback is sent
+
 }
