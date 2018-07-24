@@ -266,7 +266,8 @@
         android:clickable="true"
         android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true" />
 
     <RatingBar
         android:id="@+id/ratingBar3"
@@ -319,7 +320,8 @@
         android:clickable="true"
         android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@+id/textViewDate"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true" />
 
     <RatingBar
         android:id="@+id/ratingBar2"
@@ -422,7 +424,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageView4Huge"

@@ -31,13 +31,13 @@ import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
 
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
-    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private Button photoBtn1;
     private Button photoBtn2;
     private Button photoBtn3;
     private Button photoBtn4;
     private Button photoBtn5;
-    File photoFile;
+    private File photoFile;
 
     private TextView textView1;
     private TextView textView2;
@@ -157,7 +157,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
                 //File to upload to cloudinary
      MyUploader uploader = new MyUploader(getApplicationContext());
-     params[0] = photoFile.getAbsolutePath().toString();
+     params[0] = photoFile.getAbsolutePath();
      //TO-DO Scaling the photo
         textViewWait.setVisibility(View.VISIBLE);
         indicator2.setVisibility(View.VISIBLE);
@@ -196,7 +196,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
-        public MyUploader(final Context context) {
+        MyUploader(final Context context) {
             mContext = context;
 
 

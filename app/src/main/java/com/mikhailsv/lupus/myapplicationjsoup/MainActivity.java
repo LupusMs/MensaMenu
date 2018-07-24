@@ -31,17 +31,17 @@ import java.io.IOException;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public TextView textView1;
-    public TextView textView2;
-    public TextView textView3;
-    public TextView textView4;
-    public TextView textView5;
-    public TextView dishDescription1;
-    public TextView dishDescription2;
-    public TextView dishDescription3;
-    public TextView dishDescription4;
-    public TextView dishDescription5;
-    public TextView textViewDate;
+    private TextView textView1;
+    private TextView textView2;
+    private TextView textView3;
+    private TextView textView4;
+    private TextView textView5;
+    private TextView dishDescription1;
+    private TextView dishDescription2;
+    private TextView dishDescription3;
+    private TextView dishDescription4;
+    private TextView dishDescription5;
+    private TextView textViewDate;
     private TextView textPrice1;
     private TextView textPrice2;
     private TextView textPrice3;
@@ -71,13 +71,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textVotes4;
     private TextView textVotes5;
     int i;
-    String myurl;
-    String language;
-    String day;
-    String cafeMensa;
+    private String myurl;
+    private String language;
+    private String day;
+    private String cafeMensa;
     String updateAlert;
-    int[] increment = {0, 0, 0, 0};
-    SharedPreferences sharedPref;
+    private final int[] increment = {0, 0, 0, 0};
+    private SharedPreferences sharedPref;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -769,7 +769,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Method increasing the votes number when user taps on the rating bar
      * @param textView
      * */
-    public void votesUpdate(TextView textView)
+    private void votesUpdate(TextView textView)
     {
        String[] votes = textView.getText().toString().split(" ");
        int votesInt = Integer.valueOf(votes[0]);

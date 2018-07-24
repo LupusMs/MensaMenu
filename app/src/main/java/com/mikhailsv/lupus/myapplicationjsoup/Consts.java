@@ -1,6 +1,6 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
-public final class Consts {
+final class Consts {
     public static final String MENU_URL = "http://speiseplan.studierendenwerk-hamburg.de/";
     public static final String CLOUDINARY_URL = "https://res.cloudinary.com/hawmenu/image/upload/";
     public static final String LANGUAGE_EN = "en";

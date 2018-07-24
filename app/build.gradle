@@ -5,7 +5,7 @@ android {
     defaultConfig {
         applicationId "com.mikhailsv.lupus.myapplicationjsoup"
         minSdkVersion 22
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionName '1.8'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         versionCode 8
@@ -30,7 +30,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.cloudinary:cloudinary-android:1.24.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
