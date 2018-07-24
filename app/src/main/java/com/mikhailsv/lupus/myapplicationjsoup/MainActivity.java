@@ -47,11 +47,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textPrice3;
     private TextView textPrice4;
     private TextView textPrice5;
-    public ImageView imageView1;
-    public ImageView imageView2;
-    public ImageView imageView3;
-    public ImageView imageView4;
-    public ImageView imageView5;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private ImageView imageView3;
+    private ImageView imageView4;
+    private ImageView imageView5;
+    private ImageView imageView1Huge;
+    private ImageView imageView2Huge;
+    private ImageView imageView3Huge;
+    private ImageView imageView4Huge;
+    private ImageView imageView5Huge;
     private ImageView tomorrow_btn;
     private ImageView today_btn;
     private RatingBar ratingBar1;
@@ -174,6 +179,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView3 = findViewById(R.id.imageView3);
         imageView4 = findViewById(R.id.imageView4);
         imageView5 = findViewById(R.id.imageView5);
+        imageView1Huge = findViewById(R.id.imageView1Huge);
+        imageView2Huge = findViewById(R.id.imageView2Huge);
+        imageView3Huge = findViewById(R.id.imageView3Huge);
+        imageView4Huge = findViewById(R.id.imageView4Huge);
+        imageView5Huge = findViewById(R.id.imageView5Huge);
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         ratingBar1 = findViewById(R.id.ratingBar1);
@@ -194,6 +204,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
+        imageView1.setOnClickListener(this);
+        imageView2.setOnClickListener(this);
+        imageView3.setOnClickListener(this);
+        imageView4.setOnClickListener(this);
+        imageView5.setOnClickListener(this);
+        imageView1Huge.setOnClickListener(this);
+        imageView2Huge.setOnClickListener(this);
+        imageView3Huge.setOnClickListener(this);
+        imageView4Huge.setOnClickListener(this);
+        imageView5Huge.setOnClickListener(this);
 
         //Default url for Mensa menu
         sharedPref = getPreferences(MODE_PRIVATE);
@@ -262,7 +282,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         SharedPreferences.Editor editor;
         switch (view.getId()) {
-
             case R.id.tomorrow_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
@@ -280,6 +299,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = getIntent();
                 finish();
                 startActivity(intent);
+                break;
+            case R.id.imageView1:
+                imageView1Huge.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imageView2:
+                imageView2Huge.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imageView3:
+                imageView3Huge.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imageView4:
+                imageView4Huge.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imageView5:
+                imageView5Huge.setVisibility(View.VISIBLE);
+                break;
+            case R.id.imageView1Huge:
+                imageView1Huge.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.imageView2Huge:
+                imageView2Huge.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.imageView3Huge:
+                imageView3Huge.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.imageView4Huge:
+                imageView4Huge.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.imageView5Huge:
+                imageView5Huge.setVisibility(View.INVISIBLE);
                 break;
         }
     }
@@ -516,17 +565,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Setting images using Picasso library
                 //Loading a picture for the first dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1);
-
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1Huge);
 
                 //Loading a picture for the second dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2Huge);
 
                 //Loading a picture for the third dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3Huge);
                 //Loading a picture for the fourth dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4Huge);
                 //Loading a picture for the fifth dish
                 Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5);
+                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5Huge);
 
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();

@@ -11,11 +11,12 @@ class Feedback : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
-        supportActionBar!!.title = "App Feedback"
+        supportActionBar?.title = "App Feedback"
     }
 
     fun btnSendClick(view: View) {
-        val mDatabase = FirebaseDatabase.getInstance().getReference()
+        val mDatabase = FirebaseDatabase.getInstance().reference
         mDatabase.child("feedback").child("feedback").push().setValue(feedbackText.text.toString())
     }
+    //TODO Add intent to the main activity after feedback is sent
 }
