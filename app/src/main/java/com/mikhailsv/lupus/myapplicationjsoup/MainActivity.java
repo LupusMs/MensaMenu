@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int[] increment = {0, 0, 0, 0};
     private SharedPreferences sharedPref;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -90,6 +92,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Selecting between Mensa and Cafe menus
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        dishDescription1.setText(null);
+        dishDescription2.setText(null);
+        dishDescription3.setText(null);
+        dishDescription4.setText(null);
+        dishDescription5.setText(null);
+        textView1.setText(null);
+        textView2.setText(null);
+        textView3.setText(null);
+        textView4.setText(null);
+        textView5.setText(null);
+        textPrice1.setText(null);
+        textPrice2.setText(null);
+        textPrice3.setText(null);
+        textPrice4.setText(null);
+        textPrice5.setText(null);
+        textVotes1.setText(null);
+        textVotes2.setText(null);
+        textVotes3.setText(null);
+        textVotes4.setText(null);
+        textVotes5.setText(null);
 
         // Handle item selection
         switch (item.getItemId()) {
@@ -104,14 +126,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     today_btn.setVisibility(View.GONE);
                 else
                     tomorrow_btn.setVisibility(View.GONE);
-
                 editor.putString("cafeMensa", Consts.MENSA_URL);
-                editor.commit();
                 cafeMensa = Consts.MENSA_URL;
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("myurl", myurl);
-                startActivity(intent);
+                editor.putString("URL", myurl);
+                editor.commit();
+                MyParser mp = new MyParser();
+                mp.execute(increment);
+                getSupportActionBar().setTitle("HAW Mensa");
                 return true;
             case R.id.cafe:
                 sharedPref = getPreferences(MODE_PRIVATE);
@@ -119,12 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 language = sharedPref.getString("language", Consts.LANGUAGE_DE);
                 day = sharedPref.getString("day", Consts.DAY_TODAY);
                 editor.putString("cafeMensa", Consts.CAFE_URL);
-                editor.commit();
                 cafeMensa = Consts.CAFE_URL;
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
-                intent = new Intent(this, MainActivity.class);
-                intent.putExtra("myurl", myurl);
-                startActivity(intent);
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp = new MyParser();
+                mp.execute(increment);
+                getSupportActionBar().setTitle("HAW Cafe");
                 return true;
             case R.id.uploadPhoto:
                 Intent photoIntent = new Intent(this, PhotoActivity.class);
@@ -260,15 +283,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.commit();
         }*/
 
-
-        //Getting url from onOptionsItemSelected
-        try {
-            Intent intent = getIntent();
-            myurl = intent.getExtras().getString("myurl", Consts.MENU_URL + language + cafeMensa + day);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         MyParser mp = new MyParser();
         mp.execute(increment);
 
@@ -364,9 +378,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int[] increment = param[0];
             Document doc = null;
             Document pic = null;
+
+
             try {
-                Intent intent = getIntent();
-                myurl = intent.getExtras().getString("myurl", myurl);
+                //Intent intent = getIntent();
+                //myurl = intent.getExtras().getString("myurl", myurl);
+                myurl = sharedPref.getString("URL", myurl);
+                Log.wtf("mytag", "URL " + myurl);
                 //Adjusting myurl
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
@@ -623,9 +641,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+            ratingBar2.setVisibility(View.VISIBLE);
             try{
                 textDish2.text();} catch (Exception e){
-                ratingBar2.setVisibility(View.INVISIBLE);}
+                ratingBar2.setVisibility(View.INVISIBLE); }
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -657,6 +676,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+            ratingBar3.setVisibility(View.VISIBLE);
             try{
                 textDish3.text();} catch (Exception e){
             ratingBar3.setVisibility(View.INVISIBLE);}
@@ -691,6 +711,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+            ratingBar4.setVisibility(View.VISIBLE);
             try{
                 textDish4.text();} catch (Exception e){
                 ratingBar4.setVisibility(View.INVISIBLE);}
@@ -725,6 +746,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) { }
             });
+            ratingBar5.setVisibility(View.VISIBLE);
             try{
                 textDish5.text();} catch (Exception e){
                 ratingBar5.setVisibility(View.INVISIBLE);}
@@ -767,7 +789,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Method increasing the votes number when user taps on the rating bar
-     * @param textView
+     * @param textView TextView with number of votes for the current dish
      * */
     private void votesUpdate(TextView textView)
     {
