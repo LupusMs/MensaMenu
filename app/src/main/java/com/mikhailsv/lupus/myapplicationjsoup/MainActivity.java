@@ -1,11 +1,12 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String day;
     private String cafeMensa;
     String updateAlert;
+    //increment was used for functionality that has been cut off. I left it here for future purposes
     private final int[] increment = {0, 0, 0, 0};
     private SharedPreferences sharedPref;
 
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     today_btn.setVisibility(View.GONE);
                 else
                     tomorrow_btn.setVisibility(View.GONE);
+
                 editor.putString("cafeMensa", Consts.MENSA_URL);
                 cafeMensa = Consts.MENSA_URL;
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
@@ -158,14 +161,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor = sharedPref.edit();
                 editor.putString("language", Consts.LANGUAGE_DE);
                 editor.commit();
-                recreate();
+                mp = new MyParser();
+                mp.execute(increment);
                 return true;
             case R.id.enBtn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
                 editor.putString("language", Consts.LANGUAGE_EN);
                 editor.commit();
-                recreate();
+                mp = new MyParser();
+                mp.execute(increment);
                 return true;
             case R.id.feedback:
                 startActivity(new Intent(this, Feedback.class));
@@ -299,18 +304,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor = sharedPref.edit();
                 editor.putString("day", Consts.DAY_TOMORROW);
                 editor.commit();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                tomorrow_btn.setVisibility(View.GONE);
+                today_btn.setVisibility(View.VISIBLE);
+                MyParser mp = new MyParser();
+                mp.execute(increment);
                 break;
             case R.id.today_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
                 editor = sharedPref.edit();
                 editor.putString("day", Consts.DAY_TODAY);
                 editor.commit();
-                intent = getIntent();
-                finish();
-                startActivity(intent);
+                today_btn.setVisibility(View.GONE);
+                tomorrow_btn.setVisibility(View.VISIBLE);
+                mp = new MyParser();
+                mp.execute(increment);
                 break;
             case R.id.imageView1:
                 imageView1Huge.setVisibility(View.VISIBLE);
@@ -376,12 +383,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Document doc = null;
             Document pic = null;
 
+            textVotes1.setText("");
+            textVotes2.setText("");
+            textVotes3.setText("");
+            textVotes4.setText("");
+            textVotes5.setText("");
+
 
             try {
                 //Intent intent = getIntent();
                 //myurl = intent.getExtras().getString("myurl", myurl);
                 myurl = sharedPref.getString("URL", myurl);
-                Log.wtf("mytag", "URL " + myurl);
+                day = sharedPref.getString("day", Consts.DAY_TODAY);
+                language = sharedPref.getString("language",Consts.LANGUAGE_DE );
                 //Adjusting myurl
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
                 myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
@@ -395,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 doc = Jsoup.connect(myurl).get();
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
             if (doc != null) {
 
@@ -434,7 +448,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     textDate = doc.select(".category").get(0);
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 try {
                     price1 = doc.select("td.price").get(0);
@@ -532,49 +545,97 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (text1 != null) {
                 textView1.setText(text1.text());
             }
+            else
+                textView1.setText("");
             if (text2 != null) {
                 textView2.setText(text2.text());
             }
+            else
+                textView2.setText("");
             if (text3 != null) {
                 textView3.setText(text3.text());
             }
+            else
+                textView3.setText("");
             if (text4 != null) {
                 textView4.setText(text4.text());
             }
+            else
+                textView4.setText("");
             if (text5 != null) {
                 textView5.setText(text5.text());
             }
+            else
+                textView5.setText("");
             if (price1 != null) {
                 textPrice1.setText(price1.text());
             }
+            else
+                textPrice1.setText("");
             if (price2 != null) {
                 textPrice2.setText(price2.text());
             }
+            else
+                textPrice2.setText("");
             if (price3 != null) {
                 textPrice3.setText(price3.text());
             }
+            else
+                textPrice3.setText("");
             if (price4 != null) {
                 textPrice4.setText(price4.text());
             }
+            else
+                textPrice4.setText("");
             if (price5 != null) {
                 textPrice5.setText(price5.text());
             }
+            else
+                textPrice5.setText("");
             if (displaytextDish1 != null) {
                 dishDescription1.setText(displaytextDish1);
-            }
+            } else
+                dishDescription1.setText("");
             if (displaytextDish2 != null) {
                 dishDescription2.setText(displaytextDish2);
             }
+            else
+                dishDescription2.setText("");
             if (displaytextDish3 != null) {
                 dishDescription3.setText(displaytextDish3);
             }
+            else
+                dishDescription3.setText("");
             if (displaytextDish4 != null) {
                 dishDescription4.setText(displaytextDish4);
             }
+            else
+                dishDescription4.setText("");
             if (displaytextDish5 != null) {
                 dishDescription5.setText(displaytextDish5);
             }
-            textViewDate.setText(textDate.text());
+            else
+                dishDescription5.setText("");
+            try{ textViewDate.setText(textDate.text());} catch (Exception e) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
+                builder1.setTitle("Mensa is closed");
+                builder1.setMessage("Mensa is closed until 31.08. Please, select HAW Cafe");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+                e.printStackTrace();
+                e.printStackTrace();
+
+            };
 
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             //Setting images using Picasso library

@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     defaultConfig {
         applicationId "com.mikhailsv.lupus.myapplicationjsoup"
         minSdkVersion 22
         targetSdkVersion 27
-        versionName '1.8'
+        versionName '1.9'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 8
+        versionCode 9
     }
     buildTypes {
         release {
