@@ -29,7 +29,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-
+//TODO Images and rating shall not depend on the language selected
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView1;
@@ -290,8 +290,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     @Override
     public void onClick(View view) {
         SharedPreferences.Editor editor;
@@ -370,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String searchtextDish3, displaytextDish3;
         String searchtextDish4, displaytextDish4;
         String searchtextDish5, displaytextDish5;
-
 
 
         @Override
@@ -579,25 +576,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             textViewDate.setText(textDate.text());
 
-                SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
-                //Setting images using Picasso library
-                //Loading a picture for the first dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1);
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1Huge);
+            SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+            //Setting images using Picasso library
+            //Loading a picture for the first dish
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1Huge);
 
-                //Loading a picture for the second dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2);
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2Huge);
+            //Loading a picture for the second dish
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2Huge);
 
-                //Loading a picture for the third dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3);
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3Huge);
-                //Loading a picture for the fourth dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4);
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4Huge);
-                //Loading a picture for the fifth dish
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5);
-                Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5Huge);
+            //Loading a picture for the third dish
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3Huge);
+            //Loading a picture for the fourth dish
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4Huge);
+            //Loading a picture for the fifth dish
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5Huge);
 
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -608,8 +605,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String key5 = sharedPref.getString("dish5", "");
 
 
-
-
+            //making the rating bar invisible if there is no dish for today
+            ratingBar1.setVisibility(View.VISIBLE);
+            try {
+                textDish1.text();
+            } catch (Exception e) {
+                ratingBar1.setVisibility(View.INVISIBLE);
+            }
             ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -618,7 +620,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key1).child("Rating").push().setValue(rating);
                         ratingBar1.setIsIndicator(true);
                         if (textVotes1.getText().equals("")) textVotes1.setText("1 vote");
-                          else votesUpdate(textVotes1);
+                        else votesUpdate(textVotes1);
                     }
                 }
             });
@@ -627,24 +629,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
-                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar1.setRating(total/count);
+                        ratingBar1.setRating(total / count);
                         String votes;
-                        if (count == 1) votes = " vote"; else votes = " votes";
+                        if (count == 1) votes = " vote";
+                        else votes = " votes";
                         textVotes1.setText(String.valueOf(count) + votes);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) { }
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
             ratingBar2.setVisibility(View.VISIBLE);
-            try{
-                textDish2.text();} catch (Exception e){
-                ratingBar2.setVisibility(View.INVISIBLE); }
+            try {
+                textDish2.text();
+            } catch (Exception e) {
+                ratingBar2.setVisibility(View.INVISIBLE);
+            }
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -653,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key2).child("Rating").push().setValue(rating);
                         ratingBar2.setIsIndicator(true);
                         if (textVotes2.getText().equals("")) textVotes2.setText("1 vote");
-                         else votesUpdate(textVotes2);
+                        else votesUpdate(textVotes2);
                     }
                 }
             });
@@ -662,24 +669,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
-                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar2.setRating(total/count);
+                        ratingBar2.setRating(total / count);
                         String votes;
-                        if (count == 1) votes = " vote"; else votes = " votes";
+                        if (count == 1) votes = " vote";
+                        else votes = " votes";
                         textVotes2.setText(String.valueOf(count) + votes);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) { }
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
             ratingBar3.setVisibility(View.VISIBLE);
-            try{
-                textDish3.text();} catch (Exception e){
-            ratingBar3.setVisibility(View.INVISIBLE);}
+            try {
+                textDish3.text();
+            } catch (Exception e) {
+                ratingBar3.setVisibility(View.INVISIBLE);
+            }
             ratingBar3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -688,7 +700,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDatabase.child(key3).child("Rating").push().setValue(rating);
                         ratingBar3.setIsIndicator(true);
                         if (textVotes3.getText().equals("")) textVotes3.setText("1 vote");
-                         else votesUpdate(textVotes3);
+                        else votesUpdate(textVotes3);
                     }
                 }
             });
@@ -697,24 +709,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
-                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar3.setRating(total/count);
+                        ratingBar3.setRating(total / count);
                         String votes;
-                        if (count == 1) votes = " vote"; else votes = " votes";
+                        if (count == 1) votes = " vote";
+                        else votes = " votes";
                         textVotes3.setText(String.valueOf(count) + votes);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) { }
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
             ratingBar4.setVisibility(View.VISIBLE);
-            try{
-                textDish4.text();} catch (Exception e){
-                ratingBar4.setVisibility(View.INVISIBLE);}
+            try {
+                textDish4.text();
+            } catch (Exception e) {
+                ratingBar4.setVisibility(View.INVISIBLE);
+            }
             ratingBar4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -732,24 +749,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
-                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar4.setRating(total/count);
+                        ratingBar4.setRating(total / count);
                         String votes;
-                        if (count == 1) votes = " vote"; else votes = " votes";
+                        if (count == 1) votes = " vote";
+                        else votes = " votes";
                         textVotes4.setText(String.valueOf(count) + votes);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) { }
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
             ratingBar5.setVisibility(View.VISIBLE);
-            try{
-                textDish5.text();} catch (Exception e){
-                ratingBar5.setVisibility(View.INVISIBLE);}
+            try {
+                textDish5.text();
+            } catch (Exception e) {
+                ratingBar5.setVisibility(View.INVISIBLE);
+            }
             ratingBar5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -767,19 +789,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
-                        for (DataSnapshot child: dataSnapshot.getChildren()) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar5.setRating(total/count);
+                        ratingBar5.setRating(total / count);
                         String votes;
-                        if (count == 1) votes = " vote"; else votes = " votes";
+                        if (count == 1) votes = " vote";
+                        else votes = " votes";
                         textVotes5.setText(String.valueOf(count) + votes);
                     }
                 }
+
                 @Override
-                public void onCancelled(DatabaseError databaseError) { }
+                public void onCancelled(DatabaseError databaseError) {
+                }
             });
 
         }
@@ -789,14 +814,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * Method increasing the votes number when user taps on the rating bar
+     *
      * @param textView TextView with number of votes for the current dish
-     * */
-    private void votesUpdate(TextView textView)
-    {
-       String[] votes = textView.getText().toString().split(" ");
-       int votesInt = Integer.valueOf(votes[0]);
-       votesInt++;
-       textView.setText("" + votesInt + " votes");
+     */
+    private void votesUpdate(TextView textView) {
+        String[] votes = textView.getText().toString().split(" ");
+        int votesInt = Integer.valueOf(votes[0]);
+        votesInt++;
+        textView.setText("" + votesInt + " votes");
     }
 
 

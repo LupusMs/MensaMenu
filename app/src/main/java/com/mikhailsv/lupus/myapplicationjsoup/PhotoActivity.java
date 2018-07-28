@@ -22,7 +22,6 @@ import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,11 +133,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
             photoFile = null;
-            try {
-                 photoFile = createImageFile(imageFileName + "al");
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-            }
+            photoFile = createImageFile(imageFileName + "al");
             if (photoFile != null) {
                 takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                         Uri.fromFile(photoFile));
@@ -169,7 +164,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-    private File createImageFile(String imageStoreName) throws IOException {
+    private File createImageFile(String imageStoreName) {
         // Create an image file name
 
         File storageDir = Environment.getExternalStoragePublicDirectory(
