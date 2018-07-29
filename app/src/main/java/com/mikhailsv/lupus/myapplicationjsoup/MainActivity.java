@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +31,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-//TODO Images and rating shall not depend on the language selected
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView1;
@@ -376,6 +377,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String searchtextDish4, displaytextDish4;
         String searchtextDish5, displaytextDish5;
 
+        /**
+         * Loading an image from web to an ImageView using Picasso
+         * @param url url address of image
+         * @param imageViewSmall thumb ImageView
+         * @param imageViewBig full size ImageView
+         */
+        public void loadImg(String url, ImageView imageViewSmall, ImageView imageViewBig)
+        {
+            Log.wtf("mytag", "loadIMG");
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewBig);
+
+        }
+
 
         @Override
         protected Void doInBackground(int[]... param) {
@@ -640,23 +655,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             //Setting images using Picasso library
             //Loading a picture for the first dish
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1);
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish1", "") + "al.jpg").memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageView1Huge);
-
+            loadImg(searchtextDish1 + "al.jpg", imageView1 , imageView1Huge );
             //Loading a picture for the second dish
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2);
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish2", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView2Huge);
-
+            loadImg(searchtextDish2 + "al.jpg", imageView2 , imageView2Huge );
             //Loading a picture for the third dish
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3);
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish3", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView3Huge);
+            loadImg(searchtextDish3 + "al.jpg", imageView3 , imageView3Huge );
             //Loading a picture for the fourth dish
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4);
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish4", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView4Huge);
+            loadImg(searchtextDish4 + "al.jpg", imageView4 , imageView4Huge );
             //Loading a picture for the fifth dish
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5);
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + sharedPref.getString("dish5", "") + "al.jpg").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).into(imageView5Huge);
-
+            loadImg(searchtextDish5 + "al.jpg", imageView5 , imageView5Huge );
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();
             final String key1 = sharedPref.getString("dish1", "");
