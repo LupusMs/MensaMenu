@@ -1,5 +1,6 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //Selecting between Mensa and Cafe menus
+    @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         dishDescription1.setText(null);
@@ -296,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @SuppressLint("ApplySharedPref")
     @Override
     public void onClick(View view) {
         SharedPreferences.Editor editor;
@@ -392,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+        @SuppressLint("ApplySharedPref")
         @Override
         protected Void doInBackground(int[]... param) {
             int[] increment = param[0];

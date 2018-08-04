@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +31,7 @@
 
         <activity
             android:name=".PhotoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="landscape" />
         <activity android:name=".Feedback"></activity>
     </application>
 
