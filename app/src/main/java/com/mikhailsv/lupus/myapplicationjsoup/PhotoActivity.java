@@ -3,6 +3,9 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,11 +34,17 @@ import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
 
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int ACTIVITY_SELECT_IMAGE = 2;
     private Button photoBtn1;
     private Button photoBtn2;
     private Button photoBtn3;
     private Button photoBtn4;
     private Button photoBtn5;
+    private Button btnUploadFrom1;
+    private Button btnUploadFrom2;
+    private Button btnUploadFrom3;
+    private Button btnUploadFrom4;
+    private Button btnUploadFrom5;
     private File photoFile;
 
     private TextView textView1;
@@ -61,6 +70,11 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         photoBtn3 = findViewById(R.id.photoBtn3);
         photoBtn4 = findViewById(R.id.photoBtn4);
         photoBtn5 = findViewById(R.id.photoBtn5);
+        btnUploadFrom1 = findViewById(R.id.btnUploadFrom1);
+        btnUploadFrom2 = findViewById(R.id.btnUploadFrom2);
+        btnUploadFrom3 = findViewById(R.id.btnUploadFrom3);
+        btnUploadFrom4 = findViewById(R.id.btnUploadFrom4);
+        btnUploadFrom5 = findViewById(R.id.btnUploadFrom5);
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
@@ -76,9 +90,12 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         photoBtn3.setOnClickListener(this);
         photoBtn4.setOnClickListener(this);
         photoBtn5.setOnClickListener(this);
+        btnUploadFrom1.setOnClickListener(this);
+        btnUploadFrom2.setOnClickListener(this);
+        btnUploadFrom3.setOnClickListener(this);
+        btnUploadFrom4.setOnClickListener(this);
+        btnUploadFrom5.setOnClickListener(this);
         params = new String[2];
-
-
 
 
         SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
@@ -99,7 +116,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
 
         switch (view.getId()) {
@@ -107,47 +124,87 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 params[1] = textView1.getText().toString();
                 imageFileName = sharedPref.getString("dish1","default");
                 textView1.setTextColor(Color.GREEN);
+                createPhotoFile(imageFileName);
              break;
             case R.id.photoBtn2:
                 params[1] = textView2.getText().toString();
                 imageFileName = sharedPref.getString("dish2","default");
                 textView2.setTextColor(Color.GREEN);
+                createPhotoFile(imageFileName);
             break;
 
             case R.id.photoBtn3:
                 params[1] = textView3.getText().toString();
                 imageFileName = sharedPref.getString("dish3","default");
                 textView3.setTextColor(Color.GREEN);
+                createPhotoFile(imageFileName);
             break;
             case R.id.photoBtn4:
                 params[1] = textView4.getText().toString();
                 imageFileName = sharedPref.getString("dish4","default");
                 textView4.setTextColor(Color.GREEN);
+                createPhotoFile(imageFileName);
              break;
             case R.id.photoBtn5:
                 params[1] = textView5.getText().toString();
                 imageFileName = sharedPref.getString("dish5","default");
                 textView5.setTextColor(Color.GREEN);
+                createPhotoFile(imageFileName);
+            break;
+            case R.id.btnUploadFrom1:
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+
             break;
         }
-        if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            photoFile = null;
-            photoFile = createImageFile(imageFileName + "al");
-            if (photoFile != null) {
-                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(photoFile));
-                startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
-            }
 
-        }
 
     }
+
+   public void createPhotoFile(String imageFileName)
+   {
+       Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
+       if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
+
+           // Create the File where the photo should go
+           photoFile = null;
+           photoFile = createImageFile(imageFileName + "al");
+           if (photoFile != null) {
+               takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                       Uri.fromFile(photoFile));
+               startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
+           }
+       }
+
+   }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case ACTIVITY_SELECT_IMAGE:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String filePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+
+                    Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
+                    Log.wtf("mytag", "FILEPATH" + filePath);
+
+                }
+        }
 
 
                 //File to upload to cloudinary
