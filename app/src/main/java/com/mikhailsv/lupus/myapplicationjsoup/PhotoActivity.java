@@ -106,10 +106,26 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView5.setText(sharedPref.getString("dish55",""));
 
         //Hiding photo buttons if there is no text in dish name
-        if (textView2.getText().equals("")) photoBtn2.setVisibility(View.INVISIBLE);
-        if (textView3.getText().equals("")) photoBtn3.setVisibility(View.INVISIBLE);
-        if (textView4.getText().equals("")) photoBtn4.setVisibility(View.INVISIBLE);
-        if (textView5.getText().equals("")) photoBtn5.setVisibility(View.INVISIBLE);
+        if (textView2.getText().equals(""))
+        {
+            photoBtn2.setVisibility(View.GONE);
+            btnUploadFrom2.setVisibility(View.GONE);
+        }
+        if (textView3.getText().equals(""))
+        {
+            photoBtn3.setVisibility(View.GONE);
+            btnUploadFrom3.setVisibility(View.GONE);
+        }
+        if (textView4.getText().equals(""))
+        {
+            photoBtn4.setVisibility(View.GONE);
+            btnUploadFrom4.setVisibility(View.GONE);
+        }
+        if (textView5.getText().equals(""))
+        {
+            photoBtn5.setVisibility(View.GONE);
+            btnUploadFrom5.setVisibility(View.GONE);
+        }
 
 
     }
@@ -152,11 +168,29 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                 createPhotoFile(imageFileName);
             break;
             case R.id.btnUploadFrom1:
+                imageFileName = sharedPref.getString("dish1","default");
                 Intent i = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
-
             break;
+            case R.id.btnUploadFrom2:
+                imageFileName = sharedPref.getString("dish2","default");
+                i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+                break;
+            case R.id.btnUploadFrom3:
+                imageFileName = sharedPref.getString("dish3","default");
+                i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+                break;
+            case R.id.btnUploadFrom4:
+                imageFileName = sharedPref.getString("dish4","default");
+                i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, ACTIVITY_SELECT_IMAGE);
+                break;
         }
 
 
@@ -202,14 +236,15 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
                     Log.wtf("mytag", "FILEPATH" + filePath);
-
+                    params[0] = filePath;
                 }
         }
 
 
                 //File to upload to cloudinary
      MyUploader uploader = new MyUploader(getApplicationContext());
-     params[0] = photoFile.getAbsolutePath();
+     if (photoFile!=null)
+         params[0] = photoFile.getAbsolutePath();
      //TO-DO Scaling the photo
         textViewWait.setVisibility(View.VISIBLE);
         indicator2.setVisibility(View.VISIBLE);
@@ -263,7 +298,9 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             //Log.wtf("mytag", "stamp "+ timeStamp);
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             File file = new File(strings[0]);
-            String newFileName = file.getName().replaceAll(".jpg", "");
+            //String newFileName = file.getName().replaceAll(".jpg", "");
+            String newFileName = imageFileName;
+            Log.wtf("mytag", "NEW FIL:E NAME" + newFileName);
 
             String requestId = MediaManager.get().upload(strings[0])
                     .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {

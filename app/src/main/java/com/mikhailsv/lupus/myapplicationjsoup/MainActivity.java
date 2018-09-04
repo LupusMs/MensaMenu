@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //increment was used for functionality that has been cut off. I left it here for future purposes
     private final int[] increment = {0, 0, 0, 0};
     private SharedPreferences sharedPref;
+    private MyParser mp;
 
 
     @Override
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myurl = Consts.MENU_URL + language + cafeMensa + day;
                 editor.putString("URL", myurl);
                 editor.commit();
-                MyParser mp = new MyParser();
+                mp = new MyParser();
                 mp.execute(increment);
                 getSupportActionBar().setTitle("HAW Mensa");
                 return true;
@@ -637,8 +638,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 dishDescription5.setText("");
             try{ textViewDate.setText(textDate.text());} catch (Exception e) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle("Mensa is closed");
-                builder1.setMessage("Mensa is closed until 31.08. Please, select HAW Cafe");
+                builder1.setTitle("Error");
+                builder1.setMessage("Cannot load the menu");
                 builder1.setCancelable(true);
 
                 builder1.setPositiveButton(
@@ -659,15 +660,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             //Setting images using Picasso library
             //Loading a picture for the first dish
-            loadImg(searchtextDish1 + "al.jpg", imageView1 , imageView1Huge );
+            loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge );
             //Loading a picture for the second dish
-            loadImg(searchtextDish2 + "al.jpg", imageView2 , imageView2Huge );
+            loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge );
             //Loading a picture for the third dish
-            loadImg(searchtextDish3 + "al.jpg", imageView3 , imageView3Huge );
+            loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge );
             //Loading a picture for the fourth dish
-            loadImg(searchtextDish4 + "al.jpg", imageView4 , imageView4Huge );
+            loadImg(searchtextDish4 + ".jpg", imageView4 , imageView4Huge );
             //Loading a picture for the fifth dish
-            loadImg(searchtextDish5 + "al.jpg", imageView5 , imageView5Huge );
+            loadImg(searchtextDish5 + ".jpg", imageView5 , imageView5Huge );
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();
             final String key1 = sharedPref.getString("dish1", "");
@@ -896,7 +897,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textView.setText("" + votesInt + " votes");
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mp.cancel(true);
+    }
 }
 
 
