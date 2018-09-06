@@ -745,6 +745,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ratingBar1.setVisibility(View.INVISIBLE);
             }
             ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
@@ -878,6 +879,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {

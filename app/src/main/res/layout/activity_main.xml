@@ -179,7 +179,6 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar5"
             app:layout_constraintStart_toEndOf="@+id/textPrice5"
             app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -189,7 +188,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar4"
             app:layout_constraintStart_toEndOf="@+id/textPrice4"
             app:layout_constraintTop_toBottomOf="@+id/textVotes3" />
@@ -200,7 +198,6 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar3"
             app:layout_constraintStart_toEndOf="@+id/textPrice3"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
@@ -211,7 +208,6 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar2"
             app:layout_constraintStart_toEndOf="@+id/textPrice2"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -222,7 +218,6 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="TODO"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar1"
             app:layout_constraintStart_toEndOf="@+id/textPrice1"
             app:layout_constraintTop_toTopOf="@+id/textView1"
@@ -235,7 +230,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/puritan_italic"
-            android:text="Loading..."
+            android:text="@string/loading"
             android:textColor="#FFC100"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -264,7 +259,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/leftarrow"
             android:clickable="true"
-            android:contentDescription="TODO"
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
@@ -319,7 +313,6 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rightarrow"
             android:clickable="true"
-            android:contentDescription="TODO"
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
@@ -348,7 +341,8 @@
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="@+id/ratingBar1"
             app:layout_constraintStart_toEndOf="@+id/ratingBar1"
-            app:layout_constraintTop_toTopOf="@+id/ratingBar1" />
+            app:layout_constraintTop_toTopOf="@+id/ratingBar1"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/textVotes2"
@@ -358,7 +352,8 @@
             android:layout_marginTop="16dp"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@+id/ratingBar2"
-            app:layout_constraintTop_toBottomOf="@+id/dishDescription2" />
+            app:layout_constraintTop_toBottomOf="@+id/dishDescription2"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/textVotes3"
@@ -368,7 +363,8 @@
             android:layout_marginTop="16dp"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@+id/ratingBar3"
-            app:layout_constraintTop_toBottomOf="@+id/dishDescription3" />
+            app:layout_constraintTop_toBottomOf="@+id/dishDescription3"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/textVotes4"
@@ -378,7 +374,8 @@
             android:layout_marginTop="16dp"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@+id/ratingBar4"
-            app:layout_constraintTop_toBottomOf="@+id/dishDescription4" />
+            app:layout_constraintTop_toBottomOf="@+id/dishDescription4"
+            tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/textVotes5"
@@ -388,7 +385,8 @@
             android:layout_marginTop="16dp"
             android:textSize="8sp"
             app:layout_constraintStart_toEndOf="@+id/ratingBar5"
-            app:layout_constraintTop_toBottomOf="@+id/dishDescription5" />
+            app:layout_constraintTop_toBottomOf="@+id/dishDescription5"
+            tools:ignore="SmallSp" />
 
         <ImageView
             android:id="@+id/imageView1Huge"
@@ -397,7 +395,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="250dp"
-            android:contentDescription="TODO"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -411,7 +408,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="250dp"
-            android:contentDescription="TODO"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -439,7 +435,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="250dp"
-            android:contentDescription="TODO"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -453,7 +448,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="250dp"
-            android:contentDescription="TODO"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

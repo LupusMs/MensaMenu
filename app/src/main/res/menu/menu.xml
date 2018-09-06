@@ -6,13 +6,13 @@
         <item
             android:id="@+id/enBtn"
             android:icon="@drawable/us"
-            android:title="English"
+            android:title="@string/english"
             app:showAsAction="ifRoom"
             />
         <item
             android:id="@+id/deBtn"
             android:icon="@drawable/de"
-            android:title="Item"
+            android:title="@string/item"
             app:showAsAction="ifRoom" />
         <item
             android:id="@+id/uploadPhoto"
@@ -30,6 +30,6 @@
                 />
     <item
         android:id="@+id/feedback"
-        android:title="App Feedback" />
+        android:title="@string/app_feedback" />
 
 </menu>
