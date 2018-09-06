@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -189,6 +190,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Showing welcome toast message from the firebase database
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("message").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String toastMessage = dataSnapshot.getValue().toString();
+                if (!toastMessage.equals("null"))
+                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
