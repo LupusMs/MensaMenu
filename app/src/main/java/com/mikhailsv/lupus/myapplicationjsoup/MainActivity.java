@@ -387,7 +387,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * @param imageViewSmall thumb ImageView
          * @param imageViewBig full size ImageView
          */
-        public void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig)
+        public void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
         {
             Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
                     new Callback() {
@@ -398,8 +398,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         @Override
                         public void onError() {
+                            String dishText = dishDescription.getText().toString().toLowerCase();
 
-                        }
+                            if (dishText.contains("noodles") || dishText.contains("nudeln"))
+                                imageViewSmall.setBackgroundResource(R.drawable.noodles);
+                            else if (dishText.contains("chicken") || dishText.contains("hänchen"))
+                                imageViewSmall.setBackgroundResource(R.drawable.chicken);
+                            else if (dishText.contains("fish") || dishText.contains("fisch"))
+                                imageViewSmall.setBackgroundResource(R.drawable.fish);
+                            else if (dishText.contains("pollack") || dishText.contains("seelachs"))
+                                imageViewSmall.setBackgroundResource(R.drawable.fish);
+                            else if (dishText.contains("pork") || dishText.contains("schweine"))
+                                imageViewSmall.setBackgroundResource(R.drawable.pork);
+                            else if (dishText.contains("roll") || dishText.contains("tasche"))
+                                imageViewSmall.setBackgroundResource(R.drawable.roll);
+                            else if (dishText.contains("burger"))
+                                imageViewSmall.setBackgroundResource(R.drawable.burger);
+                            else if (dishText.contains("wrap"))
+                                imageViewSmall.setBackgroundResource(R.drawable.roll);
+                            else if (dishText.contains("spaghetti"))
+                                imageViewSmall.setBackgroundResource(R.drawable.spaghetti);
+                            else if (!dishText.equals(""))
+                                imageViewSmall.setBackgroundResource(R.drawable.plate);
+                            }
                     });
 
 
@@ -677,15 +698,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             //Setting images using Picasso library
             //Loading a picture for the first dish
-            loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge );
+            loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge, dishDescription1 );
             //Loading a picture for the second dish
-            loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge );
+            loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge, dishDescription2 );
             //Loading a picture for the third dish
-            loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge );
+            loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge, dishDescription3 );
             //Loading a picture for the fourth dish
-            loadImg(searchtextDish4 + ".jpg", imageView4 , imageView4Huge );
+            loadImg(searchtextDish4 + ".jpg", imageView4 , imageView4Huge, dishDescription4 );
             //Loading a picture for the fifth dish
-            loadImg(searchtextDish5 + ".jpg", imageView5 , imageView5Huge );
+            loadImg(searchtextDish5 + ".jpg", imageView5 , imageView5Huge, dishDescription5 );
             //Accessing firebase database for rating
             mDatabase = FirebaseDatabase.getInstance().getReference();
             final String key1 = sharedPref.getString("dish1", "");

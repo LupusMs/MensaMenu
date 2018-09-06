@@ -18,53 +18,53 @@
             android:id="@+id/textPrice1"
             android:layout_width="40dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/dishDescription1"
+            app:layout_constraintBottom_toBottomOf="@+id/dishDescription1"
             app:layout_constraintStart_toEndOf="@+id/dishDescription1"
-            app:layout_constraintTop_toTopOf="@+id/textView1" />
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
         <TextView
             android:id="@+id/textPrice2"
             android:layout_width="40dp"
             android:layout_height="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/dishDescription2"
+            app:layout_constraintBottom_toBottomOf="@+id/dishDescription2"
             app:layout_constraintStart_toEndOf="@+id/dishDescription2"
-            app:layout_constraintTop_toTopOf="@+id/textView2" />
+            app:layout_constraintTop_toTopOf="@+id/dishDescription2" />
 
         <TextView
             android:id="@+id/textPrice3"
             android:layout_width="40dp"
             android:layout_height="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/dishDescription3"
+            app:layout_constraintBottom_toBottomOf="@+id/dishDescription3"
             app:layout_constraintEnd_toStartOf="@+id/imageView3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toTopOf="@+id/textView3" />
+            app:layout_constraintTop_toTopOf="@+id/dishDescription3" />
 
         <TextView
             android:id="@+id/textPrice4"
             android:layout_width="40dp"
             android:layout_height="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/dishDescription4"
+            app:layout_constraintBottom_toBottomOf="@+id/dishDescription4"
             app:layout_constraintStart_toEndOf="@+id/dishDescription4"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintTop_toTopOf="@+id/dishDescription4" />
 
         <TextView
             android:id="@+id/textPrice5"
             android:layout_width="40dp"
             android:layout_height="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/dishDescription5"
+            app:layout_constraintBottom_toBottomOf="@+id/dishDescription5"
             app:layout_constraintStart_toEndOf="@+id/dishDescription5"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            app:layout_constraintTop_toTopOf="@+id/dishDescription5" />
 
         <TextView
             android:id="@+id/textView1"
@@ -178,9 +178,11 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar5"
             app:layout_constraintStart_toEndOf="@+id/textPrice5"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+            app:layout_constraintTop_toTopOf="@+id/textView5" />
 
         <ImageView
             android:id="@+id/imageView4"
@@ -188,40 +190,42 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:contentDescription="TODO"
-            app:layout_constraintBottom_toTopOf="@+id/imageView5"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar4"
             app:layout_constraintStart_toEndOf="@+id/textPrice4"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            app:layout_constraintTop_toBottomOf="@+id/textVotes3" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="TODO"
-            app:layout_constraintBottom_toTopOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar3"
             app:layout_constraintStart_toEndOf="@+id/textPrice3"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+            app:layout_constraintTop_toTopOf="@+id/textView3" />
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="TODO"
-            app:layout_constraintBottom_toTopOf="@+id/imageView3"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar2"
             app:layout_constraintStart_toEndOf="@+id/textPrice2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+            app:layout_constraintTop_toTopOf="@+id/textView2" />
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="TODO"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar1"
             app:layout_constraintStart_toEndOf="@+id/textPrice1"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDate"
+            app:layout_constraintTop_toTopOf="@+id/textView1"
             app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
@@ -340,10 +344,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBar1"
             app:layout_constraintStart_toEndOf="@+id/ratingBar1"
-            app:layout_constraintTop_toBottomOf="@+id/dishDescription1" />
+            app:layout_constraintTop_toTopOf="@+id/ratingBar1" />
 
         <TextView
             android:id="@+id/textVotes2"
