@@ -227,7 +227,8 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/textPrice1"
         app:layout_constraintTop_toBottomOf="@+id/textViewDate"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textViewDate"

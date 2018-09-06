@@ -222,7 +222,8 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/textPrice1"
         app:layout_constraintTop_toBottomOf="@+id/textViewDate"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textViewDate"
@@ -383,7 +384,8 @@
         android:layout_marginTop="16dp"
         android:textSize="8sp"
         app:layout_constraintStart_toEndOf="@+id/ratingBar5"
-        app:layout_constraintTop_toBottomOf="@+id/dishDescription5" />
+        app:layout_constraintTop_toBottomOf="@+id/dishDescription5"
+        tools:ignore="SmallSp" />
 
     <ImageView
         android:id="@+id/imageView1Huge"

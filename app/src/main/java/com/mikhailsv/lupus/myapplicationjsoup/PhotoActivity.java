@@ -1,5 +1,6 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -270,6 +271,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         return image;
     }
 
+    @SuppressWarnings("unchecked")
+    @SuppressLint("StaticFieldLeak")
     class MyUploader extends AsyncTask<String, Void, Void> {
 
 

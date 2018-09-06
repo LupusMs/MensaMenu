@@ -378,6 +378,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @SuppressLint("StaticFieldLeak")
     class MyParser extends AsyncTask<int[], Void, Void> {
         Element text1;
         Element text2;
@@ -713,7 +714,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
                 e.printStackTrace();
 
-            };
+            }
 
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
             //Setting images using Picasso library
@@ -836,6 +837,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
