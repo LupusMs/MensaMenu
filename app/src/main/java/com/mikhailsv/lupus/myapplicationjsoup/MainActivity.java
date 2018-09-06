@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -387,10 +387,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * @param imageViewSmall thumb ImageView
          * @param imageViewBig full size ImageView
          */
-        public void loadImg(String url, ImageView imageViewSmall, ImageView imageViewBig)
+        public void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig)
         {
-            Log.wtf("mytag", "loadIMG");
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall);
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
+                    new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+
+
             Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewBig);
 
         }
@@ -403,11 +415,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Document doc = null;
             Document pic = null;
 
-            textVotes1.setText("");
-            textVotes2.setText("");
-            textVotes3.setText("");
-            textVotes4.setText("");
-            textVotes5.setText("");
 
 
             try {
@@ -561,6 +568,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected void onPostExecute(Void result) {
+            textVotes1.setText("");
+            textVotes2.setText("");
+            textVotes3.setText("");
+            textVotes4.setText("");
+            textVotes5.setText("");
+            ratingBar1.setRating(0f);
+            ratingBar2.setRating(0f);
+            ratingBar3.setRating(0f);
+            ratingBar4.setRating(0f);
+            ratingBar5.setRating(0f);
 
             if (text1 != null) {
                 textView1.setText(text1.text());
@@ -900,6 +917,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mp!=null)
         mp.cancel(true);
     }
 }
