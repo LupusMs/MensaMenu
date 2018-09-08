@@ -8,10 +8,12 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String language;
     private String day;
     private String cafeMensa;
+    private SharedPreferences.Editor editor;
     String updateAlert;
     //increment was used for functionality that has been cut off. I left it here for future purposes
     private final int[] increment = {0, 0, 0, 0};
@@ -186,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -208,9 +212,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+            float previouspoint = 0 ;
+            float startPoint=0;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(v.getId()) {
+                    case R.id.constraintLayout: // Give your R.id.sample ...
+                        switch(event.getAction()){
+                            case MotionEvent.ACTION_DOWN:
+                                startPoint=event.getX();
+                                System.out.println("Action down,..."+event.getX());
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+
+                                break;
+                            case MotionEvent.ACTION_CANCEL:
+                                previouspoint=event.getX();
+                                if (Math.abs(previouspoint - startPoint) > 50)
+                                {
+                                if(previouspoint > startPoint){
+                                    //Right side swipe
+                                    sharedPref = getPreferences(MODE_PRIVATE);
+                                    editor = sharedPref.edit();
+                                    editor.putString("day", Consts.DAY_TODAY);
+                                    editor.commit();
+                                    today_btn.setVisibility(View.GONE);
+                                    tomorrow_btn.setVisibility(View.VISIBLE);
+                                    mp = new MyParser();
+                                    mp.execute(increment);
+
+                                }else{
+                                    // Left side swipe
+                                    sharedPref = getPreferences(MODE_PRIVATE);
+                                    editor = sharedPref.edit();
+                                    editor.putString("day", Consts.DAY_TOMORROW);
+                                    editor.commit();
+                                    tomorrow_btn.setVisibility(View.GONE);
+                                    today_btn.setVisibility(View.VISIBLE);
+                                    MyParser mp = new MyParser();
+                                    mp.execute(increment);
+                                }}
+                                break;
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
 
 
-        textView1 = findViewById(R.id.textView1);
+                textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
@@ -322,7 +375,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ApplySharedPref")
     @Override
     public void onClick(View view) {
-        SharedPreferences.Editor editor;
+
         switch (view.getId()) {
             case R.id.tomorrow_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
