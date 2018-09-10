@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int[] increment = {0, 0, 0, 0};
     private SharedPreferences sharedPref;
     private MyParser mp;
+    private ConstraintLayout constraintLayout;
 
 
     @Override
@@ -194,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        constraintLayout = findViewById(R.id.constraintLayout);
 
         //Showing welcome toast message from the firebase database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -212,58 +213,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
-        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-            float previouspoint = 0 ;
-            float startPoint=0;
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(v.getId()) {
-                    case R.id.constraintLayout: // Give your R.id.sample ...
-                        switch(event.getAction()){
-                            case MotionEvent.ACTION_DOWN:
-                                startPoint=event.getX();
-                                System.out.println("Action down,..."+event.getX());
-                                break;
-                            case MotionEvent.ACTION_MOVE:
-
-                                break;
-                            case MotionEvent.ACTION_CANCEL:
-                                previouspoint=event.getX();
-                                if (Math.abs(previouspoint - startPoint) > 50)
-                                {
-                                if(previouspoint > startPoint){
-                                    //Right side swipe
-                                    sharedPref = getPreferences(MODE_PRIVATE);
-                                    editor = sharedPref.edit();
-                                    editor.putString("day", Consts.DAY_TODAY);
-                                    editor.commit();
-                                    today_btn.setVisibility(View.GONE);
-                                    tomorrow_btn.setVisibility(View.VISIBLE);
-                                    mp = new MyParser();
-                                    mp.execute(increment);
-
-                                }else{
-                                    // Left side swipe
-                                    sharedPref = getPreferences(MODE_PRIVATE);
-                                    editor = sharedPref.edit();
-                                    editor.putString("day", Consts.DAY_TOMORROW);
-                                    editor.commit();
-                                    tomorrow_btn.setVisibility(View.GONE);
-                                    today_btn.setVisibility(View.VISIBLE);
-                                    MyParser mp = new MyParser();
-                                    mp.execute(increment);
-                                }}
-                                break;
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
 
 
-                textView1 = findViewById(R.id.textView1);
+        textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
@@ -463,6 +415,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         public void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
         {
+            if (dishDescription.getText().toString().equals(""))
+                imageViewSmall.setVisibility(View.INVISIBLE);
+            else
+                imageViewSmall.setVisibility(View.VISIBLE);
             Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
                     new Callback() {
                         @Override
@@ -661,6 +617,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         protected void onPostExecute(Void result) {
             textVotes1.setText("");
@@ -673,57 +630,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ratingBar3.setRating(0f);
             ratingBar4.setRating(0f);
             ratingBar5.setRating(0f);
+            textPrice1.setText("");
+            textPrice2.setText("");
+            textPrice3.setText("");
+            textPrice4.setText("");
+            textPrice5.setText("");
 
             if (text1 != null) {
                 textView1.setText(text1.text());
+                textPrice1.setText(price1.text());
             }
             else
                 textView1.setText("");
             if (text2 != null) {
                 textView2.setText(text2.text());
+                textPrice2.setText(price2.text());
             }
             else
                 textView2.setText("");
             if (text3 != null) {
                 textView3.setText(text3.text());
+                textPrice3.setText(price3.text());
             }
             else
                 textView3.setText("");
             if (text4 != null) {
                 textView4.setText(text4.text());
+                textPrice4.setText(price4.text());
             }
             else
                 textView4.setText("");
             if (text5 != null) {
                 textView5.setText(text5.text());
-            }
-            else
-                textView5.setText("");
-            if (price1 != null) {
-                textPrice1.setText(price1.text());
-            }
-            else
-                textPrice1.setText("");
-            if (price2 != null) {
-                textPrice2.setText(price2.text());
-            }
-            else
-                textPrice2.setText("");
-            if (price3 != null) {
-                textPrice3.setText(price3.text());
-            }
-            else
-                textPrice3.setText("");
-            if (price4 != null) {
-                textPrice4.setText(price4.text());
-            }
-            else
-                textPrice4.setText("");
-            if (price5 != null) {
                 textPrice5.setText(price5.text());
             }
             else
-                textPrice5.setText("");
+                textView5.setText("");
+
             if (displaytextDish1 != null) {
                 dishDescription1.setText(displaytextDish1);
             } else
@@ -748,7 +691,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             else
                 dishDescription5.setText("");
-            try{ textViewDate.setText(textDate.text());} catch (Exception e) {
+            try{
+                textViewDate.setText(textDate.text());
+                } catch (Exception e) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
                 builder1.setTitle("Error");
                 builder1.setMessage("Cannot load the menu");
@@ -994,6 +939,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onCancelled(DatabaseError databaseError) {
                 }
             });
+
+
 
         }
 
