@@ -28,11 +28,13 @@ import com.cloudinary.android.callback.UploadCallback;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
 
 
+@SuppressWarnings("FieldCanBeLocal")
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int ACTIVITY_SELECT_IMAGE = 2;
@@ -64,7 +66,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        getSupportActionBar().setTitle("Photo Upload");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Photo Upload");
 
         photoBtn1 = findViewById(R.id.photoBtn1);
         photoBtn2 = findViewById(R.id.photoBtn2);
@@ -197,7 +199,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-   public void createPhotoFile(String imageFileName)
+   private void createPhotoFile(String imageFileName)
    {
        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -227,8 +229,8 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                     Uri selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
+                    Cursor cursor = getContentResolver().query(Objects.requireNonNull(selectedImage), filePathColumn, null, null, null);
+                    Objects.requireNonNull(cursor).moveToFirst();
 
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     String filePath = cursor.getString(columnIndex);

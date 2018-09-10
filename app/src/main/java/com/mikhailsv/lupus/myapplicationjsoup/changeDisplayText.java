@@ -15,7 +15,8 @@ class changeDisplayText {
 
     //Editing string for to be used in search query
     public String searchText(String myString2){
-        myString2 = myString2.split(",")[0];
+        //myString2 = myString2.split(",")[0];
+        myString2 = myString2.replaceAll(",","");
         myString2 = myString2.replaceAll("\\s","_");
         myString2 = myString2.replaceAll("\\d","");
         myString2 = myString2.replaceAll("\\(","");

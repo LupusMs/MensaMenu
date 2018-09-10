@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,8 +35,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
+@SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView1;
     private TextView textView2;
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.commit();
                 mp = new MyParser();
                 mp.execute(increment);
-                getSupportActionBar().setTitle("HAW Mensa");
+                Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Mensa");
                 return true;
             case R.id.cafe:
                 sharedPref = getPreferences(MODE_PRIVATE);
@@ -158,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.commit();
                 mp = new MyParser();
                 mp.execute(increment);
-                getSupportActionBar().setTitle("HAW Cafe");
+                Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");
                 return true;
             case R.id.uploadPhoto:
                 Intent photoIntent = new Intent(this, PhotoActivity.class);
@@ -201,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDatabase.child("message").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String toastMessage = dataSnapshot.getValue().toString();
+                String toastMessage = Objects.requireNonNull(dataSnapshot.getValue()).toString();
                 if (!toastMessage.equals("null"))
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_LONG).show();
             }
@@ -278,9 +281,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         day = sharedPref.getString("day", Consts.DAY_TODAY);
         cafeMensa = sharedPref.getString("cafeMensa", Consts.MENSA_URL);
         if (cafeMensa.equals(Consts.MENSA_URL))
-            getSupportActionBar().setTitle("HAW Mensa");
+            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Mensa");
         else
-            getSupportActionBar().setTitle("HAW Cafe");
+            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");
         myurl = Consts.MENU_URL + language + cafeMensa + day;
 
         //Hiding navigation arrow
@@ -413,12 +416,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * @param imageViewSmall thumb ImageView
          * @param imageViewBig full size ImageView
          */
-        public void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
+        void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
         {
+
+            // Setting the icon invisible if there is no dish description
             if (dishDescription.getText().toString().equals(""))
                 imageViewSmall.setVisibility(View.INVISIBLE);
             else
                 imageViewSmall.setVisibility(View.VISIBLE);
+
+            // Loading the image with Picasso
             Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
                     new Callback() {
                         @Override
@@ -436,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 imageViewSmall.setBackgroundResource(R.drawable.chicken);
                             else if (dishText.contains("fish") || dishText.contains("fisch"))
                                 imageViewSmall.setBackgroundResource(R.drawable.fish);
-                            else if (dishText.contains("pollack") || dishText.contains("seelachs"))
+                            else if (dishText.contains("pollock") || dishText.contains("seelachs"))
                                 imageViewSmall.setBackgroundResource(R.drawable.fish);
                             else if (dishText.contains("pork") || dishText.contains("schweine"))
                                 imageViewSmall.setBackgroundResource(R.drawable.pork);
@@ -486,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             try {
                 doc = Jsoup.connect(myurl).get();
-            } catch (IOException e) {
+            } catch (IOException ignored) {
 
             }
             if (doc != null) {
@@ -525,7 +532,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 try {
                     textDate = doc.select(".category").get(0);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 try {
                     price1 = doc.select("td.price").get(0);
@@ -564,6 +571,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //Editing Strings for displaying and for search requests
                     displaytextDish1 = mychangeDisplayText.displayText(textDish1.text());
                     searchtextDish1 = mychangeDisplayText.searchText(textDish1.text());
+                    Log.wtf("mytag", "DISPLAY " + displaytextDish1);
+                    Log.wtf("mytag", "SEARCH " + searchtextDish1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -756,8 +765,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -774,7 +784,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
             ratingBar2.setVisibility(View.VISIBLE);
@@ -784,6 +794,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ratingBar2.setVisibility(View.INVISIBLE);
             }
             ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
@@ -796,8 +807,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -814,7 +826,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
             ratingBar3.setVisibility(View.VISIBLE);
@@ -824,6 +836,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ratingBar3.setVisibility(View.INVISIBLE);
             }
             ratingBar3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
@@ -838,7 +851,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -855,7 +868,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
             ratingBar4.setVisibility(View.VISIBLE);
@@ -865,6 +878,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ratingBar4.setVisibility(View.INVISIBLE);
             }
             ratingBar4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
@@ -879,7 +893,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -896,7 +910,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
             ratingBar5.setVisibility(View.VISIBLE);
@@ -906,6 +920,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ratingBar5.setVisibility(View.INVISIBLE);
             }
             ratingBar5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
@@ -918,8 +933,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
             mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -936,7 +952,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             });
 
@@ -952,6 +968,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *
      * @param textView TextView with number of votes for the current dish
      */
+    @SuppressLint("SetTextI18n")
     private void votesUpdate(TextView textView) {
         String[] votes = textView.getText().toString().split(" ");
         int votesInt = Integer.valueOf(votes[0]);

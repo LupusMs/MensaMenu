@@ -7,17 +7,20 @@
             android:id="@+id/enBtn"
             android:icon="@drawable/us"
             android:title="@string/english"
-            app:showAsAction="always" />
+            app:showAsAction="always"
+            tools:ignore="AlwaysShowAction" />
         <item
             android:id="@+id/deBtn"
             android:icon="@drawable/de"
             android:title="@string/item"
-            app:showAsAction="always" />
+            app:showAsAction="always"
+            tools:ignore="AlwaysShowAction" />
         <item
             android:id="@+id/uploadPhoto"
             android:icon="@drawable/cam"
             android:title="@string/add_photo"
-            app:showAsAction="always" />
+            app:showAsAction="always"
+            tools:ignore="AlwaysShowAction" />
     </group>
     <item
                 android:id="@+id/mensa"
