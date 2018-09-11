@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="saveourcar.soc.MainActivity">
+    tools:context="saveourcar.soc.MainActivity"
+    >
     <group app:showAsAction="ifRoom" >
         <item
             android:id="@+id/enBtn"
@@ -23,15 +24,8 @@
             tools:ignore="AlwaysShowAction" />
     </group>
     <item
-                android:id="@+id/mensa"
-                android:title="@string/haw_mensa"
-                />
-    <item
-                android:id="@+id/cafe"
-                android:title="@string/haw_cafe"
-                />
-    <item
         android:id="@+id/feedback"
-        android:title="@string/app_feedback" />
+        android:title="@string/app_feedback"
+        />
 
 </menu>

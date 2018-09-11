@@ -7,6 +7,7 @@
     android:layout_height="fill_parent"
     android:fillViewport="true">
 
+
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -15,6 +16,9 @@
         android:layout_height="wrap_content"
         tools:context="com.mikhailsv.lupus.myapplicationjsoup.MainActivity"
         tools:layout_editor_absoluteY="81dp">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
 
         <TextView
             android:id="@+id/textPrice1"
@@ -230,14 +234,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:fontFamily="@font/puritan_italic"
             android:text="@string/loading"
             android:textColor="#FFC100"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar1"
@@ -264,7 +267,7 @@
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar3"
@@ -318,7 +321,7 @@
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar2"

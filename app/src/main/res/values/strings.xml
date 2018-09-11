@@ -10,4 +10,8 @@
     <string name="please_wait">Please wait</string>
     <string name="please_leave_your_comments_and_suggestions_related_to_the_app_here">Please leave your comments and suggestions related to the app here:</string>
     <string name="send">Send</string>
+    <string-array name="spinner_list">
+        <item>HAW Mensa</item>
+        <item>HAW Cafe</item>
+    </string-array>
 </resources>

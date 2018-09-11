@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,64 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        dishDescription1.setText(null);
-        dishDescription2.setText(null);
-        dishDescription3.setText(null);
-        dishDescription4.setText(null);
-        dishDescription5.setText(null);
-        textView1.setText(null);
-        textView2.setText(null);
-        textView3.setText(null);
-        textView4.setText(null);
-        textView5.setText(null);
-        textPrice1.setText(null);
-        textPrice2.setText(null);
-        textPrice3.setText(null);
-        textPrice4.setText(null);
-        textPrice5.setText(null);
-        textVotes1.setText(null);
-        textVotes2.setText(null);
-        textVotes3.setText(null);
-        textVotes4.setText(null);
-        textVotes5.setText(null);
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.mensa:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                language = sharedPref.getString("language", Consts.LANGUAGE_DE);
-                day = sharedPref.getString("day", Consts.DAY_TODAY);
 
-                //Hiding navigation arrow
-                if (day.equals(Consts.DAY_TODAY))
-                    today_btn.setVisibility(View.GONE);
-                else
-                    tomorrow_btn.setVisibility(View.GONE);
-
-                editor.putString("cafeMensa", Consts.MENSA_URL);
-                cafeMensa = Consts.MENSA_URL;
-                myurl = Consts.MENU_URL + language + cafeMensa + day;
-                editor.putString("URL", myurl);
-                editor.commit();
-                mp = new MyParser();
-                mp.execute(increment);
-                Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Mensa");
-                return true;
-            case R.id.cafe:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                language = sharedPref.getString("language", Consts.LANGUAGE_DE);
-                day = sharedPref.getString("day", Consts.DAY_TODAY);
-                editor.putString("cafeMensa", Consts.CAFE_URL);
-                cafeMensa = Consts.CAFE_URL;
-                myurl = Consts.MENU_URL + language + cafeMensa + day;
-                editor.putString("URL", myurl);
-                editor.commit();
-                mp = new MyParser();
-                mp.execute(increment);
-                Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");
-                return true;
             case R.id.uploadPhoto:
                 Intent photoIntent = new Intent(this, PhotoActivity.class);
                 startActivity(photoIntent);
@@ -198,6 +147,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         constraintLayout = findViewById(R.id.constraintLayout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Spinner spinner = findViewById(R.id.spinner);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                dishDescription1.setText(null);
+                dishDescription2.setText(null);
+                dishDescription3.setText(null);
+                dishDescription4.setText(null);
+                dishDescription5.setText(null);
+                textView1.setText(null);
+                textView2.setText(null);
+                textView3.setText(null);
+                textView4.setText(null);
+                textView5.setText(null);
+                textPrice1.setText(null);
+                textPrice2.setText(null);
+                textPrice3.setText(null);
+                textPrice4.setText(null);
+                textPrice5.setText(null);
+                textVotes1.setText(null);
+                textVotes2.setText(null);
+                textVotes3.setText(null);
+                textVotes4.setText(null);
+                textVotes5.setText(null);
+                if (position == 0)
+                {
+                    sharedPref = getPreferences(MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    language = sharedPref.getString("language", Consts.LANGUAGE_DE);
+                    day = sharedPref.getString("day", Consts.DAY_TODAY);
+
+                    //Hiding navigation arrow
+                    if (day.equals(Consts.DAY_TODAY))
+                        today_btn.setVisibility(View.GONE);
+                    else
+                        tomorrow_btn.setVisibility(View.GONE);
+
+                    editor.putString("cafeMensa", Consts.MENSA_URL);
+                    cafeMensa = Consts.MENSA_URL;
+                    myurl = Consts.MENU_URL + language + cafeMensa + day;
+                    editor.putString("URL", myurl);
+                    editor.commit();
+                    mp = new MyParser();
+                    mp.execute(increment);
+                }
+                else
+                {
+                    sharedPref = getPreferences(MODE_PRIVATE);
+                    editor = sharedPref.edit();
+                    language = sharedPref.getString("language", Consts.LANGUAGE_DE);
+                    day = sharedPref.getString("day", Consts.DAY_TODAY);
+                    editor.putString("cafeMensa", Consts.CAFE_URL);
+                    cafeMensa = Consts.CAFE_URL;
+                    myurl = Consts.MENU_URL + language + cafeMensa + day;
+                    editor.putString("URL", myurl);
+                    editor.commit();
+                    mp = new MyParser();
+                    mp.execute(increment);
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         //Showing welcome toast message from the firebase database
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -280,10 +301,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         language = sharedPref.getString("language", Consts.LANGUAGE_DE);
         day = sharedPref.getString("day", Consts.DAY_TODAY);
         cafeMensa = sharedPref.getString("cafeMensa", Consts.MENSA_URL);
-        if (cafeMensa.equals(Consts.MENSA_URL))
+       /* if (cafeMensa.equals(Consts.MENSA_URL))
             Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Mensa");
         else
-            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");
+            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");*/
         myurl = Consts.MENU_URL + language + cafeMensa + day;
 
         //Hiding navigation arrow
