@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         constraintLayout = findViewById(R.id.constraintLayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         Spinner spinner = findViewById(R.id.spinner);
 
@@ -216,8 +217,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-                    mp = new MyParser();
-                    mp.execute(increment);
+
                 }
                 else
                 {
@@ -230,8 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-                    mp = new MyParser();
-                    mp.execute(increment);
+
                 }
 
 
@@ -371,6 +370,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mp = new MyParser();
+        mp.execute(increment);
+    }
 
     @SuppressLint("ApplySharedPref")
     @Override
@@ -773,6 +779,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Loading a picture for the first dish
             loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge, dishDescription1 );
             //Loading a picture for the second dish
+            Log.wtf("mytag", "SEARCH 2 " +searchtextDish2);
             loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge, dishDescription2 );
             //Loading a picture for the third dish
             loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge, dishDescription3 );
@@ -1020,6 +1027,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         votesInt++;
         textView.setText("" + votesInt + " votes");
     }
+
+
 
     @Override
     protected void onDestroy() {

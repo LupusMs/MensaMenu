@@ -1,25 +1,26 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -29,9 +30,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
-import static android.os.Process.THREAD_PRIORITY_MORE_FAVORABLE;
 
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -60,13 +58,36 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     private TextView textViewWait;
     private com.wang.avi.AVLoadingIndicatorView indicator2;
+    private final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 77;
+    private final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 78;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Photo Upload");
+
+        //Check read permissions
+        if (ContextCompat.checkSelfPermission(this
+                , Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_STORAGE);
+        }
+
+        //Check write permission
+        if (ContextCompat.checkSelfPermission(this
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+        }
+
+
 
         photoBtn1 = findViewById(R.id.photoBtn1);
         photoBtn2 = findViewById(R.id.photoBtn2);
@@ -201,17 +222,19 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
 
    private void createPhotoFile(String imageFileName)
    {
-       Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+       Intent takePhotoIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
 
        if (takePhotoIntent.resolveActivity(getPackageManager()) != null) {
 
            // Create the File where the photo should go
            photoFile = null;
-           photoFile = createImageFile(imageFileName + "al");
+           photoFile = createImageFile(imageFileName);
+           Log.wtf("mytag", "PHOTOFILE" + photoFile.toString());
            if (photoFile != null) {
                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                       Uri.fromFile(photoFile));
+                       FileProvider.getUriForFile(getApplicationContext(),  getApplicationContext().getPackageName() + ".provider",photoFile));
+               takePhotoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                startActivityForResult(takePhotoIntent, REQUEST_IMAGE_CAPTURE);
            }
        }
@@ -227,6 +250,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             case ACTIVITY_SELECT_IMAGE:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = data.getData();
+                    Log.wtf("mytag", "URI _ " + selectedImage.toString());
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getContentResolver().query(Objects.requireNonNull(selectedImage), filePathColumn, null, null, null);
@@ -237,15 +261,15 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
                     cursor.close();
 
 
+
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
-                    Log.wtf("mytag", "FILEPATH" + filePath);
                     params[0] = filePath;
                 }
         }
 
 
                 //File to upload to cloudinary
-     MyUploader uploader = new MyUploader(getApplicationContext());
+    // MyUploader uploader = new MyUploader(getApplicationContext());
      if (photoFile!=null)
          params[0] = photoFile.getAbsolutePath();
      //TO-DO Scaling the photo
@@ -253,7 +277,9 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         indicator2.setVisibility(View.VISIBLE);
         indicator2.setIndicatorColor(Color.RED);
 
-        uploader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,params);
+        LoadingThread loadingThread = new LoadingThread();
+        loadingThread.run();
+        //uploader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,params);
       }
 
 
@@ -273,74 +299,52 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         return image;
     }
 
-    @SuppressWarnings("unchecked")
-    @SuppressLint("StaticFieldLeak")
-    class MyUploader extends AsyncTask<String, Void, Void> {
 
+    public class LoadingThread extends Thread{
 
-        private final Context mContext;
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-             Toast.makeText(getApplicationContext(), "Image will be uploaded...", Toast.LENGTH_LONG).show();
-            progressBar.setVisibility(View.VISIBLE);
-
-        }
-
-        MyUploader(final Context context) {
-            mContext = context;
-
-
-        }
-        @Override
-        protected Void doInBackground(String... strings) {
-            android.os.Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND + THREAD_PRIORITY_MORE_FAVORABLE);
+        public void run(){
             Map config = new HashMap();
             config.put("cloud_name", "hawmenu");
-            MediaManager.init(mContext, config);
+            MediaManager.init(getApplicationContext(), config);
             //String timeStamp = new SimpleDateFormat("ss").format(new Date());
             //Log.wtf("mytag", "stamp "+ timeStamp);
             SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
-            File file = new File(strings[0]);
             //String newFileName = file.getName().replaceAll(".jpg", "");
             String newFileName = imageFileName;
-            Log.wtf("mytag", "NEW FIL:E NAME" + newFileName);
 
-            String requestId = MediaManager.get().upload(strings[0])
+            Log.wtf("mytag", "PARAMS 0  " + params[0]);
+
+
+
+            String requestId = MediaManager.get().upload(params[0])
                     .unsigned("oafdysu0").option("public_id", newFileName).callback(new UploadCallback() {
                         @Override
                         public void onStart(String requestId) {
                             // your code here
-
+                            Log.wtf("mytag", "STARTED");
 
                         }
                         @Override
                         public void onProgress(String requestId, long bytes, long totalBytes) {
                             // example code starts here
-                            Double progress = (double) bytes/totalBytes;
-                            // post progress to app UI (e.g. progress bar, notification)
-                            progressBar.setProgress(progress.intValue()*100);
-                            progressBar.setSecondaryProgress(progress.intValue()*100 + 10);
-                            // example code ends here
                         }
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
                             // your code here
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("photo", true);
                             startActivity(intent);
                         }
                         @Override
                         public void onError(String requestId, ErrorInfo error) {
                             // your code here
+                            Log.wtf("mytag", "ERROR");
                         }
                         @Override
                         public void onReschedule(String requestId, ErrorInfo error) {
                             // your code here
                         }})
                     .dispatch();
-
-            return null;
         }
     }
 
