@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -135,6 +138,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.feedback:
                 startActivity(new Intent(this, Feedback.class));
                 return true;
+            case R.id.menu_info:
+                // Showing "About app" dialog
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("Information about the app");
+                final SpannableString s =
+                        new SpannableString(getApplicationContext().getText(R.string.about_message));
+                Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);
+                builder1.setMessage(s);
+
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Close",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+                ((TextView)alert11.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
             default:
                 return super.onOptionsItemSelected(item);
         }

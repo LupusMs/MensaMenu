@@ -27,5 +27,8 @@
         android:id="@+id/feedback"
         android:title="@string/app_feedback"
         />
+    <item
+        android:id="@+id/menu_info"
+        android:title="About" />
 
 </menu>

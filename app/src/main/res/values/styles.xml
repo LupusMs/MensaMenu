@@ -7,11 +7,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:popupMenuStyle">@style/PopUp</item>
     </style>
 
-    <style name="PopUp" parent="@android:style/Widget.PopupMenu">
+    <style name="PopUp" parent="Widget.AppCompat.Light.PopupMenu">
         <item name="android:popupBackground">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
     </style>
 
 </resources>

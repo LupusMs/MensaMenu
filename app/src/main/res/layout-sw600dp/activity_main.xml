@@ -15,6 +15,15 @@
         tools:context="com.mikhailsv.lupus.myapplicationjsoup.MainActivity"
         tools:layout_editor_absoluteY="81dp">
 
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textPrice1"
             android:layout_width="40dp"
@@ -244,7 +253,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar1"
@@ -265,14 +274,13 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:background="@drawable/leftarrow"
             android:clickable="true"
             android:contentDescription="TODO"
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar3"
@@ -320,14 +328,13 @@
             android:id="@+id/tomorrow_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="8dp"
             android:background="@drawable/rightarrow"
             android:clickable="true"
             android:contentDescription="TODO"
             android:focusable="true"
             android:orientation="horizontal"
             app:layout_constraintStart_toEndOf="@+id/textViewDate"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <RatingBar
             android:id="@+id/ratingBar2"
