@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,6 +44,8 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static android.view.Window.FEATURE_NO_TITLE;
 
 
 @SuppressWarnings("FieldCanBeLocal")
@@ -404,19 +408,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.execute(increment);
                 break;
             case R.id.imageView1:
-                imageView1Huge.setVisibility(View.VISIBLE);
+                //imageView1Huge.setVisibility(View.VISIBLE);
+                createPictureDialog(imageView1Huge);
                 break;
             case R.id.imageView2:
-                imageView2Huge.setVisibility(View.VISIBLE);
+                //imageView2Huge.setVisibility(View.VISIBLE);
+                createPictureDialog(imageView2Huge);
                 break;
             case R.id.imageView3:
-                imageView3Huge.setVisibility(View.VISIBLE);
+                //imageView3Huge.setVisibility(View.VISIBLE);
+                createPictureDialog(imageView3Huge);
                 break;
             case R.id.imageView4:
-                imageView4Huge.setVisibility(View.VISIBLE);
+                //imageView4Huge.setVisibility(View.VISIBLE);
+                createPictureDialog(imageView4Huge);
                 break;
             case R.id.imageView5:
-                imageView5Huge.setVisibility(View.VISIBLE);
+                //imageView5Huge.setVisibility(View.VISIBLE);
+                createPictureDialog(imageView5Huge);
                 break;
             case R.id.imageView1Huge:
                 imageView1Huge.setVisibility(View.INVISIBLE);
@@ -1036,6 +1045,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mp!=null)
         mp.cancel(true);
     }
+
+   private void createPictureDialog(ImageView imageView) {
+
+       ImageView myImageView = new ImageView(this);
+       try {
+           Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+           myImageView.setImageBitmap(bitmap);
+           myImageView.setPadding(0, 60,0 ,60 );
+           AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+           builder1.setView(myImageView);
+           builder1.setCancelable(true);
+           AlertDialog alert11 = builder1.create();
+           alert11.requestWindowFeature(FEATURE_NO_TITLE);
+           alert11.show();
+       } catch (NullPointerException e)
+       {}
+   }
+
 }
 
 
