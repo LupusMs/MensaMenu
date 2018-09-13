@@ -28,6 +28,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -174,6 +175,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final RatingDialog ratingDialog = new RatingDialog.Builder(this)
+                .threshold(3)
+                .session(5)
+                .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                    @Override
+                    public void onFormSubmitted(String feedback) {
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("feedback").child("feedback").push().setValue(feedback);
+                    }
+                }).build();
+
+        ratingDialog.show();
+
         constraintLayout = findViewById(R.id.constraintLayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
