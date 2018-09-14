@@ -176,18 +176,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final RatingDialog ratingDialog = new RatingDialog.Builder(this)
-                .threshold(3)
-                .session(5)
-                .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
-                    @Override
-                    public void onFormSubmitted(String feedback) {
-                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("feedback").child("feedback").push().setValue(feedback);
-                    }
-                }).build();
+        sharedPref = getPreferences(MODE_PRIVATE);
+        Boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
 
-        ratingDialog.show();
+        if (!ratingDialogPreferences) {
+            final RatingDialog ratingDialog = new RatingDialog.Builder(this)
+                    .threshold(3)
+                    .session(5)
+                    .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                        @Override
+                        public void onFormSubmitted(String feedback) {
+                            mDatabase = FirebaseDatabase.getInstance().getReference();
+                            mDatabase.child("feedback").child("feedback").push().setValue(feedback);
+                        }
+                    }).build();
+
+            ratingDialog.show();
+            editor = sharedPref.edit();
+            editor.putBoolean("rating_dialog", true);
+            editor.commit();
+        }
+
 
         constraintLayout = findViewById(R.id.constraintLayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
