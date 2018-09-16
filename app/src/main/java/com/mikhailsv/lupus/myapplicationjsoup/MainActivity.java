@@ -245,7 +245,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-
+                    mp = new MyParser();
+                    mp.execute(increment);
                 }
                 else
                 {
@@ -258,7 +259,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-
+                    mp = new MyParser();
+                    mp.execute(increment);
                 }
 
 
