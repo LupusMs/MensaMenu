@@ -843,6 +843,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser) {
+
+
                         Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
                         mDatabase.child(key1).child("Rating").push().setValue(rating);
                         ratingBar1.setIsIndicator(true);
@@ -1087,6 +1089,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            alert11.show();
        } catch (NullPointerException e)
        {}
+   }
+
+   public void ratingDialog(final int rating, final String key, final RatingBar ratingBar, final TextView textVotes){
+
+       AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
+       myBuilder.setTitle("Give vote");
+       myBuilder.setMessage("Your vote is\n" + rating );
+       myBuilder.setCancelable(true);
+
+       myBuilder.setPositiveButton(
+               "Ok",
+               new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
+                       mDatabase.child(key).child("Rating").push().setValue(rating);
+                       ratingBar.setIsIndicator(true);
+                       if (textVotes.getText().equals("")) textVotes.setText("1 vote");
+                       else votesUpdate(textVotes);
+                       dialog.cancel();
+
+                   }
+               });
+
+       AlertDialog alert11 = myBuilder.create();
+       alert11.show();
    }
 
 }

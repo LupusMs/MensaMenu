@@ -8,7 +8,8 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 class changeDisplayText {
     public String displayText(String myString1){
 
-        myString1 = myString1.replaceAll("\\d","").replaceAll("\\(.*?\\)","").replaceAll(",","");
+        myString1 = myString1.replaceAll("\\d","").replaceAll("\\(.*?\\)","").replaceAll(",","")
+        .replaceAll("\\.", "");
         return myString1;
     }
 
@@ -22,6 +23,7 @@ class changeDisplayText {
         myString2 = myString2.replaceAll("\\(","");
         myString2 = myString2.replaceAll("\\)","");
         myString2 = myString2.replaceAll("-","");
+        myString2 = myString2.replaceAll("\\.","");
 
         return myString2;
 
