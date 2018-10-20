@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.cloudinary:cloudinary-android:1.24.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
-    //implementation "com.airbnb.android:lottie:$lottieVersion"
+    implementation "com.airbnb.android:lottie:2.7.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

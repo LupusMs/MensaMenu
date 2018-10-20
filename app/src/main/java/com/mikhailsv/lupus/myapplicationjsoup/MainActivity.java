@@ -1,5 +1,6 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -28,6 +29,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -181,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         sharedPref = getPreferences(MODE_PRIVATE);
         Boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
 
@@ -290,6 +294,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        final LottieAnimationView lottieAnimationView = findViewById(R.id.lottie1);
+        lottieAnimationView.setVisibility(View.VISIBLE);
+        lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                lottieAnimationView.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
 
             }
         });
@@ -547,8 +576,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             else if (dishText.contains("spaghetti"))
                                 imageViewSmall.setBackgroundResource(R.drawable.spaghetti);
                             else if (!dishText.equals(""))
+                            {
                                 imageViewSmall.setBackgroundResource(R.drawable.plate);
+
                             }
+                        }
                     });
 
 
@@ -1079,8 +1111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
        AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
        myBuilder.setTitle("Give vote");
-       myBuilder.setMessage("Your vote is\n" + rating );
-       myBuilder.setCancelable(true);
+       myBuilder.setMessage("Your vote is\n" + (int)rating );
+       myBuilder.setCancelable(false);
 
        myBuilder.setPositiveButton(
                "Ok",

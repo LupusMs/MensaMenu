@@ -30,6 +30,25 @@
             app:layout_constraintStart_toEndOf="@+id/dishDescription1"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie1"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/colorPrimaryDark"
+            app:lottie_fileName="lunch.json"
+            app:lottie_loop="true"
+            app:lottie_repeatCount="1" />
+
         <TextView
             android:id="@+id/textPrice2"
             android:layout_width="40dp"
