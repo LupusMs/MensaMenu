@@ -102,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPref;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
+    private float oldRating1;
+    private float oldRating2;
+    private float oldRating3;
+    private float oldRating4;
+    private float oldRating5;
 
 
     @Override
@@ -842,15 +847,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-
-
-                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key1).child("Rating").push().setValue(rating);
-                        ratingBar1.setIsIndicator(true);
-                        if (textVotes1.getText().equals("")) textVotes1.setText("1 vote");
-                        else votesUpdate(textVotes1);
-                    }
+                    if (fromUser)
+                        ratingDialog(rating, oldRating1, key1, ratingBar, textVotes1);
                 }
             });
             mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -864,7 +862,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar1.setRating(total / count);
+
+                        oldRating1 = total / count;
+                        ratingBar1.setRating(oldRating1);
                         String votes;
                         if (count == 1) votes = " vote";
                         else votes = " votes";
@@ -886,13 +886,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key2).child("Rating").push().setValue(rating);
-                        ratingBar2.setIsIndicator(true);
-                        if (textVotes2.getText().equals("")) textVotes2.setText("1 vote");
-                        else votesUpdate(textVotes2);
-                    }
+                    if (fromUser)
+                        ratingDialog(rating, oldRating2, key2, ratingBar, textVotes2);
                 }
             });
             mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -906,7 +901,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar2.setRating(total / count);
+                        oldRating2 = total / count;
+                        ratingBar2.setRating(oldRating2);
                         String votes;
                         if (count == 1) votes = " vote";
                         else votes = " votes";
@@ -928,13 +924,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key3).child("Rating").push().setValue(rating);
-                        ratingBar3.setIsIndicator(true);
-                        if (textVotes3.getText().equals("")) textVotes3.setText("1 vote");
-                        else votesUpdate(textVotes3);
-                    }
+                    if (fromUser)
+                        ratingDialog(rating, oldRating3, key3, ratingBar, textVotes3);
                 }
             });
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -948,7 +939,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar3.setRating(total / count);
+                        oldRating3 = total / count;
+                        ratingBar3.setRating(oldRating3);
                         String votes;
                         if (count == 1) votes = " vote";
                         else votes = " votes";
@@ -970,13 +962,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key4).child("Rating").push().setValue(rating);
-                        ratingBar4.setIsIndicator(true);
-                        if (textVotes4.getText().equals("")) textVotes4.setText("1 vote");
-                        else votesUpdate(textVotes4);
-                    }
+                    if (fromUser)
+                        ratingDialog(rating, oldRating4, key4, ratingBar, textVotes4);
                 }
             });
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -990,7 +977,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar4.setRating(total / count);
+                        oldRating4 = total / count;
+                        ratingBar4.setRating(oldRating4);
                         String votes;
                         if (count == 1) votes = " vote";
                         else votes = " votes";
@@ -1012,13 +1000,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                        mDatabase.child(key5).child("Rating").push().setValue(rating);
-                        ratingBar5.setIsIndicator(true);
-                        if (textVotes5.getText().equals("")) textVotes5.setText("1 vote");
-                        else votesUpdate(textVotes5);
-                    }
+                    if (fromUser)
+                        ratingDialog(rating, oldRating5, key5, ratingBar, textVotes5);
                 }
             });
             mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1032,7 +1015,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             total = total + rating;
                             count = count + 1;
                         }
-                        ratingBar5.setRating(total / count);
+                        oldRating5 = total / count;
+                        ratingBar5.setRating(oldRating5);
                         String votes;
                         if (count == 1) votes = " vote";
                         else votes = " votes";
@@ -1091,7 +1075,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        {}
    }
 
-   public void ratingDialog(final int rating, final String key, final RatingBar ratingBar, final TextView textVotes){
+   public void ratingDialog(final float rating, final float oldRating, final String key, final RatingBar ratingBar, final TextView textVotes){
 
        AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
        myBuilder.setTitle("Give vote");
@@ -1111,6 +1095,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                    }
                });
+       myBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               ratingBar.setRating(oldRating);
+               dialog.cancel();
+           }
+       });
 
        AlertDialog alert11 = myBuilder.create();
        alert11.show();
