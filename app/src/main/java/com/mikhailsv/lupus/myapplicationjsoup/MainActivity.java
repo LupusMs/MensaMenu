@@ -18,6 +18,7 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -299,29 +300,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         final LottieAnimationView lottieAnimationView = findViewById(R.id.lottie1);
-        lottieAnimationView.setVisibility(View.VISIBLE);
-        lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
 
-            }
+        if (lottieAnimationView!= null) {
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                lottieAnimationView.setVisibility(View.GONE);
+                }
 
-            }
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    lottieAnimationView.setVisibility(View.GONE);
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                }
 
-            }
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                }
 
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+        }
 
 
 
@@ -1110,8 +1114,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
    public void ratingDialog(final float rating, final float oldRating, final String key, final RatingBar ratingBar, final TextView textVotes){
 
        AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
-       myBuilder.setTitle("Give vote");
-       myBuilder.setMessage("Your vote is\n" + (int)rating );
+       LayoutInflater inflater = getLayoutInflater();
+
+       //myBuilder.setMessage("Your vote is\n" + (int)rating );
+
+       View dialogView = inflater.inflate(R.layout.dialog_layout, null);
+       TextView textView = dialogView.findViewById(R.id.textVoteDialog);
+       textView.setText("" + (int)rating);
+       myBuilder.setView(dialogView);
+
+
        myBuilder.setCancelable(false);
 
        myBuilder.setPositiveButton(
