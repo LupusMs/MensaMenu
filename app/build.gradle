@@ -6,9 +6,9 @@ android {
         applicationId "com.mikhailsv.lupus.myapplicationjsoup"
         minSdkVersion 22
         targetSdkVersion 27
-        versionName '1.14'
+        versionName '1.16'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        versionCode 14
+        versionCode 16
     }
     buildTypes {
         release {
@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.cloudinary:cloudinary-android:1.24.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
-    implementation "com.airbnb.android:lottie:2.7.0"
+    implementation 'com.airbnb.android:lottie:2.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

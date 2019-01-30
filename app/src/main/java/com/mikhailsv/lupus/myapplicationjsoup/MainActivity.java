@@ -542,7 +542,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
         {
-
+            imageViewSmall.setBackgroundResource(0);
             // Setting the icon invisible if there is no dish description
             if (dishDescription.getText().toString().equals(""))
                 imageViewSmall.setVisibility(View.INVISIBLE);
