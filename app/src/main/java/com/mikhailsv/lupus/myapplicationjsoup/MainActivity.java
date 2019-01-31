@@ -18,7 +18,6 @@ import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -928,7 +927,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        ratingDialog(rating, oldRating1, key1, ratingBar, textVotes1);
+                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating1, key1, ratingBar, textVotes1);
                 }
             });
             mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -967,7 +966,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        ratingDialog(rating, oldRating2, key2, ratingBar, textVotes2);
+                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating2, key2, ratingBar, textVotes2);
                 }
             });
             mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1005,7 +1004,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        ratingDialog(rating, oldRating3, key3, ratingBar, textVotes3);
+                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating3, key3, ratingBar, textVotes3);
                 }
             });
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1043,7 +1042,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        ratingDialog(rating, oldRating4, key4, ratingBar, textVotes4);
+                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating4, key4, ratingBar, textVotes4);
                 }
             });
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1081,7 +1080,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        ratingDialog(rating, oldRating5, key5, ratingBar, textVotes5);
+                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating5, key5, ratingBar, textVotes5);
                 }
             });
             mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1116,18 +1115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    /**
-     * Method increasing the votes number when user taps on the rating bar
-     *
-     * @param textView TextView with number of votes for the current dish
-     */
-    @SuppressLint("SetTextI18n")
-    private void votesUpdate(TextView textView) {
-        String[] votes = textView.getText().toString().split(" ");
-        int votesInt = Integer.valueOf(votes[0]);
-        votesInt++;
-        textView.setText("" + votesInt + " votes");
-    }
 
 
 
@@ -1153,44 +1140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            alert11.show();
        } catch (NullPointerException e)
        {}
-   }
-
-   public void ratingDialog(final float rating, final float oldRating, final String key, final RatingBar ratingBar, final TextView textVotes){
-
-       AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
-       LayoutInflater inflater = getLayoutInflater();
-
-       //myBuilder.setMessage("Your vote is\n" + (int)rating );
-
-       View dialogView = inflater.inflate(R.layout.dialog_layout, null);
-       TextView textView = dialogView.findViewById(R.id.textVoteDialog);
-       textView.setText("" + (int)rating);
-       myBuilder.setView(dialogView);
-
-
-       myBuilder.setCancelable(false);
-
-       myBuilder.setPositiveButton(
-               "Ok",
-               new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                       Toast.makeText(getApplicationContext(), "Vote accepted", Toast.LENGTH_LONG).show();
-                       mDatabase.child(key).child("Rating").push().setValue(rating);
-                       ratingBar.setIsIndicator(true);
-                       if (textVotes.getText().equals("")) textVotes.setText("1 vote");
-                       else votesUpdate(textVotes);
-                       dialog.cancel();
-                   }
-               });
-       myBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-           @Override
-           public void onClick(DialogInterface dialog, int which) {
-               ratingBar.setRating(oldRating);
-               dialog.cancel();
-           }
-       });
-       AlertDialog alert11 = myBuilder.create();
-       alert11.show();
    }
 }
 
