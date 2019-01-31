@@ -13,6 +13,7 @@
     <string-array name="spinner_list">
         <item>HAW Mensa</item>
         <item>HAW Cafe</item>
+        <item>Other ...</item>
     </string-array>
     <string name="about_message">Developer : msvyrydovych@gmail.com\n\nIcons : https://icons8.com</string>
 </resources>

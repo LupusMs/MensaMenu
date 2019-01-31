@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textVotes3.setText(null);
                 textVotes4.setText(null);
                 textVotes5.setText(null);
-                if (position == 0)
+                if (position == 0) //Mensa
                 {
                     sharedPref = getPreferences(MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mp = new MyParser();
                     mp.execute(increment);
                 }
-                else
+                else if (position == 1) // Cafe
                 {
                     sharedPref = getPreferences(MODE_PRIVATE);
                     editor = sharedPref.edit();
@@ -271,6 +271,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     editor.commit();
                     mp = new MyParser();
                     mp.execute(increment);
+                }
+                else // Other...
+                {
+                    cafeSelectionDialog();
                 }
 
 
@@ -1147,6 +1151,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            }
        });
 
+       AlertDialog alert11 = myBuilder.create();
+       alert11.show();
+   }
+
+   public void cafeSelectionDialog(){
+       AlertDialog.Builder myBuilder = new AlertDialog.Builder(this);
+       LayoutInflater inflater = getLayoutInflater();
+
+       TextView cafe1 = findViewById(R.id.textCafeName1);
+       TextView cafe2 = findViewById(R.id.textCafeName2);
+       TextView cafe3 = findViewById(R.id.textCafeName3);
+       TextView cafe4 = findViewById(R.id.textCafeName4);
+       TextView cafe5 = findViewById(R.id.textCafeName5);
+       TextView cafe6 = findViewById(R.id.textCafeName6);
+       TextView cafe7 = findViewById(R.id.textCafeName7);
+       TextView cafe8 = findViewById(R.id.textCafeName8);
+       TextView cafe9 = findViewById(R.id.textCafeName9);
+       TextView cafe10 = findViewById(R.id.textCafeName10);
+       TextView cafe11 = findViewById(R.id.textCafeName11);
+       TextView cafe12 = findViewById(R.id.textCafeName12);
+       TextView cafe13 = findViewById(R.id.textCafeName13);
+       TextView cafe14 = findViewById(R.id.textCafeName14);
+       TextView cafe15 = findViewById(R.id.textCafeName15);
+       TextView cafe16 = findViewById(R.id.textCafeName16);
+       TextView cafe17 = findViewById(R.id.textCafeName17);
+       TextView cafe18 = findViewById(R.id.textCafeName18);
+
+
+
+
+
+
+
+       View dialogView = inflater.inflate(R.layout.dialog_cafe_selection, null);
+       myBuilder.setView(dialogView);
+
+
+
+       myBuilder.setCancelable(false);
+
+       myBuilder.setPositiveButton(
+               "Ok",
+               new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+
+                       dialog.cancel();
+
+                   }
+               });
+       myBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+           @Override
+           public void onClick(DialogInterface dialog, int which) {
+               dialog.cancel();
+           }
+       });
        AlertDialog alert11 = myBuilder.create();
        alert11.show();
    }
