@@ -46,7 +46,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import static android.view.Window.FEATURE_NO_TITLE;
@@ -100,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String cafeMensa;
     private SharedPreferences.Editor editor;
     String updateAlert;
-    //increment was used for functionality that has been cut off. I left it here for future purposes
-    private final int[] increment = {0, 0, 0, 0};
     private SharedPreferences sharedPref;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.putString("language", Consts.LANGUAGE_DE);
                 editor.commit();
                 mp = new MyParser();
-                mp.execute(increment);
+                mp.execute();
                 return true;
             case R.id.enBtn:
                 sharedPref = getPreferences(MODE_PRIVATE);
@@ -146,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.putString("language", Consts.LANGUAGE_EN);
                 editor.commit();
                 mp = new MyParser();
-                mp.execute(increment);
+                mp.execute();
                 return true;
             case R.id.feedback:
                 startActivity(new Intent(this, Feedback.class));
@@ -183,48 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Text views for cafe selection dialogue
-        TextView cafe1 = findViewById(R.id.textCafeName1);
-        TextView cafe2 = findViewById(R.id.textCafeName2);
-        TextView cafe3 = findViewById(R.id.textCafeName3);
-        TextView cafe4 = findViewById(R.id.textCafeName4);
-        TextView cafe5 = findViewById(R.id.textCafeName5);
-        TextView cafe6 = findViewById(R.id.textCafeName6);
-        TextView cafe7 = findViewById(R.id.textCafeName7);
-        TextView cafe8 = findViewById(R.id.textCafeName8);
-        TextView cafe9 = findViewById(R.id.textCafeName9);
-        TextView cafe10 = findViewById(R.id.textCafeName10);
-        TextView cafe11 = findViewById(R.id.textCafeName11);
-        TextView cafe12 = findViewById(R.id.textCafeName12);
-        TextView cafe13 = findViewById(R.id.textCafeName13);
-        TextView cafe14 = findViewById(R.id.textCafeName14);
-        TextView cafe15 = findViewById(R.id.textCafeName15);
-        TextView cafe16 = findViewById(R.id.textCafeName16);
-        TextView cafe17 = findViewById(R.id.textCafeName17);
-        TextView cafe18 = findViewById(R.id.textCafeName18);
-        final ArrayList<TextView> texts = new ArrayList<>();
-        texts.add(cafe1);
-        texts.add(cafe2);
-        texts.add(cafe3);
-        texts.add(cafe4);
-        texts.add(cafe5);
-        texts.add(cafe6);
-        texts.add(cafe7);
-        texts.add(cafe8);
-        texts.add(cafe9);
-        texts.add(cafe10);
-        texts.add(cafe11);
-        texts.add(cafe12);
-        texts.add(cafe13);
-        texts.add(cafe14);
-        texts.add(cafe15);
-        texts.add(cafe16);
-        texts.add(cafe17);
-        texts.add(cafe18);
-
-
-
         sharedPref = getPreferences(MODE_PRIVATE);
         Boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
 
@@ -276,44 +231,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textVotes3.setText(null);
                 textVotes4.setText(null);
                 textVotes5.setText(null);
+                sharedPref = getPreferences(MODE_PRIVATE);
+                editor = sharedPref.edit();
+                language = sharedPref.getString("language", Consts.LANGUAGE_DE);
+                day = sharedPref.getString("day", Consts.DAY_TODAY);
+
+                //Hiding navigation arrow
+                if (day.equals(Consts.DAY_TODAY))
+                    today_btn.setVisibility(View.GONE);
+                else
+                    tomorrow_btn.setVisibility(View.GONE);
+                mp = new MyParser();
+
                 if (position == 0) //Mensa
                 {
-                    sharedPref = getPreferences(MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    language = sharedPref.getString("language", Consts.LANGUAGE_DE);
-                    day = sharedPref.getString("day", Consts.DAY_TODAY);
-
-                    //Hiding navigation arrow
-                    if (day.equals(Consts.DAY_TODAY))
-                        today_btn.setVisibility(View.GONE);
-                    else
-                        tomorrow_btn.setVisibility(View.GONE);
-
                     editor.putString("cafeMensa", Consts.MENSA_URL);
                     cafeMensa = Consts.MENSA_URL;
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-                    mp = new MyParser();
-                    mp.execute(increment);
+                    mp.execute();
                 }
                 else if (position == 1) // Cafe
                 {
-                    sharedPref = getPreferences(MODE_PRIVATE);
-                    editor = sharedPref.edit();
-                    language = sharedPref.getString("language", Consts.LANGUAGE_DE);
-                    day = sharedPref.getString("day", Consts.DAY_TODAY);
                     editor.putString("cafeMensa", Consts.CAFE_URL);
                     cafeMensa = Consts.CAFE_URL;
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
                     editor.putString("URL", myurl);
                     editor.commit();
-                    mp = new MyParser();
-                    mp.execute(increment);
+                    mp.execute();
                 }
                 else // Other...
                 {
-                    MyDialogues.cafeSelectionDialog(texts, MainActivity.this);
+                    MyDialogues.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
                 }
 
 
@@ -476,7 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }*/
 
         MyParser mp = new MyParser();
-        mp.execute(increment);
+        mp.execute();
 
 
     }
@@ -486,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         mp = new MyParser();
-        mp.execute(increment);
+        mp.execute();
     }
 
     @SuppressLint("ApplySharedPref")
@@ -502,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tomorrow_btn.setVisibility(View.GONE);
                 today_btn.setVisibility(View.VISIBLE);
                 MyParser mp = new MyParser();
-                mp.execute(increment);
+                mp.execute();
                 break;
             case R.id.today_btn:
                 sharedPref = getPreferences(MODE_PRIVATE);
@@ -512,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 today_btn.setVisibility(View.GONE);
                 tomorrow_btn.setVisibility(View.VISIBLE);
                 mp = new MyParser();
-                mp.execute(increment);
+                mp.execute();
                 break;
             case R.id.imageView1:
                 //imageView1Huge.setVisibility(View.VISIBLE);
@@ -639,7 +589,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("ApplySharedPref")
         @Override
         protected Void doInBackground(int[]... param) {
-            int[] increment = param[0];
+
             Document doc = null;
             Document pic = null;
 

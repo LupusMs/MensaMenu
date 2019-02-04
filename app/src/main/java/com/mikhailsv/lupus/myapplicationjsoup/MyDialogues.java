@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RatingBar;
@@ -12,18 +13,37 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 
-import java.util.ArrayList;
-
 public class MyDialogues {
 
-    public static void cafeSelectionDialog(ArrayList<TextView> texts, Context context){
+
+    public static void cafeSelectionDialog(final MainActivity.MyParser mp, final SharedPreferences.Editor editor, final String language,
+                                           final String day, final Context context){
+
         AlertDialog.Builder myBuilder = new AlertDialog.Builder(context);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 
         View dialogView = inflater.inflate(R.layout.dialog_cafe_selection, null);
         myBuilder.setView(dialogView);
-
         myBuilder.setCancelable(false);
+        final AlertDialog alert11 = myBuilder.create();
+        alert11.show();
+
+        TextView cafeName2 = dialogView.findViewById(R.id.textCafeName2);
+
+        cafeName2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.BERG_URL);
+                String cafeMensa = Consts.BERG_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                DialogInterface dialog;
+                alert11.cancel();
+            }
+        });
+
 
         myBuilder.setPositiveButton(
                 "Ok",
@@ -40,8 +60,7 @@ public class MyDialogues {
                 dialog.cancel();
             }
         });
-        AlertDialog alert11 = myBuilder.create();
-        alert11.show();
+
     }
 
 
