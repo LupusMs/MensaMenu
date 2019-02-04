@@ -28,8 +28,23 @@ public class MyDialogues {
         final AlertDialog alert11 = myBuilder.create();
         alert11.show();
 
-        TextView cafeName2 = dialogView.findViewById(R.id.textCafeName2);
+        //Armgartstraße
+        TextView cafeName1 = dialogView.findViewById(R.id.textCafeName1);
+        cafeName1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.ARM_URL);
+                String cafeMensa = Consts.ARM_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
 
+        //Bergedorf
+        TextView cafeName2 = dialogView.findViewById(R.id.textCafeName2);
         cafeName2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,10 +54,253 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Botanischer-Garten
+        TextView cafeName3 = dialogView.findViewById(R.id.textCafeName3);
+        cafeName3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.BOT_GARD_URL);
+                String cafeMensa = Consts.BOT_GARD_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Bucerius-Law-School
+        TextView cafeName4 = dialogView.findViewById(R.id.textCafeName4);
+        cafeName4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.BUC_URL);
+                String cafeMensa = Consts.BUC_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Cafe Alexanderstraße
+        TextView cafeName5 = dialogView.findViewById(R.id.textCafeName5);
+        cafeName5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.CAFE_ALEX_URL);
+                String cafeMensa = Consts.CAFE_ALEX_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Café (am Mittelweg)
+        TextView cafeName6 = dialogView.findViewById(R.id.textCafeName6);
+        cafeName6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.CAFE_MITTEL_URL);
+                String cafeMensa = Consts.CAFE_MITTEL_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Café CFEL
+        TextView cafeName7 = dialogView.findViewById(R.id.textCafeName7);
+        cafeName7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.CFEL_URL);
+                String cafeMensa = Consts.CFEL_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //TODO fix
+        //Café dell`Arte
+        TextView cafeName8 = dialogView.findViewById(R.id.textCafeName8);
+        cafeName8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.BERG_URL);
+                String cafeMensa = Consts.BERG_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Cafe Jungiusstraße
+        TextView cafeName9 = dialogView.findViewById(R.id.textCafeName9);
+        cafeName9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.JUNGIUS_URL);
+                String cafeMensa = Consts.JUNGIUS_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //TODO fix
+        //Schlüters
+        TextView cafeName10 = dialogView.findViewById(R.id.textCafeName10);
+        cafeName10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.SCHLU_URL);
+                String cafeMensa = Consts.SCHLU_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
                 DialogInterface dialog;
                 alert11.cancel();
             }
         });
+
+        //Campus
+        TextView cafeName11 = dialogView.findViewById(R.id.textCafeName11);
+        cafeName11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.CAMP_URL);
+                String cafeMensa = Consts.CAMP_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Finkenau
+        TextView cafeName12 = dialogView.findViewById(R.id.textCafeName12);
+        cafeName12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.FINK_URL);
+                String cafeMensa = Consts.FINK_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Geomatikum
+        TextView cafeName13 = dialogView.findViewById(R.id.textCafeName13);
+        cafeName13.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.GEO_URL);
+                String cafeMensa = Consts.GEO_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //HCU
+        TextView cafeName14 = dialogView.findViewById(R.id.textCafeName14);
+        cafeName14.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.HCU_URL);
+                String cafeMensa = Consts.HCU_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Harburg
+        TextView cafeName15 = dialogView.findViewById(R.id.textCafeName15);
+        cafeName15.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.HAR_URL);
+                String cafeMensa = Consts.HAR_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Stellingen
+        TextView cafeName16 = dialogView.findViewById(R.id.textCafeName16);
+        cafeName16.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.STELL_URL);
+                String cafeMensa = Consts.STELL_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Studierendenhaus
+        TextView cafeName17 = dialogView.findViewById(R.id.textCafeName17);
+        cafeName17.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.STUD_URL);
+                String cafeMensa = Consts.STUD_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
+        //Überseering
+        TextView cafeName18 = dialogView.findViewById(R.id.textCafeName18);
+        cafeName18.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editor.putString("cafeMensa", Consts.UEBER_URL);
+                String cafeMensa = Consts.UEBER_URL;
+                String myurl = Consts.MENU_URL + language + cafeMensa + day;
+                editor.putString("URL", myurl);
+                editor.commit();
+                mp.execute();
+                alert11.cancel();
+            }
+        });
+
 
 
         myBuilder.setPositiveButton(
