@@ -243,28 +243,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tomorrow_btn.setVisibility(View.GONE);
                 mp = new MyParser();
 
-                if (position == 0) //Mensa
+                if (position == 1) //Mensa
                 {
                     editor.putString("cafeMensa", Consts.MENSA_URL);
-                    cafeMensa = Consts.MENSA_URL;
-                    myurl = Consts.MENU_URL + language + cafeMensa + day;
-                    editor.putString("URL", myurl);
+                    editor.putString("URL", Consts.MENU_URL + language + Consts.MENSA_URL + day);
                     editor.commit();
                     mp.execute();
                 }
-                else if (position == 1) // Cafe
+                else if (position == 2) // Cafe
                 {
                     editor.putString("cafeMensa", Consts.CAFE_URL);
-                    cafeMensa = Consts.CAFE_URL;
-                    myurl = Consts.MENU_URL + language + cafeMensa + day;
-                    editor.putString("URL", myurl);
+                    editor.putString("URL", Consts.MENU_URL + language + Consts.CAFE_URL + day);
                     editor.commit();
                     mp.execute();
                 }
-                else if (position == 2) // Other...
+                else if (position == 3) // Other...
                 {
                     MyDialogues.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
-                    spinner.setSelection(3);
+                    spinner.setSelection(0);
                 }
 
             }
