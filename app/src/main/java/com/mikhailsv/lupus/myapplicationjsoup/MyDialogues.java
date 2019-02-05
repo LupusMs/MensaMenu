@@ -19,14 +19,20 @@ public class MyDialogues {
     public static void cafeSelectionDialog(final MainActivity.MyParser mp, final SharedPreferences.Editor editor, final String language,
                                            final String day, final Context context){
 
-        AlertDialog.Builder myBuilder = new AlertDialog.Builder(context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        final AlertDialog.Builder myBuilder = new AlertDialog.Builder(context);
+        myBuilder.setTitle("Select Cafe");
 
-        View dialogView = inflater.inflate(R.layout.dialog_cafe_selection, null);
-        myBuilder.setView(dialogView);
-        myBuilder.setCancelable(false);
+        myBuilder.setItems(R.array.cafe_array, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        myBuilder.setCancelable(true);
         final AlertDialog alert11 = myBuilder.create();
         alert11.show();
+/*
 
         //Armgartstraße
         TextView cafeName1 = dialogView.findViewById(R.id.textCafeName1);
@@ -39,7 +45,8 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
+
             }
         });
 
@@ -54,7 +61,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -69,7 +76,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -84,7 +91,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -99,7 +106,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -114,7 +121,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -129,7 +136,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -145,7 +152,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -160,7 +167,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -177,7 +184,7 @@ public class MyDialogues {
                 editor.commit();
                 mp.execute();
                 DialogInterface dialog;
-                alert11.cancel();
+
             }
         });
 
@@ -192,7 +199,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -207,7 +214,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -222,7 +229,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -237,7 +244,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -252,7 +259,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -267,7 +274,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -282,7 +289,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -297,7 +304,7 @@ public class MyDialogues {
                 editor.putString("URL", myurl);
                 editor.commit();
                 mp.execute();
-                alert11.cancel();
+
             }
         });
 
@@ -318,6 +325,13 @@ public class MyDialogues {
                 dialog.cancel();
             }
         });
+
+        alert11.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Log.wtf("mytag", "cancelled");
+            }
+        });*/
 
     }
 
