@@ -21,17 +21,36 @@ public class MyDialogues {
 
         final AlertDialog.Builder myBuilder = new AlertDialog.Builder(context);
         myBuilder.setTitle("Select Cafe");
+        myBuilder.setCancelable(false);
+
 
         myBuilder.setItems(R.array.cafe_array, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                String selectedCafe = Consts.ARM_URL;
+
+                switch (which){
+                    case 0 :
+                        selectedCafe = Consts.ARM_URL;
+                        break;
+                    case 1 :
+                        selectedCafe = Consts.BERG_URL;
+                        break;
+                }
+
+                editor.putString("cafeMensa", selectedCafe );
+                editor.putString("URL", Consts.MENU_URL + language + selectedCafe + day);
+                editor.commit();
+                mp.execute();
+
             }
         });
 
-        myBuilder.setCancelable(true);
         final AlertDialog alert11 = myBuilder.create();
         alert11.show();
+
+
 /*
 
         //Armgartstraße

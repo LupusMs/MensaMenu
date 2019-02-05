@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        Spinner spinner = findViewById(R.id.spinner);
+        final Spinner spinner = findViewById(R.id.spinner);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -236,8 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 language = sharedPref.getString("language", Consts.LANGUAGE_DE);
                 day = sharedPref.getString("day", Consts.DAY_TODAY);
 
-                Log.wtf("mytag", "OnItemSelected");
-
                 //Hiding navigation arrow
                 if (day.equals(Consts.DAY_TODAY))
                     today_btn.setVisibility(View.GONE);
@@ -246,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp = new MyParser();
 
                 if (position == 0) //Mensa
-                {    Log.wtf("mytag", "clicked");
+                {
                     editor.putString("cafeMensa", Consts.MENSA_URL);
                     cafeMensa = Consts.MENSA_URL;
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
@@ -256,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if (position == 1) // Cafe
                 {
-                    Log.wtf("mytag", "clicked");
                     editor.putString("cafeMensa", Consts.CAFE_URL);
                     cafeMensa = Consts.CAFE_URL;
                     myurl = Consts.MENU_URL + language + cafeMensa + day;
@@ -266,11 +263,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if (position == 2) // Other...
                 {
-                    Log.wtf("mytag", "clicked");
                     MyDialogues.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
-
+                    spinner.setSelection(3);
                 }
-
 
             }
 
