@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textVotes3;
     private TextView textVotes4;
     private TextView textVotes5;
-    int i;
     private String myurl;
     private String language;
     private String day;
