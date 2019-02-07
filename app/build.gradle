@@ -1,13 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+
+
+
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.mikhailsv.lupus.myapplicationjsoup"
         minSdkVersion 22
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionName '1.16'
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         versionCode 16
     }
     buildTypes {
@@ -29,8 +32,10 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.google.firebase:firebase-database:16.0.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
     implementation 'com.cloudinary:cloudinary-android:1.24.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'

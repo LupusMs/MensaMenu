@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HAW Menu</string>
+    <string name="haw_mensa">HAW Mensa</string>
+    <string name="haw_cafe">HAW Cafe</string>
+    <string name="add_photo">Bild hinzufügen</string>
+    <string name="app_feedback">Gutachten</string>
+    <string name="loading">Ladung...</string>
+    <string name="please_wait">Bitte warten</string>
+    <string-array name="spinner_list">
+        <item>Auswählen...</item>
+        <item>HAW Mensa</item>
+        <item>HAW Cafe</item>
+        <item>Andere</item>
+    </string-array>
+    <string name="please_leave_your_comments_and_suggestions_related_to_the_app_here">Bitte hinterlassen Sie hier Ihre Kommentare und Vorschläge zur app:</string>
+    <string name="send">Schiken</string>
+    <string name="about_message">Developer : msvyrydovych@gmail.com  Icons : https://icons8.com</string>
+    <string name="english">English</string>
+    <string name="item">Item</string>
+</resources>
