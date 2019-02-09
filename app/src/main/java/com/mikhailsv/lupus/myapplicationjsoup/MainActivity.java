@@ -676,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
 
-                changeDisplayText mychangeDisplayText = new changeDisplayText();
+
 
                 try {
 
@@ -684,8 +684,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                     //Editing Strings for displaying and for search requests
-                    displaytextDish1 = mychangeDisplayText.displayText(textDish1.text());
-                    searchtextDish1 = mychangeDisplayText.searchText(textDish1.text());
+                    displaytextDish1 = ChangeDisplayTextKt.displayText(textDish1.text());
+                    searchtextDish1 = ChangeDisplayTextKt.searchText(textDish1.text());
                     Log.wtf("mytag", "DISPLAY " + displaytextDish1);
                     Log.wtf("mytag", "SEARCH " + searchtextDish1);
                 } catch (Exception e) {
@@ -694,30 +694,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 try {
                     textDish2 = doc.select(".dish-description").get(1);
-                    displaytextDish2 = mychangeDisplayText.displayText(textDish2.text());
-                    searchtextDish2 = mychangeDisplayText.searchText(textDish2.text());
+                    displaytextDish2 = ChangeDisplayTextKt.displayText(textDish2.text());
+                    searchtextDish2 = ChangeDisplayTextKt.searchText(textDish2.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 try {
                     textDish3 = doc.select(".dish-description").get(2);
-                    displaytextDish3 = mychangeDisplayText.displayText(textDish3.text());
-                    searchtextDish3 = mychangeDisplayText.searchText(textDish3.text());
+                    displaytextDish3 = ChangeDisplayTextKt.displayText(textDish3.text());
+                    searchtextDish3 = ChangeDisplayTextKt.searchText(textDish3.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
                     textDish4 = doc.select(".dish-description").get(3);
-                    displaytextDish4 = mychangeDisplayText.displayText(textDish4.text());
-                    searchtextDish4 = mychangeDisplayText.searchText(textDish4.text());
+                    displaytextDish4 = ChangeDisplayTextKt.displayText(textDish4.text());
+                    searchtextDish4 = ChangeDisplayTextKt.searchText(textDish4.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
                     textDish5 = doc.select(".dish-description").get(4);
-                    displaytextDish5 = mychangeDisplayText.displayText(textDish5.text());
-                    searchtextDish5 = mychangeDisplayText.searchText(textDish5.text());
+                    displaytextDish5 = ChangeDisplayTextKt.displayText(textDish5.text());
+                    searchtextDish5 = ChangeDisplayTextKt.searchText(textDish5.text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

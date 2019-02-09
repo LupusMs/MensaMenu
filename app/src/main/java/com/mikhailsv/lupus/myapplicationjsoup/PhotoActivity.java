@@ -230,7 +230,6 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
            // Create the File where the photo should go
            photoFile = null;
            photoFile = createImageFile(imageFileName);
-           Log.wtf("mytag", "PHOTOFILE" + photoFile.toString());
            if (photoFile != null) {
                takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                        FileProvider.getUriForFile(getApplicationContext(),  getApplicationContext().getPackageName() + ".provider",photoFile));
