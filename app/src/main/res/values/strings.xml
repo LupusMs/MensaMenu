@@ -17,4 +17,6 @@
     </string-array>
     <string name="about_message">Developer : msvyrydovych@gmail.com  Icons : https://icons8.com</string>
     <string name="please_leave_your_comments_and_suggestions_related_to_the_app_here">Please leave your comments and suggestions related to the app here:</string>
+    <string name="load_error">Cannot load the menu</string>
+    <string name="error">Error</string>
 </resources>

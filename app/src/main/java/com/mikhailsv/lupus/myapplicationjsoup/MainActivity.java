@@ -819,10 +819,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textViewDate.setText(textDate.text());
                 } catch (Exception e) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle("Error");
-                builder1.setMessage("Cannot load the menu");
+                builder1.setTitle(R.string.error);
+                builder1.setMessage(R.string.load_error);
                 builder1.setCancelable(true);
-
                 builder1.setPositiveButton(
                         "Ok",
                         new DialogInterface.OnClickListener() {
@@ -843,7 +842,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Loading a picture for the first dish
             loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge, dishDescription1 );
             //Loading a picture for the second dish
-            Log.wtf("mytag", "SEARCH 2 " +searchtextDish2);
             loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge, dishDescription2 );
             //Loading a picture for the third dish
             loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge, dishDescription3 );
@@ -872,7 +870,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating1, key1, ratingBar, textVotes1);
+                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating1, key1, ratingBar, textVotes1);
                 }
             });
             mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -911,7 +909,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating2, key2, ratingBar, textVotes2);
+                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating2, key2, ratingBar, textVotes2);
                 }
             });
             mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -949,7 +947,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating3, key3, ratingBar, textVotes3);
+                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating3, key3, ratingBar, textVotes3);
                 }
             });
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -987,7 +985,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating4, key4, ratingBar, textVotes4);
+                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating4, key4, ratingBar, textVotes4);
                 }
             });
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -1025,7 +1023,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (fromUser)
-                        MyDialogues.ratingDialog(MainActivity.this, mDatabase, rating, oldRating5, key5, ratingBar, textVotes5);
+                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating5, key5, ratingBar, textVotes5);
                 }
             });
             mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {

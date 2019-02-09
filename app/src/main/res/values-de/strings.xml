@@ -18,4 +18,6 @@
     <string name="about_message">Developer : msvyrydovych@gmail.com  Icons : https://icons8.com</string>
     <string name="english">English</string>
     <string name="item">Item</string>
+    <string name="load_error">Menü kann nicht geladen werden</string>
+    <string name="error">Fehler</string>
 </resources>
