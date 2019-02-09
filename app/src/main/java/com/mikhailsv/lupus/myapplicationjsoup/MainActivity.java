@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if (position == 3) // Other...
                 {
-                    MyDialogues.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
+                    MyDialoguesKt.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
                     spinner.setSelection(0);
                 }
 
@@ -499,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @SuppressLint("StaticFieldLeak")
-    class MyParser extends AsyncTask<int[], Void, Void> {
+    public class MyParser extends AsyncTask<int[], Void, Void> {
         Element text1;
         Element text2;
         Element text3;
