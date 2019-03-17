@@ -71,6 +71,7 @@ private fun votesUpdate(textView: TextView) {
 /**
  * Calling Alert Dialog to confirm the rating change
  */
+@SuppressLint("InflateParams")
 fun ratingDialog(context:Context, mDatabase: DatabaseReference, rating:Float, oldRating:Float, key:String, ratingBar: RatingBar, textVotes:TextView) {
 
 val myBuilder = AlertDialog.Builder(context)

@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings("ALL")
 public class PhotoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int ACTIVITY_SELECT_IMAGE = 2;
@@ -249,7 +249,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
             case ACTIVITY_SELECT_IMAGE:
                 if(resultCode == RESULT_OK){
                     Uri selectedImage = data.getData();
-                    Log.wtf("mytag", "URI _ " + selectedImage.toString());
+                    Log.wtf("mytag", "URI _ " + (selectedImage != null ? selectedImage.toString() : null));
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                     Cursor cursor = getContentResolver().query(Objects.requireNonNull(selectedImage), filePathColumn, null, null, null);
@@ -299,7 +299,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public class LoadingThread extends Thread{
+    class LoadingThread extends Thread{
 
         public void run(){
             Map config = new HashMap();

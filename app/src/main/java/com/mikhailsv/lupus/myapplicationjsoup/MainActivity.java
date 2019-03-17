@@ -51,7 +51,7 @@ import java.util.Objects;
 import static android.view.Window.FEATURE_NO_TITLE;
 
 
-@SuppressWarnings("FieldCanBeLocal")
+@SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textView1;
     private TextView textView2;
@@ -174,13 +174,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "ApplySharedPref"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sharedPref = getPreferences(MODE_PRIVATE);
-        Boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
+        boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
 
         if (!ratingDialogPreferences) {
             final RatingDialog ratingDialog = new RatingDialog.Builder(this)
@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 day = sharedPref.getString("day", Consts.DAY_TODAY);
 
                 //Hiding navigation arrow
+                assert day != null;
                 if (day.equals(Consts.DAY_TODAY))
                     today_btn.setVisibility(View.GONE);
                 else
@@ -597,10 +598,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 day = sharedPref.getString("day", Consts.DAY_TODAY);
                 language = sharedPref.getString("language",Consts.LANGUAGE_DE );
                 //Adjusting myurl
-                myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/");
-                myurl = myurl.replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/");
-                myurl = myurl.replaceAll(Consts.DAY_TODAY, day);
-                myurl = myurl.replaceAll(Consts.DAY_TOMORROW, day);
+                myurl = myurl.replaceAll("/" + Consts.LANGUAGE_EN + "/", "/" + language + "/")
+                .replaceAll("/" + Consts.LANGUAGE_DE + "/", "/" + language + "/")
+                .replaceAll(Consts.DAY_TODAY, day)
+                .replaceAll(Consts.DAY_TOMORROW, day);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -869,15 +870,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser)
+                    if (fromUser) {
+                        assert key1 != null;
                         MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating1, key1, ratingBar, textVotes1);
+                    }
                 }
             });
+            assert key1 != null;
             mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
@@ -908,15 +912,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser)
+                    if (fromUser) {
+                        assert key2 != null;
                         MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating2, key2, ratingBar, textVotes2);
+                    }
                 }
             });
+            assert key2 != null;
             mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
@@ -946,15 +953,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser)
+                    if (fromUser) {
+                        assert key3 != null;
                         MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating3, key3, ratingBar, textVotes3);
+                    }
                 }
             });
+            assert key3 != null;
             mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
@@ -984,15 +994,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser)
+                    if (fromUser) {
+                        assert key4 != null;
                         MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating4, key4, ratingBar, textVotes4);
+                    }
                 }
             });
+            assert key4 != null;
             mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
@@ -1022,15 +1035,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser)
+                    if (fromUser) {
+                        assert key5 != null;
                         MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating5, key5, ratingBar, textVotes5);
+                    }
                 }
             });
+            assert key5 != null;
             mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    if (dataSnapshot.getValue() != null) {
                         int total = 0, count = 0;
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
                             int rating = child.getValue(Integer.class);
@@ -1081,7 +1097,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            AlertDialog alert11 = builder1.create();
            alert11.requestWindowFeature(FEATURE_NO_TITLE);
            alert11.show();
-       } catch (NullPointerException e)
+       } catch (NullPointerException ignored)
        {}
    }
 }

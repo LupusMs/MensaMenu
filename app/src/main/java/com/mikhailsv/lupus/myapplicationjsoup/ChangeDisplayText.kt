@@ -2,7 +2,7 @@ package com.mikhailsv.lupus.myapplicationjsoup
 
 
 // Editing text to be displayed
-fun displayText(myString1: String): String = myString1.replace("\\d".toRegex(), "").replace("\\(.*?\\)".toRegex(), "").replace(",".toRegex(), "")
+fun displayText(myString1: String): String = myString1.replace("\\d".toRegex(), "").replace("\\(.*?\\)".toRegex(), "").replace(" ,".toRegex(), ",")
             .replace("\\.".toRegex(), "")
 
 
