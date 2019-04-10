@@ -5,9 +5,10 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
     app:popupTheme="@style/PopUp"
-    tools:ignore="Overdraw">
+    tools:ignore="Overdraw"
+    android:background="@color/colorPrimary"
+    >
 
     <Spinner
         android:id="@+id/spinner"

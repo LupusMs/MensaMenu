@@ -20,4 +20,5 @@
     <string name="item">Item</string>
     <string name="load_error">Menü kann nicht geladen werden</string>
     <string name="error">Fehler</string>
+    <string name="about">Info</string>
 </resources>

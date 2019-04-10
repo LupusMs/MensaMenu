@@ -14,10 +14,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -96,9 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String language;
     private String day;
     private String cafeMensa;
-    private SharedPreferences.Editor editor;
-    String updateAlert;
-    private SharedPreferences sharedPref;
+    //private SharedPreferences.Editor editor;
+    private String updateAlert;
+    //private SharedPreferences sharedPref;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
     private float oldRating1;
@@ -115,12 +110,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+    /**
+     * Writing data to SharedPreferences
+     * @param key
+     * @param value
+     */
+    private void writeToPrefs(String key, String value )
+    {
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
 
-    //Selecting between Mensa and Cafe menus
+    private void writeToPrefs(String[] keys, String[] values)
+    {
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        for(int i = 0; i < keys.length; i++)
+        {
+            editor.putString(keys[i], values[i]);
+        }
+        editor.commit();
+    }
+
+
+
     @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         // Handle item selection
         switch (item.getItemId()) {
 
@@ -129,18 +147,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(photoIntent);
                 return true;
             case R.id.deBtn:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("language", Consts.LANGUAGE_DE);
-                editor.commit();
+                writeToPrefs("language", Consts.LANGUAGE_DE);
                 mp = new MyParser();
                 mp.execute();
                 return true;
             case R.id.enBtn:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("language", Consts.LANGUAGE_EN);
-                editor.commit();
+                writeToPrefs("language", Consts.LANGUAGE_EN);
                 mp = new MyParser();
                 mp.execute();
                 return true;
@@ -148,65 +160,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Feedback.class));
                 return true;
             case R.id.menu_info:
-                // Showing "About app" dialog
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setTitle("Information about the app");
-                final SpannableString s =
-                        new SpannableString(getApplicationContext().getText(R.string.about_message));
-                Linkify.addLinks(s, Linkify.EMAIL_ADDRESSES);
-                builder1.setMessage(s);
-
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(
-                        "Close",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
-                ((TextView)alert11.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+               MyDialoguesKt.showAboutAppDialog(MainActivity.this);
             default:
                 return super.onOptionsItemSelected(item);
         }
 
     }
 
+
     @SuppressLint({"ClickableViewAccessibility", "ApplySharedPref"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        sharedPref = getPreferences(MODE_PRIVATE);
-        boolean ratingDialogPreferences = sharedPref.getBoolean("rating_dialog", false);
-
-        if (!ratingDialogPreferences) {
-            final RatingDialog ratingDialog = new RatingDialog.Builder(this)
-                    .threshold(3)
-                    .session(5)
-                    .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
-                        @Override
-                        public void onFormSubmitted(String feedback) {
-                            mDatabase = FirebaseDatabase.getInstance().getReference();
-                            mDatabase.child("feedback").child("feedback").push().setValue(feedback);
-                        }
-                    }).build();
-
-            ratingDialog.show();
-            editor = sharedPref.edit();
-            editor.putBoolean("rating_dialog", true);
-            editor.commit();
-        }
-
-
         constraintLayout = findViewById(R.id.constraintLayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        MyDialoguesKt.showAppRatingDialog(MainActivity.this);
         final Spinner spinner = findViewById(R.id.spinner);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -230,10 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textVotes3.setText(null);
                 textVotes4.setText(null);
                 textVotes5.setText(null);
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                language = sharedPref.getString("language", Consts.LANGUAGE_DE);
-                day = sharedPref.getString("day", Consts.DAY_TODAY);
+                writeToPrefs(new String[]{"language", "day"}, new String[]{Consts.LANGUAGE_DE, Consts.DAY_TODAY});
 
                 //Hiding navigation arrow
                 assert day != null;
@@ -241,30 +210,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     today_btn.setVisibility(View.GONE);
                 else
                     tomorrow_btn.setVisibility(View.GONE);
-                mp = new MyParser();
 
+                mp = new MyParser();
                 if (position == 1) //Mensa
                 {
-                    editor.putString("cafeMensa", Consts.MENSA_URL);
-                    editor.putString("URL", Consts.MENU_URL + language + Consts.MENSA_URL + day);
-                    editor.commit();
+                    writeToPrefs("cafeMensa", Consts.MENSA_URL);
+                    writeToPrefs("URL", Consts.MENU_URL + language + Consts.MENSA_URL + day);
                     mp.execute();
                 }
                 else if (position == 2) // Cafe
                 {
-                    editor.putString("cafeMensa", Consts.CAFE_URL);
-                    editor.putString("URL", Consts.MENU_URL + language + Consts.CAFE_URL + day);
-                    editor.commit();
+                    writeToPrefs("cafeMensa", Consts.CAFE_URL);
+                    writeToPrefs("URL", Consts.MENU_URL + language + Consts.CAFE_URL + day);
                     mp.execute();
                 }
                 else if (position == 3) // Other...
                 {
-                    MyDialoguesKt.cafeSelectionDialog(mp, editor, language, day, MainActivity.this);
+                    MyDialoguesKt.cafeSelectionDialog(mp, language, day, MainActivity.this);
                     spinner.setSelection(0);
                 }
 
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -288,8 +254,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        //Showing Animation on app starting
         final LottieAnimationView lottieAnimationView = findViewById(R.id.lottie1);
-
         if (lottieAnimationView!= null) {
             lottieAnimationView.setVisibility(View.VISIBLE);
             lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
@@ -315,9 +281,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
         }
-
-
-
 
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
@@ -362,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textVotes3 = findViewById(R.id.textVotes3);
         textVotes4 = findViewById(R.id.textVotes4);
         textVotes5 = findViewById(R.id.textVotes5);
-
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
         imageView1.setOnClickListener(this);
@@ -370,6 +332,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView3.setOnClickListener(this);
         imageView4.setOnClickListener(this);
         imageView5.setOnClickListener(this);
+        dishDescription1.setOnClickListener(this);
+        dishDescription2.setOnClickListener(this);
+        dishDescription3.setOnClickListener(this);
+        dishDescription4.setOnClickListener(this);
+        dishDescription5.setOnClickListener(this);
         imageView1Huge.setOnClickListener(this);
         imageView2Huge.setOnClickListener(this);
         imageView3Huge.setOnClickListener(this);
@@ -377,14 +344,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView5Huge.setOnClickListener(this);
 
         //Default url for Mensa menu
-        sharedPref = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
         language = sharedPref.getString("language", Consts.LANGUAGE_DE);
         day = sharedPref.getString("day", Consts.DAY_TODAY);
         cafeMensa = sharedPref.getString("cafeMensa", Consts.MENSA_URL);
-       /* if (cafeMensa.equals(Consts.MENSA_URL))
-            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Mensa");
-        else
-            Objects.requireNonNull(getSupportActionBar()).setTitle("HAW Cafe");*/
         myurl = Consts.MENU_URL + language + cafeMensa + day;
 
         //Hiding navigation arrow
@@ -393,38 +356,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             tomorrow_btn.setVisibility(View.GONE);
 
-        /*updateAlert = sharedPref.getString("update", "");
-
-        if (updateAlert.equals("")){
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Update");
-        builder1.setMessage("Welcome to the new version!\n" +
-                "- Dish rating added. Participate in mensa food rating! Every user can vote, the result are stored in cloud database and " +
-                "available for all users.\n" +
-                "- Photo uploads added. Take the photo of your food and it will be uploaded to cloud server and " +
-                "available for all users.\n" +
-                "- Photos from web search removed! Please participate and help to fill the menu with real photos.");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Ok",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("update", "done");
-            editor.commit();
-        }*/
-
+        MyDialoguesKt.showUpdateDialog(MainActivity.this);
         MyParser mp = new MyParser();
         mp.execute();
-
-
     }
 
 
@@ -438,46 +372,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ApplySharedPref")
     @Override
     public void onClick(View view) {
-
         switch (view.getId()) {
             case R.id.tomorrow_btn:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("day", Consts.DAY_TOMORROW);
-                editor.commit();
+                writeToPrefs("day", Consts.DAY_TOMORROW);
                 tomorrow_btn.setVisibility(View.GONE);
                 today_btn.setVisibility(View.VISIBLE);
                 MyParser mp = new MyParser();
                 mp.execute();
                 break;
             case R.id.today_btn:
-                sharedPref = getPreferences(MODE_PRIVATE);
-                editor = sharedPref.edit();
-                editor.putString("day", Consts.DAY_TODAY);
-                editor.commit();
+                writeToPrefs("day", Consts.DAY_TODAY);
                 today_btn.setVisibility(View.GONE);
                 tomorrow_btn.setVisibility(View.VISIBLE);
                 mp = new MyParser();
                 mp.execute();
                 break;
             case R.id.imageView1:
-                //imageView1Huge.setVisibility(View.VISIBLE);
                 createPictureDialog(imageView1Huge);
                 break;
             case R.id.imageView2:
-                //imageView2Huge.setVisibility(View.VISIBLE);
                 createPictureDialog(imageView2Huge);
                 break;
             case R.id.imageView3:
-                //imageView3Huge.setVisibility(View.VISIBLE);
                 createPictureDialog(imageView3Huge);
                 break;
             case R.id.imageView4:
-                //imageView4Huge.setVisibility(View.VISIBLE);
                 createPictureDialog(imageView4Huge);
                 break;
             case R.id.imageView5:
-                //imageView5Huge.setVisibility(View.VISIBLE);
                 createPictureDialog(imageView5Huge);
                 break;
             case R.id.imageView1Huge:
@@ -495,10 +417,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.imageView5Huge:
                 imageView5Huge.setVisibility(View.INVISIBLE);
                 break;
+            case R.id.dishDescription1:
+                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription1.getText().toString()), MainActivity.this);
+                break;
+            case R.id.dishDescription2:
+                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription2.getText().toString()), MainActivity.this);
+                break;
+            case R.id.dishDescription3:
+                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription3.getText().toString()), MainActivity.this);
+                break;
+            case R.id.dishDescription4:
+                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription4.getText().toString()), MainActivity.this);
+                break;
+            case R.id.dishDescription5:
+                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription5.getText().toString()), MainActivity.this);
+                break;
+
         }
     }
 
-
+    // Memory Leak is prevented with destroying the AsyncTask explicitly in OnDestroy() method
+    // This internal class is parsing the dish data from the website with menu
     @SuppressLint("StaticFieldLeak")
     public class MyParser extends AsyncTask<int[], Void, Void> {
         Element text1;
@@ -546,6 +485,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
 
+                        //Loading images from local directory
                         @Override
                         public void onError() {
                             String dishText = dishDescription.getText().toString().toLowerCase();
@@ -590,10 +530,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Document pic = null;
 
 
-
             try {
-                //Intent intent = getIntent();
-                //myurl = intent.getExtras().getString("myurl", myurl);
+                SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
                 myurl = sharedPref.getString("URL", myurl);
                 day = sharedPref.getString("day", Consts.DAY_TODAY);
                 language = sharedPref.getString("language",Consts.LANGUAGE_DE );
@@ -687,8 +625,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //Editing Strings for displaying and for search requests
                     displaytextDish1 = ChangeDisplayTextKt.displayText(textDish1.text());
                     searchtextDish1 = ChangeDisplayTextKt.searchText(textDish1.text());
-                    Log.wtf("mytag", "DISPLAY " + displaytextDish1);
-                    Log.wtf("mytag", "SEARCH " + searchtextDish1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -723,21 +659,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-
-            SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("dish1", searchtextDish1);
-            editor.putString("dish2", searchtextDish2);
-            editor.putString("dish3", searchtextDish3);
-            editor.putString("dish4", searchtextDish4);
-            editor.putString("dish5", searchtextDish5);
-            editor.putString("dish11", displaytextDish1);
-            editor.putString("dish22", displaytextDish2);
-            editor.putString("dish33", displaytextDish3);
-            editor.putString("dish44", displaytextDish4);
-            editor.putString("dish55", displaytextDish5);
-
-            editor.commit();
+            writeToPrefs(new String[]{"dish1", "dish2", "dish3", "dish4", "dish5",
+                    "dish11", "dish22", "dish33", "dish44", "dish55"} , new String[]{searchtextDish1,
+                    searchtextDish2, searchtextDish3, searchtextDish4, searchtextDish5, displaytextDish1,
+                    displaytextDish2, displaytextDish3, displaytextDish4, displaytextDish5, } );
             return null;
         }
 
