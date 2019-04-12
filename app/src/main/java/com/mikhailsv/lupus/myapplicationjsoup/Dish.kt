@@ -4,10 +4,6 @@ data class Dish(val dishType : String, val dishDescription : String,
            val price : String, var rating : Float, var votes : String) {
 
 
-
-
-
-
     // Editing text to be displayed
     fun displayText(): String = dishDescription.replace("\\d".toRegex(), "").replace("\\(.*?\\)".toRegex(), "").replace(" ,".toRegex(), ",")
             .replace("\\.".toRegex(), "")

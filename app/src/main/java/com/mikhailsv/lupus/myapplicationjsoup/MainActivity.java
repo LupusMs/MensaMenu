@@ -2,11 +2,8 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,8 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static android.view.Window.FEATURE_NO_TITLE;
-
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -66,16 +61,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String language;
     private String day;
     private String cafeMensa;
-    //private SharedPreferences.Editor editor;
     private String updateAlert;
-    //private SharedPreferences sharedPref;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
-    private float oldRating1;
-    private float oldRating2;
-    private float oldRating3;
-    private float oldRating4;
-    private float oldRating5;
+    private float oldRating;
 
 
 
@@ -99,17 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.commit();
     }
 
-    private void writeToPrefs(String[] keys, String[] values)
-    {
-        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile,MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        for(int i = 0; i < keys.length; i++)
-        {
-            editor.putString(keys[i], values[i]);
-        }
-        editor.commit();
-    }
-
 
 
     @SuppressLint("ApplySharedPref")
@@ -117,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-
             case R.id.uploadPhoto:
                 Intent photoIntent = new Intent(this, PhotoActivity.class);
                 startActivity(photoIntent);
@@ -226,18 +203,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageViewsHuge.get(i).setOnClickListener(this);
         }
 
-
-
-
+        //Asks user to rate the app
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
 
         final Spinner spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                 clearAllViews();
-                writeToPrefs(new String[]{"language", "day"}, new String[]{Consts.LANGUAGE_DE, Consts.DAY_TODAY});
+                writeToPrefs("language", Consts.LANGUAGE_DE);
+                writeToPrefs("day", Consts.DAY_TODAY);
 
                 //Hiding navigation arrow
                 assert day != null;
@@ -338,13 +313,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        mp = new MyParser();
-        mp.execute();
-    }*/
-
     @SuppressLint("ApplySharedPref")
     @Override
     public void onClick(View view) {
@@ -364,19 +332,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.execute();
                 break;
             case R.id.imageView1:
-                createPictureDialog(imageViewsHuge.get(0));
+                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(0));
                 break;
             case R.id.imageView2:
-                createPictureDialog(imageViewsHuge.get(1));
+                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(1));
                 break;
             case R.id.imageView3:
-                createPictureDialog(imageViewsHuge.get(2));
+                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(2));
                 break;
             case R.id.imageView4:
-                createPictureDialog(imageViewsHuge.get(3));
+                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(3));
                 break;
             case R.id.imageView5:
-                createPictureDialog(imageViewsHuge.get(4));
+                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(4));
                 break;
             case R.id.imageView1Huge:
                 imageViewsHuge.get(0).setVisibility(View.INVISIBLE);
@@ -418,7 +386,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public class MyParser extends AsyncTask<int[], Void, Void> {
 
         Element textDate;
-
         private List<Dish> dishes = new ArrayList<>();
         private List<String> dishTypes = new ArrayList<>();
         private List<String> textsDish = new ArrayList<>();
@@ -474,14 +441,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             else if (!dishText.equals(""))
                             {
                                 imageViewSmall.setBackgroundResource(R.drawable.plate);
-
                             }
                         }
                     });
 
-
             Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewBig);
-
         }
 
 
@@ -489,12 +453,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected Void doInBackground(int[]... param) {
 
+            int[] pricesElements = new int[] {0, 3, 6, 9, 10};
+
             Document doc = null;
             Document pic = null;
             mDatabase = mDatabase = FirebaseDatabase.getInstance().getReference();
-
-
-
 
             try {
                 SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
@@ -511,115 +474,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
 
+
             try {
                 doc = Jsoup.connect(myurl).get();
             } catch (IOException ignored) {
-
+                Log.d("mytag", "JSoup Connection error");
             }
             if (doc != null) {
 
-                try {
-                    dishTypes.add(doc.select("th").get(4).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    dishTypes.add("");
-                }
-                try {
-                    dishTypes.add(doc.select("th").get(5).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    dishTypes.add("");
-                }
-                try {
-                    dishTypes.add(doc.select("th").get(6).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    dishTypes.add("");
-                }
-                try {
-                    dishTypes.add(doc.select("th").get(7).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    dishTypes.add("");
-                }
-                try {
-                    dishTypes.add(doc.select("th").get(8).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    dishTypes.add("");
+                int size = 5;
+                if (doc.select(".dish-description").size() < 5)
+                    size = doc.select(".dish-description").size();
+
+                for (int i = 0; i < size; i++) {
+                    textsDish.add(doc.select(".dish-description").get(i).text());
+                    dishTypes.add(doc.select("th").get(i+4).text());
+                    prices.add(doc.select("td.price").get(pricesElements[i]).text());
                 }
 
                 try {
                     textDate = doc.select(".category").get(0);
                 } catch (Exception ignored) {
-                }
-                try {
-                    prices.add(doc.select("td.price").get(0).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    prices.add("");
-                }
-                try {
-                    prices.add(doc.select("td.price").get(3).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    prices.add("");
-                }
-                try {
-                    prices.add(doc.select("td.price").get(6).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    prices.add("");
-                }
-                try {
-                    prices.add(doc.select("td.price").get(9).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    prices.add("");
-                }
-
-                try {
-                    prices.add(doc.select("td.price").get(10).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    prices.add("");
-                }
-
-
-
-                try {
-                    textsDish.add(doc.select(".dish-description").get(0).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textsDish.add("");
-                }
-
-                try {
-                    textsDish.add(doc.select(".dish-description").get(1).text());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textsDish.add("");
-                }
-
-                try {
-                    textsDish.add(doc.select(".dish-description").get(2).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textsDish.add("");
-                }
-                try {
-                    textsDish.add(doc.select(".dish-description").get(3).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    textsDish.add(doc.select(".dish-description").get(4).text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    textsDish.add("");
+                    Log.d("mytag", "JSoup: date cannot be parsed");
                 }
             }
+
+
 
             for (int i = 0; i < textsDish.size(); i++)
             {
@@ -688,8 +568,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 count++;
                             }
 
-                            oldRating1 = total / count;
-                            ratingBars.get(finalI).setRating(oldRating1);
+                            oldRating = total / count;
+                            ratingBars.get(finalI).setRating(oldRating);
                             String votes;
                             if (count == 1) votes = " vote";
                             else votes = " votes";
@@ -709,7 +589,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try{
                 textViewDate.setText(textDate.text());
                 } catch (Exception e) {
-
                 MyDialoguesKt.netErrorDialog(MainActivity.this);
                 e.printStackTrace();
             }
@@ -720,9 +599,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -730,22 +606,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mp.cancel(true);
     }
 
-   private void createPictureDialog(ImageView imageView) {
 
-       ImageView myImageView = new ImageView(this);
-       try {
-           Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-           myImageView.setImageBitmap(bitmap);
-           myImageView.setPadding(0, 60,0 ,60 );
-           AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-           builder1.setView(myImageView);
-           builder1.setCancelable(true);
-           AlertDialog alert11 = builder1.create();
-           alert11.requestWindowFeature(FEATURE_NO_TITLE);
-           alert11.show();
-       } catch (NullPointerException ignored)
-       {}
-   }
 }
 
 

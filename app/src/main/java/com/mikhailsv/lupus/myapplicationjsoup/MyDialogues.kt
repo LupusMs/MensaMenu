@@ -5,15 +5,18 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
+import android.graphics.drawable.BitmapDrawable
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window.FEATURE_NO_TITLE
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -241,6 +244,28 @@ fun netErrorDialog(context: Context)
 
     val alert11 = builder1.create()
     alert11.show()
+}
+
+/**
+ * Shows a dialog with enlarged dish picture
+ */
+fun createPictureDialog(context: Context, imageView: ImageView)
+{
+    val myImageView = ImageView(context)
+    try {
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        myImageView.setImageBitmap(bitmap)
+        myImageView.setPadding(0, 60, 0, 60)
+        val builder1 = AlertDialog.Builder(context)
+        builder1.setView(myImageView)
+        builder1.setCancelable(true)
+        val alert11 = builder1.create()
+        alert11.requestWindowFeature(FEATURE_NO_TITLE)
+        alert11.show()
+    } catch (ignored: NullPointerException) {
+    }
+
+
 }
 
 
