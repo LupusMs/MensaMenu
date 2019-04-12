@@ -119,7 +119,9 @@ private fun votesUpdate(textView: TextView) {
  * Calling Alert Dialog to confirm the rating change
  */
 @SuppressLint("InflateParams")
-fun ratingDialog(context:Context, mDatabase: DatabaseReference, rating:Float, oldRating:Float, key:String, ratingBar: RatingBar, textVotes:TextView) {
+fun ratingDialog(context:Context, mDatabase: DatabaseReference, rating:Float, oldRating:Float,
+                 key:String, ratingBar: RatingBar, textVotes:TextView,
+                 dish: Dish) {
 
 val myBuilder = AlertDialog.Builder(context)
 val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -133,6 +135,7 @@ myBuilder.setPositiveButton(
 ) { dialog, id ->
     Toast.makeText(context, "Vote accepted", Toast.LENGTH_LONG).show()
     mDatabase.child(key).child("Rating").push().setValue(rating)
+    dish.rating = rating
     ratingBar.setIsIndicator(true)
     if (textVotes.text == "")
         textVotes.text = "1 vote"
@@ -221,6 +224,23 @@ fun showAboutAppDialog(context: Context)
     val alert11 = builder1.create()
     alert11.show()
     (alert11.findViewById<View>(android.R.id.message) as TextView).movementMethod = LinkMovementMethod.getInstance()
+}
+
+/**
+ * Shows error message if website cannot be parsed( No Internet connection etc.)
+ */
+fun netErrorDialog(context: Context)
+{
+    val builder1 = AlertDialog.Builder(context)
+    builder1.setTitle(R.string.error)
+    builder1.setMessage(R.string.load_error)
+    builder1.setCancelable(true)
+    builder1.setPositiveButton(
+            "Ok"
+    ) { dialog, id -> dialog.cancel() }
+
+    val alert11 = builder1.create()
+    alert11.show()
 }
 
 

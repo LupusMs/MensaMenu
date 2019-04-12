@@ -279,6 +279,7 @@
             android:numStars="5"
             android:rating="0"
             android:stepSize="1"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dishDescription1" />
 
@@ -307,6 +308,7 @@
             android:numStars="5"
             android:rating="0"
             android:stepSize="1"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dishDescription3" />
 
@@ -321,6 +323,7 @@
             android:numStars="5"
             android:rating="0"
             android:stepSize="1"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dishDescription4" />
 
@@ -335,6 +338,7 @@
             android:numStars="5"
             android:rating="0"
             android:stepSize="1"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dishDescription5" />
 
@@ -362,6 +366,7 @@
             android:numStars="5"
             android:rating="0"
             android:stepSize="1"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dishDescription2" />
 

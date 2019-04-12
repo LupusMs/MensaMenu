@@ -3,7 +3,6 @@ package com.mikhailsv.lupus.myapplicationjsoup;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -14,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +41,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static android.view.Window.FEATURE_NO_TITLE;
@@ -48,45 +50,18 @@ import static android.view.Window.FEATURE_NO_TITLE;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView textView1;
-    private TextView textView2;
-    private TextView textView3;
-    private TextView textView4;
-    private TextView textView5;
-    private TextView dishDescription1;
-    private TextView dishDescription2;
-    private TextView dishDescription3;
-    private TextView dishDescription4;
-    private TextView dishDescription5;
+    private List<TextView> textViewsType;
+    private List<TextView> textViewsDescription;
+    private List<TextView> textViewsPrice;
+    private List<ImageView> imageViews;
+    private List<ImageView> imageViewsHuge;
+    private List<RatingBar> ratingBars;
+    private List<TextView> textViewsVotes;
+    private List<Dish> dishes;
     private TextView textViewDate;
-    private TextView textPrice1;
-    private TextView textPrice2;
-    private TextView textPrice3;
-    private TextView textPrice4;
-    private TextView textPrice5;
-    private ImageView imageView1;
-    private ImageView imageView2;
-    private ImageView imageView3;
-    private ImageView imageView4;
-    private ImageView imageView5;
-    private ImageView imageView1Huge;
-    private ImageView imageView2Huge;
-    private ImageView imageView3Huge;
-    private ImageView imageView4Huge;
-    private ImageView imageView5Huge;
     private ImageView tomorrow_btn;
     private ImageView today_btn;
-    private RatingBar ratingBar1;
-    private RatingBar ratingBar2;
-    private RatingBar ratingBar3;
-    private RatingBar ratingBar4;
-    private RatingBar ratingBar5;
     private DatabaseReference mDatabase;
-    private TextView textVotes1;
-    private TextView textVotes2;
-    private TextView textVotes3;
-    private TextView textVotes4;
-    private TextView textVotes5;
     private String myurl;
     private String language;
     private String day;
@@ -101,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private float oldRating3;
     private float oldRating4;
     private float oldRating5;
+
 
 
     @Override
@@ -167,6 +143,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void clearAllViews()
+    {
+        for ( int i = 0; i < textViewsDescription.size(); i++)
+        {
+            textViewsDescription.get(i).setText(null);
+            textViewsType.get(i).setText(null);
+            textViewsPrice.get(i).setText(null);
+            textViewsVotes.get(i).setText(null);
+            ratingBars.get(i).setVisibility(View.INVISIBLE);
+            imageViews.get(i).setVisibility(View.INVISIBLE);
+        }
+
+    }
+
 
     @SuppressLint({"ClickableViewAccessibility", "ApplySharedPref"})
     @Override
@@ -177,31 +167,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        ratingBars = new ArrayList<>();
+        textViewsType = new ArrayList<>();
+        textViewsDescription = new ArrayList<>();
+        textViewsPrice = new ArrayList<>();
+        imageViews = new ArrayList<>();
+        imageViewsHuge = new ArrayList<>();
+        textViewsVotes = new ArrayList<>();
+        dishes = new ArrayList<>();
+        textViewsType.add((TextView) findViewById(R.id.textView1));
+        textViewsType.add((TextView) findViewById(R.id.textView2));
+        textViewsType.add((TextView) findViewById(R.id.textView3));
+        textViewsType.add((TextView) findViewById(R.id.textView4));
+        textViewsType.add((TextView) findViewById(R.id.textView5));
+        textViewsDescription.add((TextView) findViewById(R.id.dishDescription1));
+        textViewsDescription.add((TextView) findViewById(R.id.dishDescription2));
+        textViewsDescription.add((TextView) findViewById(R.id.dishDescription3));
+        textViewsDescription.add((TextView) findViewById(R.id.dishDescription4));
+        textViewsDescription.add((TextView) findViewById(R.id.dishDescription5));
+        textViewDate = findViewById(R.id.textViewDate);
+        textViewsPrice.add((TextView) findViewById(R.id.textPrice1));
+        textViewsPrice.add((TextView) findViewById(R.id.textPrice2));
+        textViewsPrice.add((TextView) findViewById(R.id.textPrice3));
+        textViewsPrice.add((TextView) findViewById(R.id.textPrice4));
+        textViewsPrice.add((TextView) findViewById(R.id.textPrice5));
+        imageViews.add((ImageView) findViewById(R.id.imageView1));
+        imageViews.add((ImageView) findViewById(R.id.imageView2));
+        imageViews.add((ImageView) findViewById(R.id.imageView3));
+        imageViews.add((ImageView) findViewById(R.id.imageView4));
+        imageViews.add((ImageView) findViewById(R.id.imageView5));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView1Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView2Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView3Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView4Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView5Huge));
+        tomorrow_btn = findViewById(R.id.tomorrow_btn);
+        today_btn = findViewById(R.id.today_btn);
+
+
+
+        ratingBars.add((RatingBar) findViewById(R.id.ratingBar1));
+        ratingBars.add((RatingBar) findViewById(R.id.ratingBar2));
+        ratingBars.add((RatingBar) findViewById(R.id.ratingBar3));
+        ratingBars.add((RatingBar) findViewById(R.id.ratingBar4));
+        ratingBars.add((RatingBar) findViewById(R.id.ratingBar5));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes1));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes2));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes3));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes4));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes5));
+        tomorrow_btn.setOnClickListener(this);
+        today_btn.setOnClickListener(this);
+
+        for (int i = 0; i < imageViews.size(); i++)
+        {
+            imageViews.get(i).setOnClickListener(this);
+            textViewsDescription.get(i).setOnClickListener(this);
+            imageViewsHuge.get(i).setOnClickListener(this);
+        }
+
+
+
+
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
+
         final Spinner spinner = findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                dishDescription1.setText(null);
-                dishDescription2.setText(null);
-                dishDescription3.setText(null);
-                dishDescription4.setText(null);
-                dishDescription5.setText(null);
-                textView1.setText(null);
-                textView2.setText(null);
-                textView3.setText(null);
-                textView4.setText(null);
-                textView5.setText(null);
-                textPrice1.setText(null);
-                textPrice2.setText(null);
-                textPrice3.setText(null);
-                textPrice4.setText(null);
-                textPrice5.setText(null);
-                textVotes1.setText(null);
-                textVotes2.setText(null);
-                textVotes3.setText(null);
-                textVotes4.setText(null);
-                textVotes5.setText(null);
+
+                clearAllViews();
                 writeToPrefs(new String[]{"language", "day"}, new String[]{Consts.LANGUAGE_DE, Consts.DAY_TODAY});
 
                 //Hiding navigation arrow
@@ -282,66 +317,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
 
-        textView1 = findViewById(R.id.textView1);
-        textView2 = findViewById(R.id.textView2);
-        textView3 = findViewById(R.id.textView3);
-        textView4 = findViewById(R.id.textView4);
-        textView5 = findViewById(R.id.textView5);
-        dishDescription1 = findViewById(R.id.dishDescription1);
-        dishDescription2 = findViewById(R.id.dishDescription2);
-        dishDescription3 = findViewById(R.id.dishDescription3);
-        dishDescription4 = findViewById(R.id.dishDescription4);
-        dishDescription5 = findViewById(R.id.dishDescription5);
-        textViewDate = findViewById(R.id.textViewDate);
-        textPrice1 = findViewById(R.id.textPrice1);
-        textPrice2 = findViewById(R.id.textPrice2);
-        textPrice3 = findViewById(R.id.textPrice3);
-        textPrice4 = findViewById(R.id.textPrice4);
-        textPrice5 = findViewById(R.id.textPrice5);
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
-        imageView5 = findViewById(R.id.imageView5);
-        imageView1Huge = findViewById(R.id.imageView1Huge);
-        imageView2Huge = findViewById(R.id.imageView2Huge);
-        imageView3Huge = findViewById(R.id.imageView3Huge);
-        imageView4Huge = findViewById(R.id.imageView4Huge);
-        imageView5Huge = findViewById(R.id.imageView5Huge);
-        tomorrow_btn = findViewById(R.id.tomorrow_btn);
-        today_btn = findViewById(R.id.today_btn);
-        ratingBar1 = findViewById(R.id.ratingBar1);
-        ratingBar1.setRating(0);
-        ratingBar2 = findViewById(R.id.ratingBar2);
-        ratingBar2.setRating(0);
-        ratingBar3 = findViewById(R.id.ratingBar3);
-        ratingBar3.setRating(0);
-        ratingBar4 = findViewById(R.id.ratingBar4);
-        ratingBar4.setRating(0);
-        ratingBar5 = findViewById(R.id.ratingBar5);
-        ratingBar5.setRating(0);
-        textVotes1 = findViewById(R.id.textVotes1);
-        textVotes2 = findViewById(R.id.textVotes2);
-        textVotes3 = findViewById(R.id.textVotes3);
-        textVotes4 = findViewById(R.id.textVotes4);
-        textVotes5 = findViewById(R.id.textVotes5);
-        tomorrow_btn.setOnClickListener(this);
-        today_btn.setOnClickListener(this);
-        imageView1.setOnClickListener(this);
-        imageView2.setOnClickListener(this);
-        imageView3.setOnClickListener(this);
-        imageView4.setOnClickListener(this);
-        imageView5.setOnClickListener(this);
-        dishDescription1.setOnClickListener(this);
-        dishDescription2.setOnClickListener(this);
-        dishDescription3.setOnClickListener(this);
-        dishDescription4.setOnClickListener(this);
-        dishDescription5.setOnClickListener(this);
-        imageView1Huge.setOnClickListener(this);
-        imageView2Huge.setOnClickListener(this);
-        imageView3Huge.setOnClickListener(this);
-        imageView4Huge.setOnClickListener(this);
-        imageView5Huge.setOnClickListener(this);
+
 
         //Default url for Mensa menu
         SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
@@ -362,12 +338,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    @Override
+    /*@Override
     protected void onResume() {
         super.onResume();
         mp = new MyParser();
         mp.execute();
-    }
+    }*/
 
     @SuppressLint("ApplySharedPref")
     @Override
@@ -388,49 +364,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.execute();
                 break;
             case R.id.imageView1:
-                createPictureDialog(imageView1Huge);
+                createPictureDialog(imageViewsHuge.get(0));
                 break;
             case R.id.imageView2:
-                createPictureDialog(imageView2Huge);
+                createPictureDialog(imageViewsHuge.get(1));
                 break;
             case R.id.imageView3:
-                createPictureDialog(imageView3Huge);
+                createPictureDialog(imageViewsHuge.get(2));
                 break;
             case R.id.imageView4:
-                createPictureDialog(imageView4Huge);
+                createPictureDialog(imageViewsHuge.get(3));
                 break;
             case R.id.imageView5:
-                createPictureDialog(imageView5Huge);
+                createPictureDialog(imageViewsHuge.get(4));
                 break;
             case R.id.imageView1Huge:
-                imageView1Huge.setVisibility(View.INVISIBLE);
+                imageViewsHuge.get(0).setVisibility(View.INVISIBLE);
                 break;
             case R.id.imageView2Huge:
-                imageView2Huge.setVisibility(View.INVISIBLE);
+                imageViewsHuge.get(1).setVisibility(View.INVISIBLE);
                 break;
             case R.id.imageView3Huge:
-                imageView3Huge.setVisibility(View.INVISIBLE);
+                imageViewsHuge.get(2).setVisibility(View.INVISIBLE);
                 break;
             case R.id.imageView4Huge:
-                imageView4Huge.setVisibility(View.INVISIBLE);
+                imageViewsHuge.get(3).setVisibility(View.INVISIBLE);
                 break;
             case R.id.imageView5Huge:
-                imageView5Huge.setVisibility(View.INVISIBLE);
+                imageViewsHuge.get(4).setVisibility(View.INVISIBLE);
                 break;
             case R.id.dishDescription1:
-                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription1.getText().toString()), MainActivity.this);
+                MyDialoguesKt.dishSearchDialog(dishes.get(0).searchTextWeb(), MainActivity.this);
                 break;
             case R.id.dishDescription2:
-                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription2.getText().toString()), MainActivity.this);
+                MyDialoguesKt.dishSearchDialog(dishes.get(1).searchTextWeb(), MainActivity.this);
                 break;
             case R.id.dishDescription3:
-                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription3.getText().toString()), MainActivity.this);
+                MyDialoguesKt.dishSearchDialog(dishes.get(2).searchTextWeb(), MainActivity.this);
                 break;
             case R.id.dishDescription4:
-                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription4.getText().toString()), MainActivity.this);
+                MyDialoguesKt.dishSearchDialog(dishes.get(3).searchTextWeb(), MainActivity.this);
                 break;
             case R.id.dishDescription5:
-                MyDialoguesKt.dishSearchDialog(ChangeDisplayTextKt.searchTextWeb(dishDescription5.getText().toString()), MainActivity.this);
+                MyDialoguesKt.dishSearchDialog(dishes.get(4).searchTextWeb(), MainActivity.this);
                 break;
 
         }
@@ -440,27 +416,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // This internal class is parsing the dish data from the website with menu
     @SuppressLint("StaticFieldLeak")
     public class MyParser extends AsyncTask<int[], Void, Void> {
-        Element text1;
-        Element text2;
-        Element text3;
-        Element text4;
-        Element text5;
-        Element textDish1;
-        Element textDish2;
-        Element textDish3;
-        Element textDish4;
-        Element textDish5;
+
         Element textDate;
-        Element price1;
-        Element price2;
-        Element price3;
-        Element price4;
-        Element price5;
-        String searchtextDish1, displaytextDish1;
-        String searchtextDish2, displaytextDish2;
-        String searchtextDish3, displaytextDish3;
-        String searchtextDish4, displaytextDish4;
-        String searchtextDish5, displaytextDish5;
+
+        private List<Dish> dishes = new ArrayList<>();
+        private List<String> dishTypes = new ArrayList<>();
+        private List<String> textsDish = new ArrayList<>();
+        private List<String> prices = new ArrayList<>();
+
 
         /**
          * Loading an image from web to an ImageView using Picasso
@@ -528,6 +491,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Document doc = null;
             Document pic = null;
+            mDatabase = mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
 
 
             try {
@@ -553,116 +519,119 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (doc != null) {
 
                 try {
-                    text1 = doc.select("th").get(4);
+                    dishTypes.add(doc.select("th").get(4).text());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    dishTypes.add("");
                 }
                 try {
-                    text2 = doc.select("th").get(5);
+                    dishTypes.add(doc.select("th").get(5).text());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    dishTypes.add("");
                 }
                 try {
-                    text3 = doc.select("th").get(6);
+                    dishTypes.add(doc.select("th").get(6).text());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    dishTypes.add("");
                 }
                 try {
-                    text4 = doc.select("th").get(7);
+                    dishTypes.add(doc.select("th").get(7).text());
                 } catch (Exception e) {
                     e.printStackTrace();
+                    dishTypes.add("");
+                }
+                try {
+                    dishTypes.add(doc.select("th").get(8).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    dishTypes.add("");
                 }
 
-                try {
-                    text5 = doc.select("th").get(8);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    textDish1 = doc.select(".dish-description").get(0);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
                 try {
                     textDate = doc.select(".category").get(0);
                 } catch (Exception ignored) {
                 }
                 try {
-                    price1 = doc.select("td.price").get(0);
+                    prices.add(doc.select("td.price").get(0).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prices.add("");
+                }
+                try {
+                    prices.add(doc.select("td.price").get(3).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prices.add("");
+                }
+                try {
+                    prices.add(doc.select("td.price").get(6).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prices.add("");
+                }
+                try {
+                    prices.add(doc.select("td.price").get(9).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prices.add("");
+                }
+
+                try {
+                    prices.add(doc.select("td.price").get(10).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    prices.add("");
+                }
+
+
+
+                try {
+                    textsDish.add(doc.select(".dish-description").get(0).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    textsDish.add("");
+                }
+
+                try {
+                    textsDish.add(doc.select(".dish-description").get(1).text());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    textsDish.add("");
+                }
+
+                try {
+                    textsDish.add(doc.select(".dish-description").get(2).text());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    textsDish.add("");
+                }
+                try {
+                    textsDish.add(doc.select(".dish-description").get(3).text());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
-                    price2 = doc.select("td.price").get(3);
+                    textsDish.add(doc.select(".dish-description").get(4).text());
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
-                try {
-                    price3 = doc.select("td.price").get(6);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    price4 = doc.select("td.price").get(9);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    price5 = doc.select("td.price").get(10);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-
-                try {
-
-                    textDish1 = doc.select(".dish-description").get(0);
-
-
-                    //Editing Strings for displaying and for search requests
-                    displaytextDish1 = ChangeDisplayTextKt.displayText(textDish1.text());
-                    searchtextDish1 = ChangeDisplayTextKt.searchText(textDish1.text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    textDish2 = doc.select(".dish-description").get(1);
-                    displaytextDish2 = ChangeDisplayTextKt.displayText(textDish2.text());
-                    searchtextDish2 = ChangeDisplayTextKt.searchText(textDish2.text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    textDish3 = doc.select(".dish-description").get(2);
-                    displaytextDish3 = ChangeDisplayTextKt.displayText(textDish3.text());
-                    searchtextDish3 = ChangeDisplayTextKt.searchText(textDish3.text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    textDish4 = doc.select(".dish-description").get(3);
-                    displaytextDish4 = ChangeDisplayTextKt.displayText(textDish4.text());
-                    searchtextDish4 = ChangeDisplayTextKt.searchText(textDish4.text());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    textDish5 = doc.select(".dish-description").get(4);
-                    displaytextDish5 = ChangeDisplayTextKt.displayText(textDish5.text());
-                    searchtextDish5 = ChangeDisplayTextKt.searchText(textDish5.text());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    textsDish.add("");
                 }
             }
-            writeToPrefs(new String[]{"dish1", "dish2", "dish3", "dish4", "dish5",
-                    "dish11", "dish22", "dish33", "dish44", "dish55"} , new String[]{searchtextDish1,
-                    searchtextDish2, searchtextDish3, searchtextDish4, searchtextDish5, displaytextDish1,
-                    displaytextDish2, displaytextDish3, displaytextDish4, displaytextDish5, } );
+
+            for (int i = 0; i < textsDish.size(); i++)
+            {
+                dishes.add(new Dish(dishTypes.get(i), textsDish.get(i), prices.get(i),0f, ""));
+            }
+
+
+           /* writeToPrefs(new String[]{"dish1", "dish2", "dish3", "dish4", "dish5",
+                    "dish11", "dish22", "dish33", "dish44", "dish55"} , new String[]{dishes.get(0).searchText(),
+                    dishes.get(1).searchText(),dishes.get(2).searchText(),dishes.get(3).searchText(),dishes.get(4).searchText(),
+                    dishes.get(0).searchText(), dishes.get(1).displayText(), dishes.get(2).displayText(),
+                    dishes.get(3).displayText(), dishes.get(4).displayText()} );*/
             return null;
         }
 
@@ -670,328 +639,80 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("ClickableViewAccessibility")
         @Override
         protected void onPostExecute(Void result) {
-            textVotes1.setText("");
-            textVotes2.setText("");
-            textVotes3.setText("");
-            textVotes4.setText("");
-            textVotes5.setText("");
-            ratingBar1.setRating(0f);
-            ratingBar2.setRating(0f);
-            ratingBar3.setRating(0f);
-            ratingBar4.setRating(0f);
-            ratingBar5.setRating(0f);
-            textPrice1.setText("");
-            textPrice2.setText("");
-            textPrice3.setText("");
-            textPrice4.setText("");
-            textPrice5.setText("");
+            clearAllViews();
 
-            if (text1 != null) {
-                textView1.setText(text1.text());
-                textPrice1.setText(price1.text());
-            }
-            else
-                textView1.setText("");
-            if (text2 != null) {
-                textView2.setText(text2.text());
-                textPrice2.setText(price2.text());
-            }
-            else
-                textView2.setText("");
-            if (text3 != null) {
-                textView3.setText(text3.text());
-                textPrice3.setText(price3.text());
-            }
-            else
-                textView3.setText("");
-            if (text4 != null) {
-                textView4.setText(text4.text());
-                textPrice4.setText(price4.text());
-            }
-            else
-                textView4.setText("");
-            if (text5 != null) {
-                textView5.setText(text5.text());
-                textPrice5.setText(price5.text());
-            }
-            else
-                textView5.setText("");
+            // Filling the Menu with dishes
+            for (int i = 0; i < dishes.size(); i++ )
+            {
 
-            if (displaytextDish1 != null) {
-                dishDescription1.setText(displaytextDish1);
-            } else
-                dishDescription1.setText("");
-            if (displaytextDish2 != null) {
-                dishDescription2.setText(displaytextDish2);
+
+                textViewsType.get(i).setText(dishes.get(i).getDishType());
+                textViewsPrice.get(i).setText(dishes.get(i).getPrice());
+                textViewsDescription.get(i).setText(dishes.get(i).displayText());
+
+                Log.wtf("mytag", "SEARCh TEXT " + dishes.get(i).searchText());
+                if (!dishes.get(i).searchText().equals("")) {
+                    imageViews.get(i).setVisibility(View.VISIBLE);
+                    loadImg(dishes.get(i).getImage(), imageViews.get(i), imageViewsHuge.get(i),
+                            textViewsDescription.get(i));
+                }
+
+                ratingBars.get(i).setRating(dishes.get(i).getRating());
+
+
+                if (dishes.get(i).displayText().equals(""))
+                    ratingBars.get(i).setVisibility(View.INVISIBLE);
+                else
+                    ratingBars.get(i).setVisibility(View.VISIBLE);
+
+                final int finalI = i;
+                ratingBars.get(i).setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        if (fromUser)
+                            MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating,
+                                    dishes.get(finalI).getRating(), dishes.get(finalI).searchText(), ratingBar, textViewsVotes.get(finalI),
+                                    dishes.get(finalI));
+                    }
+                });
+                mDatabase.child(dishes.get(finalI).searchText()).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                            int total = 0, count = 0;
+                            for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                int rating = child.getValue(Integer.class);
+                                total += rating;
+                                count++;
+                            }
+
+                            oldRating1 = total / count;
+                            ratingBars.get(finalI).setRating(oldRating1);
+                            String votes;
+                            if (count == 1) votes = " vote";
+                            else votes = " votes";
+                            textViewsVotes.get(finalI).setText(String.valueOf(count) + votes);
+                            dishes.get(finalI).setVotes(votes);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+
+
             }
-            else
-                dishDescription2.setText("");
-            if (displaytextDish3 != null) {
-                dishDescription3.setText(displaytextDish3);
-            }
-            else
-                dishDescription3.setText("");
-            if (displaytextDish4 != null) {
-                dishDescription4.setText(displaytextDish4);
-            }
-            else
-                dishDescription4.setText("");
-            if (displaytextDish5 != null) {
-                dishDescription5.setText(displaytextDish5);
-            }
-            else
-                dishDescription5.setText("");
+
             try{
                 textViewDate.setText(textDate.text());
                 } catch (Exception e) {
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(MainActivity.this);
-                builder1.setTitle(R.string.error);
-                builder1.setMessage(R.string.load_error);
-                builder1.setCancelable(true);
-                builder1.setPositiveButton(
-                        "Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
 
-                AlertDialog alert11 = builder1.create();
-                alert11.show();
+                MyDialoguesKt.netErrorDialog(MainActivity.this);
                 e.printStackTrace();
-                e.printStackTrace();
-
             }
-
-            SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
-            //Setting images using Picasso library
-            //Loading a picture for the first dish
-            loadImg(searchtextDish1 + ".jpg", imageView1 , imageView1Huge, dishDescription1 );
-            //Loading a picture for the second dish
-            loadImg(searchtextDish2 + ".jpg", imageView2 , imageView2Huge, dishDescription2 );
-            //Loading a picture for the third dish
-            loadImg(searchtextDish3 + ".jpg", imageView3 , imageView3Huge, dishDescription3 );
-            //Loading a picture for the fourth dish
-            loadImg(searchtextDish4 + ".jpg", imageView4 , imageView4Huge, dishDescription4 );
-            //Loading a picture for the fifth dish
-            loadImg(searchtextDish5 + ".jpg", imageView5 , imageView5Huge, dishDescription5 );
-            //Accessing firebase database for rating
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-            final String key1 = sharedPref.getString("dish1", "");
-            final String key2 = sharedPref.getString("dish2", "");
-            final String key3 = sharedPref.getString("dish3", "");
-            final String key4 = sharedPref.getString("dish4", "");
-            final String key5 = sharedPref.getString("dish5", "");
-
-
-            //making the rating bar invisible if there is no dish for today
-            ratingBar1.setVisibility(View.VISIBLE);
-            try {
-                textDish1.text();
-            } catch (Exception e) {
-                ratingBar1.setVisibility(View.INVISIBLE);
-            }
-            ratingBar1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        assert key1 != null;
-                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating1, key1, ratingBar, textVotes1);
-                    }
-                }
-            });
-            assert key1 != null;
-            mDatabase.child(key1).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        int total = 0, count = 0;
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            int rating = child.getValue(Integer.class);
-                            total = total + rating;
-                            count = count + 1;
-                        }
-
-                        oldRating1 = total / count;
-                        ratingBar1.setRating(oldRating1);
-                        String votes;
-                        if (count == 1) votes = " vote";
-                        else votes = " votes";
-                        textVotes1.setText(String.valueOf(count) + votes);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-            ratingBar2.setVisibility(View.VISIBLE);
-            try {
-                textDish2.text();
-            } catch (Exception e) {
-                ratingBar2.setVisibility(View.INVISIBLE);
-            }
-            ratingBar2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        assert key2 != null;
-                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating2, key2, ratingBar, textVotes2);
-                    }
-                }
-            });
-            assert key2 != null;
-            mDatabase.child(key2).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        int total = 0, count = 0;
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            int rating = child.getValue(Integer.class);
-                            total = total + rating;
-                            count = count + 1;
-                        }
-                        oldRating2 = total / count;
-                        ratingBar2.setRating(oldRating2);
-                        String votes;
-                        if (count == 1) votes = " vote";
-                        else votes = " votes";
-                        textVotes2.setText(String.valueOf(count) + votes);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-            ratingBar3.setVisibility(View.VISIBLE);
-            try {
-                textDish3.text();
-            } catch (Exception e) {
-                ratingBar3.setVisibility(View.INVISIBLE);
-            }
-            ratingBar3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        assert key3 != null;
-                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating3, key3, ratingBar, textVotes3);
-                    }
-                }
-            });
-            assert key3 != null;
-            mDatabase.child(key3).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        int total = 0, count = 0;
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            int rating = child.getValue(Integer.class);
-                            total = total + rating;
-                            count = count + 1;
-                        }
-                        oldRating3 = total / count;
-                        ratingBar3.setRating(oldRating3);
-                        String votes;
-                        if (count == 1) votes = " vote";
-                        else votes = " votes";
-                        textVotes3.setText(String.valueOf(count) + votes);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-            ratingBar4.setVisibility(View.VISIBLE);
-            try {
-                textDish4.text();
-            } catch (Exception e) {
-                ratingBar4.setVisibility(View.INVISIBLE);
-            }
-            ratingBar4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        assert key4 != null;
-                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating4, key4, ratingBar, textVotes4);
-                    }
-                }
-            });
-            assert key4 != null;
-            mDatabase.child(key4).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        int total = 0, count = 0;
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            int rating = child.getValue(Integer.class);
-                            total = total + rating;
-                            count = count + 1;
-                        }
-                        oldRating4 = total / count;
-                        ratingBar4.setRating(oldRating4);
-                        String votes;
-                        if (count == 1) votes = " vote";
-                        else votes = " votes";
-                        textVotes4.setText(String.valueOf(count) + votes);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-            ratingBar5.setVisibility(View.VISIBLE);
-            try {
-                textDish5.text();
-            } catch (Exception e) {
-                ratingBar5.setVisibility(View.INVISIBLE);
-            }
-            ratingBar5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if (fromUser) {
-                        assert key5 != null;
-                        MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating, oldRating5, key5, ratingBar, textVotes5);
-                    }
-                }
-            });
-            assert key5 != null;
-            mDatabase.child(key5).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.getValue() != null) {
-                        int total = 0, count = 0;
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            int rating = child.getValue(Integer.class);
-                            total = total + rating;
-                            count = count + 1;
-                        }
-                        oldRating5 = total / count;
-                        ratingBar5.setRating(oldRating5);
-                        String votes;
-                        if (count == 1) votes = " vote";
-                        else votes = " votes";
-                        textVotes5.setText(String.valueOf(count) + votes);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            });
-
 
 
         }
