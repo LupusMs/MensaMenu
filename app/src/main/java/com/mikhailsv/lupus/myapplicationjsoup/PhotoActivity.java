@@ -122,7 +122,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         params = new String[2];
 
 
-        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
         textView1.setText(sharedPref.getString("dish11",""));
         textView2.setText(sharedPref.getString("dish22",""));
         textView3.setText(sharedPref.getString("dish33",""));

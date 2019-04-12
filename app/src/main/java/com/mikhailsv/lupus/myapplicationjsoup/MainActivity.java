@@ -88,8 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.commit();
     }
 
-
-
     @SuppressLint("ApplySharedPref")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -408,7 +406,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 imageViewSmall.setVisibility(View.VISIBLE);
 
             // Loading the image with Picasso
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
+            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
                     new Callback() {
                         @Override
                         public void onSuccess() {
@@ -499,19 +498,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-
-
             for (int i = 0; i < textsDish.size(); i++)
             {
                 dishes.add(new Dish(dishTypes.get(i), textsDish.get(i), prices.get(i),0f, ""));
+                writeToPrefs("dish" + (i+1) + "" + (i+1), dishes.get(i).displayText());
+                writeToPrefs("dish" + (i+1), dishes.get(i).searchText());
             }
-
-
-           /* writeToPrefs(new String[]{"dish1", "dish2", "dish3", "dish4", "dish5",
-                    "dish11", "dish22", "dish33", "dish44", "dish55"} , new String[]{dishes.get(0).searchText(),
-                    dishes.get(1).searchText(),dishes.get(2).searchText(),dishes.get(3).searchText(),dishes.get(4).searchText(),
-                    dishes.get(0).searchText(), dishes.get(1).displayText(), dishes.get(2).displayText(),
-                    dishes.get(3).displayText(), dishes.get(4).displayText()} );*/
             return null;
         }
 
