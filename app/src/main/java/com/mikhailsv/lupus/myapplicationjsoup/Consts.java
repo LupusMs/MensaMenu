@@ -29,13 +29,8 @@ final class Consts {
     public static final String STELL_URL = "/580/2019";
     public static final String STUD_URL = "/310/2019";
     public static final String UEBER_URL = "/380/2019";
-
-
     public static final String DAY_TODAY = "/0/";
     public static final String DAY_TOMORROW = "/99/";
-
-    public static final int[] increment = {0, 0, 0, 0};
-
     private Consts(){
         throw new AssertionError();
     }

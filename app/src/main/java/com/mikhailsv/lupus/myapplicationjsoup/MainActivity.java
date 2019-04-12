@@ -75,18 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    /**
-     * Writing data to SharedPreferences
-     * @param key
-     * @param value
-     */
-    private void writeToPrefs(String key, String value )
-    {
-        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile,MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
 
     @SuppressLint("ApplySharedPref")
     @Override
@@ -116,6 +104,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    /**
+     * Writing data to SharedPreferences
+     * @param key
+     * @param value
+     */
+    private void writeToPrefs(String key, String value )
+    {
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile,MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, value);
+        editor.commit();
     }
 
     private void clearAllViews()
@@ -178,9 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageViewsHuge.add((ImageView) findViewById(R.id.imageView5Huge));
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
-
-
-
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar1));
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar2));
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar3));
@@ -516,8 +514,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Filling the Menu with dishes
             for (int i = 0; i < dishes.size(); i++ )
             {
-
-
                 textViewsType.get(i).setText(dishes.get(i).getDishType());
                 textViewsPrice.get(i).setText(dishes.get(i).getPrice());
                 textViewsDescription.get(i).setText(dishes.get(i).displayText());
