@@ -15,9 +15,12 @@ data class Dish(val dishType : String, val dishDescription : String,
             .replace("\\.".toRegex(), "")
 
     // Text formatted for web search engine
-    fun searchTextWeb(): String = dishDescription.replace(",".toRegex(), "").replace("\\s".toRegex(), "+").replace("\\d".toRegex(), "")
-            .replace("\\(".toRegex(), "").replace("\\)".toRegex(), "").replace("-".toRegex(), "")
-            .replace("\\.".toRegex(), "")
+    fun searchTextWeb(): String {
+        val string = displayText()
+        return string.replace(",".toRegex(), "").replace("\\s".toRegex(), "+").replace("\\d".toRegex(), "")
+                .replace("\\(".toRegex(), "").replace("\\)".toRegex(), "").replace("-".toRegex(), "")
+                .replace("\\.".toRegex(), "")
+    }
 
     fun getImage(): String = searchText() + ".jpg"
 

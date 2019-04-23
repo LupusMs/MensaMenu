@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageViews = new ArrayList<>();
         imageViewsHuge = new ArrayList<>();
         textViewsVotes = new ArrayList<>();
-        dishes = new ArrayList<>();
         textViewsType.add((TextView) findViewById(R.id.textView1));
         textViewsType.add((TextView) findViewById(R.id.textView2));
         textViewsType.add((TextView) findViewById(R.id.textView3));
@@ -384,7 +383,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public class MyParser extends AsyncTask<int[], Void, Void> {
 
         Element textDate;
-        private List<Dish> dishes = new ArrayList<>();
         private List<String> dishTypes = new ArrayList<>();
         private List<String> textsDish = new ArrayList<>();
         private List<String> prices = new ArrayList<>();
@@ -451,6 +449,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("ApplySharedPref")
         @Override
         protected Void doInBackground(int[]... param) {
+
+            dishes = new ArrayList<>();
 
             int[] pricesElements = new int[] {0, 3, 6, 9, 10};
 
