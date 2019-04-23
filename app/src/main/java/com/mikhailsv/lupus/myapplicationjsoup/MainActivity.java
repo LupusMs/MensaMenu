@@ -203,6 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
 
         final Spinner spinner = findViewById(R.id.spinner);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -234,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     MyDialoguesKt.cafeSelectionDialog(mp, language, day, MainActivity.this);
                     spinner.setSelection(0);
+
                 }
 
             }

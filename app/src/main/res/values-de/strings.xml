@@ -17,8 +17,10 @@
     <string name="send">Schiken</string>
     <string name="about_message">Developer : msvyrydovych@gmail.com  Icons : https://icons8.com</string>
     <string name="english">English</string>
+    <string name="german">Deutsch</string>
     <string name="item">Item</string>
     <string name="load_error">Menü kann nicht geladen werden</string>
     <string name="error">Fehler</string>
     <string name="about">Info</string>
+    <string name="language">Sprache</string>
 </resources>

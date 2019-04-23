@@ -3,26 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="saveourcar.soc.MainActivity"
     >
-    <group app:showAsAction="ifRoom" >
-        <item
-            android:id="@+id/enBtn"
-            android:icon="@drawable/us"
-            android:title="@string/english"
-            app:showAsAction="always"
-            tools:ignore="AlwaysShowAction" />
-        <item
-            android:id="@+id/deBtn"
-            android:icon="@drawable/de"
-            android:title="@string/item"
-            app:showAsAction="always"
-            tools:ignore="AlwaysShowAction" />
+
+    <item android:title="@string/language" >
+        <menu>
+            <item
+                android:id="@+id/enBtn"
+                android:icon="@drawable/us"
+                android:title="@string/english"
+                app:showAsAction="never"
+
+                />
+            <item
+                android:id="@+id/deBtn"
+                android:icon="@drawable/de"
+                android:title="@string/german"
+                app:showAsAction="never"
+                />
+        </menu>
+    </item>
         <item
             android:id="@+id/uploadPhoto"
             android:icon="@drawable/cam"
             android:title="@string/add_photo"
             app:showAsAction="always"
             tools:ignore="AlwaysShowAction" />
-    </group>
     <item
         android:id="@+id/feedback"
         android:title="@string/app_feedback"

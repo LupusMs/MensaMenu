@@ -5,10 +5,24 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:popupTheme="@style/PopUp"
-    tools:ignore="Overdraw"
     android:background="@color/colorPrimary"
-    >
+    app:contentInsetStart="2dp"
+    app:contentInsetStartWithNavigation="10dp"
+    app:popupTheme="@style/PopUp"
+    tools:ignore="Overdraw">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="center"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:src="@drawable/ic_launcher_round"
+        app:srcCompat="@drawable/ic_launcher_round"
+        tools:srcCompat="@drawable/ic_launcher_round" />
 
     <Spinner
         android:id="@+id/spinner"
