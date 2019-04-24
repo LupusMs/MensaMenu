@@ -62,7 +62,7 @@ fun dishSearchDialog(dish : String, context: Context)
 /**
  * Calling Alert Dialog with cafe selection list
  */
-fun cafeSelectionDialog(mp: MainActivity.MyParser, language: String, day: String, context: Context) {
+fun cafeSelectionDialog(mp: com.mikhailsv.lupus.myapplicationjsoup.MainActivity.MyParser, language: String, day: String, context: Context) {
 
     val myBuilder = AlertDialog.Builder(context)
     myBuilder.setTitle("Select Cafe")

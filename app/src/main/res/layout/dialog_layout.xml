@@ -7,26 +7,11 @@
     android:layout_height="match_parent"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="rating.json"
-        app:lottie_loop="true" />
-
     <TextView
         android:id="@+id/textViewCafeDialog"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Your vote is "
         android:textAlignment="center"
@@ -34,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+        tools:layout_editor_absoluteY="116dp" />
 
     <TextView
         android:id="@+id/textVoteDialog"

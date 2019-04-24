@@ -1,6 +1,5 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -17,12 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,13 +44,14 @@ import java.util.Objects;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private List<TextView> textViewsType;
+    /*private List<TextView> textViewsType;
     private List<TextView> textViewsDescription;
     private List<TextView> textViewsPrice;
     private List<ImageView> imageViews;
-    private List<ImageView> imageViewsHuge;
+
     private List<RatingBar> ratingBars;
-    private List<TextView> textViewsVotes;
+    private List<TextView> textViewsVotes;*/
+    private List<ImageView> imageViewsHuge;
     private List<Dish> dishes;
     private TextView textViewDate;
     private ImageView tomorrow_btn;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.commit();
     }
 
-    private void clearAllViews()
+   /* private void clearAllViews()
     {
         for ( int i = 0; i < textViewsDescription.size(); i++)
         {
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             imageViews.get(i).setVisibility(View.INVISIBLE);
         }
 
-    }
+    }*/
 
 
     @SuppressLint({"ClickableViewAccessibility", "ApplySharedPref"})
@@ -143,12 +143,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        ratingBars = new ArrayList<>();
+
+        imageViewsHuge = new ArrayList<>();
+        /*ratingBars = new ArrayList<>();
         textViewsType = new ArrayList<>();
         textViewsDescription = new ArrayList<>();
         textViewsPrice = new ArrayList<>();
         imageViews = new ArrayList<>();
-        imageViewsHuge = new ArrayList<>();
+
         textViewsVotes = new ArrayList<>();
         textViewsType.add((TextView) findViewById(R.id.textView1));
         textViewsType.add((TextView) findViewById(R.id.textView2));
@@ -160,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewsDescription.add((TextView) findViewById(R.id.dishDescription3));
         textViewsDescription.add((TextView) findViewById(R.id.dishDescription4));
         textViewsDescription.add((TextView) findViewById(R.id.dishDescription5));
-        textViewDate = findViewById(R.id.textViewDate);
+
         textViewsPrice.add((TextView) findViewById(R.id.textPrice1));
         textViewsPrice.add((TextView) findViewById(R.id.textPrice2));
         textViewsPrice.add((TextView) findViewById(R.id.textPrice3));
@@ -171,13 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageViews.add((ImageView) findViewById(R.id.imageView3));
         imageViews.add((ImageView) findViewById(R.id.imageView4));
         imageViews.add((ImageView) findViewById(R.id.imageView5));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView1Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView2Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView3Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView4Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView5Huge));
-        tomorrow_btn = findViewById(R.id.tomorrow_btn);
-        today_btn = findViewById(R.id.today_btn);
+
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar1));
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar2));
         ratingBars.add((RatingBar) findViewById(R.id.ratingBar3));
@@ -187,16 +183,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewsVotes.add((TextView) findViewById(R.id.textVotes2));
         textViewsVotes.add((TextView) findViewById(R.id.textVotes3));
         textViewsVotes.add((TextView) findViewById(R.id.textVotes4));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes5));
+        textViewsVotes.add((TextView) findViewById(R.id.textVotes5));*/
+
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView1Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView2Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView3Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView4Huge));
+        imageViewsHuge.add((ImageView) findViewById(R.id.imageView5Huge));
+
+        tomorrow_btn = findViewById(R.id.tomorrow_btn);
+        today_btn = findViewById(R.id.today_btn);
+        textViewDate = findViewById(R.id.textViewDate);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
 
-        for (int i = 0; i < imageViews.size(); i++)
+       /* for (int i = 0; i < imageViews.size(); i++)
         {
             imageViews.get(i).setOnClickListener(this);
             textViewsDescription.get(i).setOnClickListener(this);
             imageViewsHuge.get(i).setOnClickListener(this);
-        }
+        }*/
 
         //Asks user to rate the app
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
@@ -206,7 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                clearAllViews();
+                //clearAllViews();
                 writeToPrefs("language", Consts.LANGUAGE_DE);
                 writeToPrefs("day", Consts.DAY_TODAY);
 
@@ -261,33 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        //Showing Animation on app starting
-        final LottieAnimationView lottieAnimationView = findViewById(R.id.lottie1);
-        if (lottieAnimationView!= null) {
-            lottieAnimationView.setVisibility(View.VISIBLE);
-            lottieAnimationView.addAnimatorListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
 
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    lottieAnimationView.setVisibility(View.GONE);
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-        }
 
 
 
@@ -328,21 +308,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp = new MyParser();
                 mp.execute();
                 break;
-            case R.id.imageView1:
-                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(0));
-                break;
-            case R.id.imageView2:
-                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(1));
-                break;
-            case R.id.imageView3:
-                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(2));
-                break;
-            case R.id.imageView4:
-                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(3));
-                break;
-            case R.id.imageView5:
-                MyDialoguesKt.createPictureDialog(MainActivity.this, imageViewsHuge.get(4));
-                break;
             case R.id.imageView1Huge:
                 imageViewsHuge.get(0).setVisibility(View.INVISIBLE);
                 break;
@@ -357,21 +322,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.imageView5Huge:
                 imageViewsHuge.get(4).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.dishDescription1:
-                MyDialoguesKt.dishSearchDialog(dishes.get(0).searchTextWeb(), MainActivity.this);
-                break;
-            case R.id.dishDescription2:
-                MyDialoguesKt.dishSearchDialog(dishes.get(1).searchTextWeb(), MainActivity.this);
-                break;
-            case R.id.dishDescription3:
-                MyDialoguesKt.dishSearchDialog(dishes.get(2).searchTextWeb(), MainActivity.this);
-                break;
-            case R.id.dishDescription4:
-                MyDialoguesKt.dishSearchDialog(dishes.get(3).searchTextWeb(), MainActivity.this);
-                break;
-            case R.id.dishDescription5:
-                MyDialoguesKt.dishSearchDialog(dishes.get(4).searchTextWeb(), MainActivity.this);
                 break;
 
         }
@@ -456,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Document doc = null;
             Document pic = null;
-            mDatabase = mDatabase = FirebaseDatabase.getInstance().getReference();
+            mDatabase = FirebaseDatabase.getInstance().getReference();
 
             try {
                 SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
@@ -511,8 +461,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("ClickableViewAccessibility")
         @Override
         protected void onPostExecute(Void result) {
-            clearAllViews();
+            //clearAllViews();
 
+
+/*
             // Filling the Menu with dishes
             for (int i = 0; i < dishes.size(); i++ )
             {
@@ -574,7 +526,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
 
 
-            }
+            }*/
 
             try{
                 textViewDate.setText(textDate.text());
@@ -582,6 +534,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 MyDialoguesKt.netErrorDialog(MainActivity.this);
                 e.printStackTrace();
             }
+
+            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+
+            // Create adapter passing in the sample user data
+            DishAdapter adapter = new DishAdapter(dishes);
+            // Attach the adapter to the recyclerview to populate items
+            recyclerView.setAdapter(adapter);
+            // Set layout manager to position the items
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            // That's all!
 
 
         }

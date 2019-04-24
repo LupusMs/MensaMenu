@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintlayoutRW"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dishTypeRW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Dish Type"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dishDescriptionRW"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="34dp"
+        android:fontFamily="@font/puritan_italic"
+        android:text="Here will be a dish description"
+        app:layout_constraintEnd_toStartOf="@+id/textPriceRW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dishTypeRW" />
+
+    <RatingBar
+        android:id="@+id/ratingBarRW"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="82dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="0"
+        android:stepSize="1"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dishDescriptionRW" />
+
+    <TextView
+        android:id="@+id/textVotesRW"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="8sp"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarRW"
+        app:layout_constraintTop_toBottomOf="@+id/dishDescriptionRW"
+        tools:ignore="SmallSp" />
+
+    <TextView
+        android:id="@+id/textPriceRW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="price"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dishDescriptionRW"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewRW" />
+
+    <ImageView
+        android:id="@+id/imageViewRW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBarRW"
+        app:layout_constraintEnd_toEndOf="@+id/textVotesRW"
+        app:layout_constraintTop_toTopOf="@+id/dishTypeRW"
+        tools:srcCompat="@tools:sample/avatars" />
+</android.support.constraint.ConstraintLayout>
