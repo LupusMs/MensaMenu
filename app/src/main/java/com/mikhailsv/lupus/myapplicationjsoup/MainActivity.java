@@ -27,10 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,13 +40,6 @@ import java.util.Objects;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    /*private List<TextView> textViewsType;
-    private List<TextView> textViewsDescription;
-    private List<TextView> textViewsPrice;
-    private List<ImageView> imageViews;
-
-    private List<RatingBar> ratingBars;
-    private List<TextView> textViewsVotes;*/
     private List<ImageView> imageViewsHuge;
     private List<Dish> dishes;
     private TextView textViewDate;
@@ -119,20 +108,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editor.commit();
     }
 
-   /* private void clearAllViews()
-    {
-        for ( int i = 0; i < textViewsDescription.size(); i++)
-        {
-            textViewsDescription.get(i).setText(null);
-            textViewsType.get(i).setText(null);
-            textViewsPrice.get(i).setText(null);
-            textViewsVotes.get(i).setText(null);
-            ratingBars.get(i).setVisibility(View.INVISIBLE);
-            imageViews.get(i).setVisibility(View.INVISIBLE);
-        }
-
-    }*/
-
 
     @SuppressLint({"ClickableViewAccessibility", "ApplySharedPref"})
     @Override
@@ -145,46 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
 
         imageViewsHuge = new ArrayList<>();
-        /*ratingBars = new ArrayList<>();
-        textViewsType = new ArrayList<>();
-        textViewsDescription = new ArrayList<>();
-        textViewsPrice = new ArrayList<>();
-        imageViews = new ArrayList<>();
-
-        textViewsVotes = new ArrayList<>();
-        textViewsType.add((TextView) findViewById(R.id.textView1));
-        textViewsType.add((TextView) findViewById(R.id.textView2));
-        textViewsType.add((TextView) findViewById(R.id.textView3));
-        textViewsType.add((TextView) findViewById(R.id.textView4));
-        textViewsType.add((TextView) findViewById(R.id.textView5));
-        textViewsDescription.add((TextView) findViewById(R.id.dishDescription1));
-        textViewsDescription.add((TextView) findViewById(R.id.dishDescription2));
-        textViewsDescription.add((TextView) findViewById(R.id.dishDescription3));
-        textViewsDescription.add((TextView) findViewById(R.id.dishDescription4));
-        textViewsDescription.add((TextView) findViewById(R.id.dishDescription5));
-
-        textViewsPrice.add((TextView) findViewById(R.id.textPrice1));
-        textViewsPrice.add((TextView) findViewById(R.id.textPrice2));
-        textViewsPrice.add((TextView) findViewById(R.id.textPrice3));
-        textViewsPrice.add((TextView) findViewById(R.id.textPrice4));
-        textViewsPrice.add((TextView) findViewById(R.id.textPrice5));
-        imageViews.add((ImageView) findViewById(R.id.imageView1));
-        imageViews.add((ImageView) findViewById(R.id.imageView2));
-        imageViews.add((ImageView) findViewById(R.id.imageView3));
-        imageViews.add((ImageView) findViewById(R.id.imageView4));
-        imageViews.add((ImageView) findViewById(R.id.imageView5));
-
-        ratingBars.add((RatingBar) findViewById(R.id.ratingBar1));
-        ratingBars.add((RatingBar) findViewById(R.id.ratingBar2));
-        ratingBars.add((RatingBar) findViewById(R.id.ratingBar3));
-        ratingBars.add((RatingBar) findViewById(R.id.ratingBar4));
-        ratingBars.add((RatingBar) findViewById(R.id.ratingBar5));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes1));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes2));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes3));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes4));
-        textViewsVotes.add((TextView) findViewById(R.id.textVotes5));*/
-
         imageViewsHuge.add((ImageView) findViewById(R.id.imageView1Huge));
         imageViewsHuge.add((ImageView) findViewById(R.id.imageView2Huge));
         imageViewsHuge.add((ImageView) findViewById(R.id.imageView3Huge));
@@ -197,13 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
 
-       /* for (int i = 0; i < imageViews.size(); i++)
-        {
-            imageViews.get(i).setOnClickListener(this);
-            textViewsDescription.get(i).setOnClickListener(this);
-            imageViewsHuge.get(i).setOnClickListener(this);
-        }*/
-
         //Asks user to rate the app
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
 
@@ -212,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //clearAllViews();
+
                 writeToPrefs("language", Consts.LANGUAGE_DE);
                 writeToPrefs("day", Consts.DAY_TODAY);
 
@@ -336,64 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         private List<String> dishTypes = new ArrayList<>();
         private List<String> textsDish = new ArrayList<>();
         private List<String> prices = new ArrayList<>();
-
-
-        /**
-         * Loading an image from web to an ImageView using Picasso
-         * @param url url address of image
-         * @param imageViewSmall thumb ImageView
-         * @param imageViewBig full size ImageView
-         */
-        void loadImg(String url, final ImageView imageViewSmall, ImageView imageViewBig, final TextView dishDescription)
-        {
-            imageViewSmall.setBackgroundResource(0);
-            // Setting the icon invisible if there is no dish description
-            if (dishDescription.getText().toString().equals(""))
-                imageViewSmall.setVisibility(View.INVISIBLE);
-            else
-                imageViewSmall.setVisibility(View.VISIBLE);
-
-            // Loading the image with Picasso
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewSmall,
-                    new Callback() {
-                        @Override
-                        public void onSuccess() {
-
-                        }
-
-                        //Loading images from local directory
-                        @Override
-                        public void onError() {
-                            String dishText = dishDescription.getText().toString().toLowerCase();
-
-                            if (dishText.contains("noodles") || dishText.contains("nudeln"))
-                                imageViewSmall.setBackgroundResource(R.drawable.noodles);
-                            else if (dishText.contains("chicken") || dishText.contains("hänchen"))
-                                imageViewSmall.setBackgroundResource(R.drawable.chicken);
-                            else if (dishText.contains("fish") || dishText.contains("fisch"))
-                                imageViewSmall.setBackgroundResource(R.drawable.fish);
-                            else if (dishText.contains("pollock") || dishText.contains("seelachs"))
-                                imageViewSmall.setBackgroundResource(R.drawable.fish);
-                            else if (dishText.contains("pork") || dishText.contains("schweine"))
-                                imageViewSmall.setBackgroundResource(R.drawable.pork);
-                            else if (dishText.contains("roll") || dishText.contains("tasche"))
-                                imageViewSmall.setBackgroundResource(R.drawable.roll);
-                            else if (dishText.contains("burger"))
-                                imageViewSmall.setBackgroundResource(R.drawable.burger);
-                            else if (dishText.contains("wrap"))
-                                imageViewSmall.setBackgroundResource(R.drawable.roll);
-                            else if (dishText.contains("spaghetti"))
-                                imageViewSmall.setBackgroundResource(R.drawable.spaghetti);
-                            else if (!dishText.equals(""))
-                            {
-                                imageViewSmall.setBackgroundResource(R.drawable.plate);
-                            }
-                        }
-                    });
-
-            Picasso.with(MainActivity.this).load(Consts.CLOUDINARY_URL + url).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).into(imageViewBig);
-        }
 
 
         @SuppressLint("ApplySharedPref")

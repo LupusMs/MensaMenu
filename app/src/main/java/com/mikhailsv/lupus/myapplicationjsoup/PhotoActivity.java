@@ -128,6 +128,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         textView3.setText(sharedPref.getString("dish33",""));
         textView4.setText(sharedPref.getString("dish44",""));
         textView5.setText(sharedPref.getString("dish55",""));
+        Log.wtf("mytag", "dish1  " + sharedPref.getString("dish1",""));
 
         //Hiding photo buttons if there is no text in dish name
         if (textView2.getText().equals(""))
@@ -157,7 +158,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
 
-        SharedPreferences sharedPref = getSharedPreferences("dishPref", MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(Consts.preferencesFile, MODE_PRIVATE);
 
         switch (view.getId()) {
             case R.id.photoBtn1:
