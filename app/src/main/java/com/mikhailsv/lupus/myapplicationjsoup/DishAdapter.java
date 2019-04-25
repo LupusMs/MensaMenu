@@ -1,6 +1,5 @@
 package com.mikhailsv.lupus.myapplicationjsoup;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -19,15 +18,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+/**
+ * Adapter for RecyclerView
+ */
 public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
     private List<Dish> dishes;
+    private Context context;
 
-    public DishAdapter(List<Dish> dishes){
+    public DishAdapter(List<Dish> dishes, Context context){
         this.dishes = dishes;
+        this.context = context;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -41,7 +49,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         private ImageView imageViewRW;
         private ConstraintLayout constraintLayoutRW;
 
-        // We also create a constructor that accepts the entire item row
+        // constructor that accepts the entire item row
         // and does the view lookups to find each subview
         public ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
@@ -74,7 +82,7 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
 
         if ((i % 2) == 0)
         {
@@ -85,16 +93,32 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
             viewHolder.constraintLayoutRW.setBackgroundColor(Color.WHITE);
         }
 
-        Dish dish = dishes.get(i);
+        final Dish dish = dishes.get(i);
+        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // Set item views based on your views and data model
+        // Set item views based on views and data model
         viewHolder.dishDescriptionRW.setText(dish.displayText());
         viewHolder.dishTypeRW.setText(dish.getDishType());
         viewHolder.priceRW.setText(dish.getPrice());
         viewHolder.textVotesRW.setText(dish.getVotes());
         viewHolder.ratingBarRW.setRating(dish.getRating());
-        setDishImage(dish.displayText().toLowerCase(), viewHolder.imageViewRW);
-        setRating(FirebaseDatabase.getInstance().getReference(), dish.searchText(), viewHolder.ratingBarRW);
+
+
+
+        loadCloudinaryImage(dish.searchText(), viewHolder.imageViewRW);
+        setRating(mDatabase, dish,
+                viewHolder.ratingBarRW, viewHolder.textVotesRW);
+
+        viewHolder.ratingBarRW.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (fromUser)
+                    MyDialoguesKt.ratingDialog(context, mDatabase, rating,
+                            dish.getRating(), dish.searchText(), ratingBar, viewHolder.textVotesRW,
+                            dish);
+            }
+        });
     }
 
     @Override
@@ -102,11 +126,44 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         return dishes.size();
     }
 
+
+
+
+    private void loadCloudinaryImage(final String dishText, final ImageView imageViewSmall){
+
+        Picasso.with(context).load(Consts.CLOUDINARY_URL + dishText)
+                .memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE)
+                .resize(250,140).into(imageViewSmall,
+                new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    //Loading images from local directory
+                    @Override
+                    public void onError() {
+                        setDishImage(dishText.toLowerCase(), imageViewSmall);
+                    }
+                });
+    }
+
+    /**
+     * setting one of the default pictures if dish photo is not in cloudinary db
+     * @param dishText
+     * @param imageViewSmall
+     */
     private void setDishImage(String dishText, ImageView imageViewSmall){
 
 
         if (dishText.contains("noodles") || dishText.contains("nudeln"))
             imageViewSmall.setBackgroundResource(R.drawable.noodles);
+        else if (dishText.contains("mushroom") || dishText.contains("champignon"))
+            imageViewSmall.setBackgroundResource(R.drawable.mushroom);
+        else if (dishText.contains("rice") || dishText.contains("reis"))
+            imageViewSmall.setBackgroundResource(R.drawable.rice);
+        else if (dishText.contains("sausage") || dishText.contains("currywurst"))
+            imageViewSmall.setBackgroundResource(R.drawable.currywurst);
         else if (dishText.contains("chicken") || dishText.contains("hänchen"))
             imageViewSmall.setBackgroundResource(R.drawable.chicken);
         else if (dishText.contains("fish") || dishText.contains("fisch"))
@@ -129,8 +186,16 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
         }
     }
 
-    private void setRating(DatabaseReference mDatabase, String dish, final RatingBar ratingBar){
-        mDatabase.child(dish).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
+    /**
+     * Updating rating bar and count of the votes
+     * @param mDatabase
+     * @param dish
+     * @param ratingBar
+     * @param textVotesRW
+     */
+    private void setRating(DatabaseReference mDatabase, final Dish dish,
+                           final RatingBar ratingBar, final TextView textVotesRW){
+        mDatabase.child(dish.searchText()).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -144,11 +209,11 @@ public class DishAdapter extends RecyclerView.Adapter<DishAdapter.ViewHolder> {
 
                     int oldRating = total / count;
                     ratingBar.setRating(oldRating);
-                    /*String votes;
+                    dish.setRating(oldRating);
+                    String votes;
                     if (count == 1) votes = " vote";
                     else votes = " votes";
-                    textViewsVotes.get(finalI).setText(String.valueOf(count) + votes);
-                    dishes.get(finalI).setVotes(votes);*/
+                    textVotesRW.setText(String.valueOf(count) + votes);
                 }
             }
 

@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             // Create adapter passing in the sample user data
-            DishAdapter adapter = new DishAdapter(dishes);
+            DishAdapter adapter = new DishAdapter(dishes, MainActivity.this);
             // Attach the adapter to the recyclerview to populate items
             recyclerView.setAdapter(adapter);
             // Set layout manager to position the items

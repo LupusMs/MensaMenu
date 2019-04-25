@@ -24,10 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="34dp"
+        android:layout_marginEnd="96dp"
         android:fontFamily="@font/puritan_italic"
         android:text="Here will be a dish description"
-        app:layout_constraintEnd_toStartOf="@+id/textPriceRW"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewRW"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dishTypeRW" />
 
@@ -51,30 +51,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:textSize="8sp"
-        app:layout_constraintStart_toEndOf="@+id/ratingBarRW"
-        app:layout_constraintTop_toBottomOf="@+id/dishDescriptionRW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarRW"
         tools:ignore="SmallSp" />
 
     <TextView
         android:id="@+id/textPriceRW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="price"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/dishDescriptionRW"
-        app:layout_constraintEnd_toStartOf="@+id/imageViewRW" />
+        app:layout_constraintStart_toEndOf="@+id/dishDescriptionRW"
+        app:layout_constraintTop_toTopOf="@+id/dishDescriptionRW" />
 
     <ImageView
         android:id="@+id/imageViewRW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/ratingBarRW"
         app:layout_constraintEnd_toEndOf="@+id/textVotesRW"
         app:layout_constraintTop_toTopOf="@+id/dishTypeRW"
         tools:srcCompat="@tools:sample/avatars" />
+
 </android.support.constraint.ConstraintLayout>
