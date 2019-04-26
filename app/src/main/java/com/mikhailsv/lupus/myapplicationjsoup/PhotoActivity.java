@@ -293,7 +293,7 @@ public class PhotoActivity extends AppCompatActivity implements View.OnClickList
         File image = new File( storageDir,
                 imageStoreName +  /* prefix */".jpg"
                 );
-        Log.wtf("mytag", "FILE: " + image.toString());
+
 
         // Save a file: path for use with ACTION_VIEW intents
         return image;

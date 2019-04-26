@@ -40,7 +40,6 @@ import java.util.Objects;
 
 @SuppressWarnings("ALL")
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private List<ImageView> imageViewsHuge;
     private List<Dish> dishes;
     private TextView textViewDate;
     private ImageView tomorrow_btn;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String updateAlert;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
-    private float oldRating;
+
 
 
 
@@ -119,13 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-        imageViewsHuge = new ArrayList<>();
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView1Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView2Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView3Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView4Huge));
-        imageViewsHuge.add((ImageView) findViewById(R.id.imageView5Huge));
-
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         textViewDate = findViewById(R.id.textViewDate);
@@ -136,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
 
         final Spinner spinner = findViewById(R.id.spinner);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -212,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             tomorrow_btn.setVisibility(View.GONE);
 
-        MyDialoguesKt.showUpdateDialog(MainActivity.this);
+        //MyDialoguesKt.showUpdateDialog(MainActivity.this);
         MyParser mp = new MyParser();
         mp.execute();
     }
@@ -235,21 +226,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tomorrow_btn.setVisibility(View.VISIBLE);
                 mp = new MyParser();
                 mp.execute();
-                break;
-            case R.id.imageView1Huge:
-                imageViewsHuge.get(0).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.imageView2Huge:
-                imageViewsHuge.get(1).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.imageView3Huge:
-                imageViewsHuge.get(2).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.imageView4Huge:
-                imageViewsHuge.get(3).setVisibility(View.INVISIBLE);
-                break;
-            case R.id.imageView5Huge:
-                imageViewsHuge.get(4).setVisibility(View.INVISIBLE);
                 break;
 
         }
@@ -331,72 +307,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("ClickableViewAccessibility")
         @Override
         protected void onPostExecute(Void result) {
-            //clearAllViews();
-
-
-/*
-            // Filling the Menu with dishes
-            for (int i = 0; i < dishes.size(); i++ )
-            {
-                textViewsType.get(i).setText(dishes.get(i).getDishType());
-                textViewsPrice.get(i).setText(dishes.get(i).getPrice());
-                textViewsDescription.get(i).setText(dishes.get(i).displayText());
-
-                Log.wtf("mytag", "SEARCh TEXT " + dishes.get(i).searchText());
-                if (!dishes.get(i).searchText().equals("")) {
-                    imageViews.get(i).setVisibility(View.VISIBLE);
-                    loadImg(dishes.get(i).getImage(), imageViews.get(i), imageViewsHuge.get(i),
-                            textViewsDescription.get(i));
-                }
-
-                ratingBars.get(i).setRating(dishes.get(i).getRating());
-
-
-                if (dishes.get(i).displayText().equals(""))
-                    ratingBars.get(i).setVisibility(View.INVISIBLE);
-                else
-                    ratingBars.get(i).setVisibility(View.VISIBLE);
-
-                final int finalI = i;
-                ratingBars.get(i).setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        if (fromUser)
-                            MyDialoguesKt.ratingDialog(MainActivity.this, mDatabase, rating,
-                                    dishes.get(finalI).getRating(), dishes.get(finalI).searchText(), ratingBar, textViewsVotes.get(finalI),
-                                    dishes.get(finalI));
-                    }
-                });
-                mDatabase.child(dishes.get(finalI).searchText()).child("Rating").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                            int total = 0, count = 0;
-                            for (DataSnapshot child : dataSnapshot.getChildren()) {
-                                int rating = child.getValue(Integer.class);
-                                total += rating;
-                                count++;
-                            }
-
-                            oldRating = total / count;
-                            ratingBars.get(finalI).setRating(oldRating);
-                            String votes;
-                            if (count == 1) votes = " vote";
-                            else votes = " votes";
-                            textViewsVotes.get(finalI).setText(String.valueOf(count) + votes);
-                            dishes.get(finalI).setVotes(votes);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                    }
-                });
-
-
-            }*/
 
             try{
                 textViewDate.setText(textDate.text());
@@ -404,9 +314,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 MyDialoguesKt.netErrorDialog(MainActivity.this);
                 e.printStackTrace();
             }
-
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
 
             // Create adapter passing in the sample user data
             DishAdapter adapter = new DishAdapter(dishes, MainActivity.this);
@@ -414,7 +322,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             recyclerView.setAdapter(adapter);
             // Set layout manager to position the items
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            // That's all!
 
 
         }

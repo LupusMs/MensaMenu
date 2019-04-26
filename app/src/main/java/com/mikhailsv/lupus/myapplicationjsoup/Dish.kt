@@ -1,7 +1,7 @@
 package com.mikhailsv.lupus.myapplicationjsoup
 
-data class Dish(val dishType : String, val dishDescription : String,
-           val price : String, var rating : Float, var votes : String) {
+data class Dish(var dishType : String, var dishDescription : String,
+           var price : String, var rating : Float, var votes : String) {
 
 
     // Editing text to be displayed
