@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MyParser mp;
     private ConstraintLayout constraintLayout;
     private ImageView imageViewNoMenu;
+    private TextView textViewNoMenu;
 
 
 
@@ -123,10 +124,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         today_btn = findViewById(R.id.today_btn);
         textViewDate = findViewById(R.id.textViewDate);
         imageViewNoMenu = findViewById(R.id.imageViewNoMenu);
+        textViewNoMenu = findViewById(R.id.textViewNoMenu);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
-
-        imageViewNoMenu.setVisibility(View.GONE);
 
         //Asks user to rate the app
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
@@ -313,6 +313,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Void result) {
 
             imageViewNoMenu.setVisibility(View.GONE);
+            textViewNoMenu.setVisibility(View.GONE);
 
             try{
                 textViewDate.setText(textDate.text());
@@ -334,12 +335,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // If today Menu is empty
             if (dishes.size() == 0){
-                //Show message
-                imageViewNoMenu.setVisibility(View.VISIBLE);
+                showNoMenuMessage(imageViewNoMenu, textViewNoMenu);
             }
         }
 
 
+    }
+
+    private void showNoMenuMessage(ImageView imageView, TextView textView)
+    {
+        imageView.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.VISIBLE);
     }
 
     @Override

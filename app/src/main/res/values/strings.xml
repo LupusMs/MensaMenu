@@ -22,4 +22,5 @@
     <string name="error">Error</string>
     <string name="about">About</string>
     <string name="language">Language</string>
+    <string name="no_menu_msg">There is no menu available for today. Check next open day…</string>
 </resources>
