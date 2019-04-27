@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String updateAlert;
     private MyParser mp;
     private ConstraintLayout constraintLayout;
+    private ImageView imageViewNoMenu;
 
 
 
@@ -121,8 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tomorrow_btn = findViewById(R.id.tomorrow_btn);
         today_btn = findViewById(R.id.today_btn);
         textViewDate = findViewById(R.id.textViewDate);
+        imageViewNoMenu = findViewById(R.id.imageViewNoMenu);
         tomorrow_btn.setOnClickListener(this);
         today_btn.setOnClickListener(this);
+
+        imageViewNoMenu.setVisibility(View.GONE);
 
         //Asks user to rate the app
         MyDialoguesKt.showAppRatingDialog(MainActivity.this);
@@ -308,12 +312,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         protected void onPostExecute(Void result) {
 
+            imageViewNoMenu.setVisibility(View.GONE);
+
             try{
                 textViewDate.setText(textDate.text());
                 } catch (Exception e) {
                 MyDialoguesKt.netErrorDialog(MainActivity.this);
                 e.printStackTrace();
             }
+
+            //Create RecycklerView
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
             // Create adapter passing in the sample user data
@@ -324,6 +332,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
 
+            // If today Menu is empty
+            if (dishes.size() == 0){
+                //Show message
+                imageViewNoMenu.setVisibility(View.VISIBLE);
+            }
         }
 
 
